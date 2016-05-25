@@ -1,0 +1,11 @@
+{
+	"ImportPath": "github.com/opencontrol/fedramp-templater",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v71",
+	"Deps": [
+		{
+			"ImportPath": "github.com/opencontrol/doc-template/docx",
+			"Rev": "88997261e3057776e761bb1460d6a53ae240a782"
+		}
+	]
+}
