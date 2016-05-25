@@ -17,5 +17,6 @@ func main() {
 	fmt.Printf("Creating template %s from %s...\n", outputPath, inputPath)
 
 	doc := new(docx.Docx)
-	doc.ReadFile("foo.doc")
+	doc.ReadFile(inputPath)
+	doc.WriteToFile(outputPath, doc.GetContent())
 }
