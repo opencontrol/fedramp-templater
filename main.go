@@ -7,14 +7,18 @@ import (
 	"github.com/opencontrol/doc-template/docx"
 )
 
-func main() {
+func parseArgs() (inputPath, outputPath string) {
 	if len(os.Args) != 3 {
-		fmt.Fprintln(os.Stderr, "Usage:\n\n\tfedramp-templater <input> <output>\n")
+		fmt.Fprint(os.Stderr, "Usage:\n\n\tfedramp-templater <input> <output>\n\n")
 		os.Exit(1)
 	}
-	inputPath := os.Args[1]
-	outputPath := os.Args[2]
-	fmt.Printf("Creating template %s from %s...\n", outputPath, inputPath)
+	inputPath = os.Args[1]
+	outputPath = os.Args[2]
+	return
+}
+
+func main() {
+	inputPath, outputPath := parseArgs()
 
 	doc := new(docx.Docx)
 	doc.ReadFile(inputPath)
