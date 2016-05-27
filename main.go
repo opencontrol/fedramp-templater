@@ -6,7 +6,6 @@ import (
 
 	"github.com/moovweb/gokogiri"
 	"github.com/moovweb/gokogiri/xml"
-	"github.com/moovweb/gokogiri/xpath"
 	"github.com/opencontrol/doc-template/docx"
 )
 
@@ -40,8 +39,7 @@ func getXmlDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
 }
 
 func findControlEnhancementTables(doc *xml.XmlDocument) (nodes []xml.Node, err error) {
-	query := xpath.Compile("//w:tbl[contains(., 'Control Enhancement Summary')]")
-	return doc.Search(query)
+	return doc.Search("//w:tbl[contains(., 'Control Enhancement Summary')]")
 }
 
 func printNode(node xml.Node) {
@@ -56,8 +54,7 @@ func printNodes(nodes []xml.Node) {
 }
 
 func findResponsibleRoleCell(table xml.Node) (node xml.Node, err error) {
-	query := xpath.Compile("//w:tc[contains(., 'Responsible Role')]")
-	nodes, err := table.Search(query)
+	nodes, err := table.Search("//w:tc//w:t[contains(., 'Responsible Role')]")
 	if err != nil {
 		return
 	}
@@ -75,7 +72,7 @@ func fillTable(table xml.Node) (err error) {
 	return
 }
 
-func handleXmlDoc(doc *xml.XmlDocument) (err error) {
+func templatizeXmlDoc(doc *xml.XmlDocument) (err error) {
 	tables, err := findControlEnhancementTables(doc)
 	if err != nil {
 		return
@@ -101,7 +98,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = handleXmlDoc(doc)
+	err = templatizeXmlDoc(doc)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
