@@ -17,3 +17,15 @@ the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/pub
 All contributions to this project will be released under the CC0
 dedication. By submitting a pull request, you are agreeing to comply
 with this waiver of copyright interest.
+
+## Resources
+
+### Tools
+
+* [XML Tree Chrome extension](https://chrome.google.com/webstore/detail/xml-tree/gbammbheopgpmaagmckhpjbfgdfkpadb)
+* [XML Viewer Chrome extension](https://chrome.google.com/webstore/detail/xv-%E2%80%94-xml-viewer/eeocglpgjdpaefaedpblffpeebgmgddk?hl=en)
+
+### Reference
+
+* [WordprocessingML information](http://officeopenxml.com/anatomyofOOXML.php)
+* [Structure of a WordprocessingML document](https://msdn.microsoft.com/en-us/library/office/gg278308.aspx)
