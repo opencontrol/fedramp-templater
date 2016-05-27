@@ -18,6 +18,24 @@ All contributions to this project will be released under the CC0
 dedication. By submitting a pull request, you are agreeing to comply
 with this waiver of copyright interest.
 
+## Development
+
+1. Clone the repository.
+
+    ```bash
+    git clone https://github.com/opencontrol/fedramp-templater
+    cd fedramp-templater
+    ```
+
+1. [Install `gokogiri` dependencies.](https://github.com/moovweb/gokogiri/pull/95/files)
+1. _code code code_
+1. Run the CLI.
+
+    ```bash
+    go run main.go fixtures/FedRAMP_ac-2-1_v2.1.docx tmp/output.docx
+    open tmp/output.docx
+    ```
+
 ## Resources
 
 ### Tools
