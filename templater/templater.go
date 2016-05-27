@@ -15,20 +15,22 @@ func GetWordDoc(path string) (doc *docx.Docx) {
 	return
 }
 
-func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
-	content := wordDoc.GetContent()
-	// http://stackoverflow.com/a/28261008/358804
-	bytes := []byte(content)
-
-	xmlDoc, err = gokogiri.ParseXml(bytes)
+func ParseWordXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
+  xmlDoc, err = gokogiri.ParseXml(content)
 	if err != nil {
 		return
 	}
 	// http://stackoverflow.com/a/27475227/358804
 	xp := xmlDoc.DocXPathCtx()
 	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+  return
+}
 
-	return
+func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
+	content := wordDoc.GetContent()
+	// http://stackoverflow.com/a/28261008/358804
+	bytes := []byte(content)
+	return ParseWordXML(bytes)
 }
 
 func findControlEnhancementTables(doc *xml.XmlDocument) (nodes []xml.Node, err error) {
@@ -55,7 +57,8 @@ func findResponsibleRoleCell(table xml.Node) (node xml.Node, err error) {
 	return
 }
 
-func fillTable(table xml.Node) (err error) {
+// modifies the `table`
+func FillTable(table xml.Node) (err error) {
 	roleCell, err := findResponsibleRoleCell(table)
 	if err != nil {
 		return
@@ -75,7 +78,7 @@ func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 		return
 	}
 	for _, table := range tables {
-		err = fillTable(table)
+		err = FillTable(table)
 		if err != nil {
 			return err
 		}
