@@ -72,9 +72,10 @@ func fillTable(table xml.Node) (err error) {
 		return
 	}
 
-	printNode(roleCell)
-	roleCell.SetContent("foo")
-	printNode(roleCell)
+	content := roleCell.Content()
+	// TODO remove hard-coding
+	content += " {{getResponsibleRole \"NIST-800-53\" \"AC-2 (1)\"}}"
+	roleCell.SetContent(content)
 
 	return
 }
