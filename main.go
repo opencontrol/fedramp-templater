@@ -20,10 +20,13 @@ func parseArgs() (inputPath, outputPath string) {
 	return
 }
 
-func getXMLDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
-	wordDoc := new(docx.Docx)
-	wordDoc.ReadFile(path)
+func getWordDoc(path string) (doc *docx.Docx) {
+	doc = new(docx.Docx)
+	doc.ReadFile(path)
+	return
+}
 
+func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 	content := wordDoc.GetContent()
 	// http://stackoverflow.com/a/28261008/358804
 	bytes := []byte(content)
@@ -92,21 +95,23 @@ func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 }
 
 func main() {
-	// inputPath, outputPath := parseArgs()
-	inputPath, _ := parseArgs()
+	inputPath, outputPath := parseArgs()
+	wordDoc := getWordDoc(inputPath)
 
-	doc, err := getXMLDoc(inputPath)
-	defer doc.Free()
+	xmlDoc, err := getXMLDoc(wordDoc)
+	defer xmlDoc.Free()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 
-	err = templatizeXMLDoc(doc)
+	err = templatizeXMLDoc(xmlDoc)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 
-	// doc.WriteToFile(outputPath, content)
+	wordDoc.UpdateConent(xmlDoc.String())
+	// TODO this should use the current content, or not be a method
+	wordDoc.WriteToFile(outputPath, wordDoc.GetContent())
 }
