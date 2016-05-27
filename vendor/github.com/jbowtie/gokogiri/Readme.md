@@ -1,5 +1,8 @@
 Gokogiri
 ========
+[![Build Status](https://travis-ci.org/jbowtie/gokogiri.svg?branch=master)](https://travis-ci.org/jbowtie/gokogiri)
+[![codecov.io](http://codecov.io/github/jbowtie/gokogiri/coverage.svg?branch=master)](http://codecov.io/github/jbowtie/gokogiri?branch=master)
+
 LibXML bindings for the Go programming language.
 ------------------------------------------------
 By Zhigang Chen and Hampton Catlin
@@ -15,13 +18,13 @@ This is a major rewrite from v0 in the following places:
 
 To install:
 
-- sudo apt-get install libxml2-dev
-- go get github.com/moovweb/gokogiri
+- sudo apt-get install libxml2-dev libonig-dev
+- go get github.com/jbowtie/gokogiri
 
 To run test:
 
-- go test github.com/moovweb/gokogiri/html
-- go test github.com/moovweb/gokogiri/xml
+- go test github.com/jbowtie/gokogiri/html
+- go test github.com/jbowtie/gokogiri/xml
 
 Basic example:
 
@@ -30,7 +33,7 @@ Basic example:
     import (
       "net/http"
       "io/ioutil"
-      "github.com/moovweb/gokogiri"
+      "github.com/jbowtie/gokogiri"
     )
 
     func main() {

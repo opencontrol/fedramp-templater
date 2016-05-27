@@ -4,34 +4,34 @@
 	"GodepVersion": "v71",
 	"Deps": [
 		{
-			"ImportPath": "github.com/moovweb/gokogiri",
-			"Comment": "4.8.28-35-geafc181",
-			"Rev": "eafc181356de1da75468a7bdf54b430393f9c0e3"
+			"ImportPath": "github.com/jbowtie/gokogiri",
+			"Comment": "4.6.41-95-g94c3178",
+			"Rev": "94c317865760e3580e90e49c08ca54953ef1b7cb"
 		},
 		{
-			"ImportPath": "github.com/moovweb/gokogiri/help",
-			"Comment": "4.8.28-35-geafc181",
-			"Rev": "eafc181356de1da75468a7bdf54b430393f9c0e3"
+			"ImportPath": "github.com/jbowtie/gokogiri/help",
+			"Comment": "4.6.41-95-g94c3178",
+			"Rev": "94c317865760e3580e90e49c08ca54953ef1b7cb"
 		},
 		{
-			"ImportPath": "github.com/moovweb/gokogiri/html",
-			"Comment": "4.8.28-35-geafc181",
-			"Rev": "eafc181356de1da75468a7bdf54b430393f9c0e3"
+			"ImportPath": "github.com/jbowtie/gokogiri/html",
+			"Comment": "4.6.41-95-g94c3178",
+			"Rev": "94c317865760e3580e90e49c08ca54953ef1b7cb"
 		},
 		{
-			"ImportPath": "github.com/moovweb/gokogiri/util",
-			"Comment": "4.8.28-35-geafc181",
-			"Rev": "eafc181356de1da75468a7bdf54b430393f9c0e3"
+			"ImportPath": "github.com/jbowtie/gokogiri/util",
+			"Comment": "4.6.41-95-g94c3178",
+			"Rev": "94c317865760e3580e90e49c08ca54953ef1b7cb"
 		},
 		{
-			"ImportPath": "github.com/moovweb/gokogiri/xml",
-			"Comment": "4.8.28-35-geafc181",
-			"Rev": "eafc181356de1da75468a7bdf54b430393f9c0e3"
+			"ImportPath": "github.com/jbowtie/gokogiri/xml",
+			"Comment": "4.6.41-95-g94c3178",
+			"Rev": "94c317865760e3580e90e49c08ca54953ef1b7cb"
 		},
 		{
-			"ImportPath": "github.com/moovweb/gokogiri/xpath",
-			"Comment": "4.8.28-35-geafc181",
-			"Rev": "eafc181356de1da75468a7bdf54b430393f9c0e3"
+			"ImportPath": "github.com/jbowtie/gokogiri/xpath",
+			"Comment": "4.6.41-95-g94c3178",
+			"Rev": "94c317865760e3580e90e49c08ca54953ef1b7cb"
 		},
 		{
 			"ImportPath": "github.com/opencontrol/doc-template/docx",

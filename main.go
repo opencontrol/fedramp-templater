@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/moovweb/gokogiri"
-	"github.com/moovweb/gokogiri/xml"
+	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
+	"github.com/jbowtie/gokogiri"
+	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/doc-template/docx"
 )
 

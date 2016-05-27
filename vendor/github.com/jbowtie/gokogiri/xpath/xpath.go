@@ -41,7 +41,7 @@ int getXPathObjectType(xmlXPathObject* o) {
 import "C"
 
 import "unsafe"
-import . "github.com/moovweb/gokogiri/util"
+import . "github.com/jbowtie/gokogiri/util"
 import "runtime"
 import "errors"
 
@@ -69,7 +69,7 @@ type XPathFunction func(context VariableScope, args []interface{}) interface{}
 
 // Types that provide the VariableScope interface know how to resolve
 // XPath variable names into values.
-
+//
 //This interface exist primarily for the benefit of XSLT processors.
 type VariableScope interface {
 	ResolveVariable(string, string) interface{}
@@ -208,8 +208,9 @@ func (xpath *XPath) ResultAsBoolean() (val bool, err error) {
 
 // Add a variable resolver.
 func (xpath *XPath) SetResolver(v VariableScope) {
-	C.set_var_lookup(xpath.ContextPtr, unsafe.Pointer(&v))
-	C.set_function_lookup(xpath.ContextPtr, unsafe.Pointer(&v))
+	SetScope(unsafe.Pointer(xpath.ContextPtr), v)
+	C.set_var_lookup(xpath.ContextPtr, unsafe.Pointer(xpath.ContextPtr))
+	C.set_function_lookup(xpath.ContextPtr, unsafe.Pointer(xpath.ContextPtr))
 }
 
 // SetContextPosition sets the internal values needed to
@@ -223,7 +224,7 @@ func (xpath *XPath) SetContextPosition(position, size int) {
 // GetContextPosition retrieves the internal values used to
 // determine the values of position() and last() for the
 // current context node.
-
+//
 // This allows values to saved and restored during processing
 // of a document.
 func (xpath *XPath) GetContextPosition() (position, size int) {
@@ -234,6 +235,7 @@ func (xpath *XPath) GetContextPosition() (position, size int) {
 
 func (xpath *XPath) Free() {
 	if xpath.ContextPtr != nil {
+		ClearScope(unsafe.Pointer(xpath.ContextPtr))
 		C.xmlXPathFreeContext(xpath.ContextPtr)
 		xpath.ContextPtr = nil
 	}
