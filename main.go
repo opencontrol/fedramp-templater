@@ -39,23 +39,44 @@ func getXmlDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
 	return
 }
 
-func findTables(doc *xml.XmlDocument) (nodes []xml.Node, err error) {
+func findControlEnhancementTables(doc *xml.XmlDocument) (nodes []xml.Node, err error) {
 	query := xpath.Compile("//w:tbl[contains(., 'Control Enhancement Summary')]")
 	return doc.Search(query)
 }
 
+func printNode(node xml.Node) {
+	fmt.Printf("%#v ", node)
+	fmt.Printf("\"%s\"\n", node.Content())
+}
+
 func printNodes(nodes []xml.Node) {
 	for _, node := range nodes {
-		fmt.Printf("%#v\n", node)
+		printNode(node)
 	}
 }
 
-func handleXmlDoc(doc *xml.XmlDocument) (err error) {
-	tables, err := findTables(doc)
+func findResponsibleRoleCell(table xml.Node) (node xml.Node, err error) {
+	query := xpath.Compile("//w:tc[contains(., 'Responsible Role')]")
+	nodes, err := table.Search(query)
 	if err != nil {
 		return
 	}
-	printNodes(tables)
+	node = nodes[0]
+	return
+}
+
+func handleXmlDoc(doc *xml.XmlDocument) (err error) {
+	tables, err := findControlEnhancementTables(doc)
+	if err != nil {
+		return
+	}
+	for _, table := range tables {
+		node, err := findResponsibleRoleCell(table)
+		if err != nil {
+			return err
+		}
+		printNode(node)
+	}
 
 	return
 }
