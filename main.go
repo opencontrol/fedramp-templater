@@ -19,7 +19,7 @@ func parseArgs() (inputPath, outputPath string) {
 	return
 }
 
-func getXmlDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
+func getXMLDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
 	wordDoc := new(docx.Docx)
 	wordDoc.ReadFile(path)
 
@@ -72,7 +72,7 @@ func fillTable(table xml.Node) (err error) {
 	return
 }
 
-func templatizeXmlDoc(doc *xml.XmlDocument) (err error) {
+func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 	tables, err := findControlEnhancementTables(doc)
 	if err != nil {
 		return
@@ -91,14 +91,14 @@ func main() {
 	// inputPath, outputPath := parseArgs()
 	inputPath, _ := parseArgs()
 
-	doc, err := getXmlDoc(inputPath)
+	doc, err := getXMLDoc(inputPath)
 	defer doc.Free()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 
-	err = templatizeXmlDoc(doc)
+	err = templatizeXMLDoc(doc)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
