@@ -32,29 +32,38 @@ func getXmlDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
 	return
 }
 
+func handleXmlDoc(doc *xml.XmlDocument) (err error) {
+	// http://stackoverflow.com/a/27475227/358804
+	xp := doc.DocXPathCtx()
+	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+
+	query := xpath.Compile("//w:tbl")
+	nodes, err := doc.Search(query)
+	if err != nil {
+		return
+	}
+	for _, node := range nodes {
+		fmt.Printf("%#v\n", node)
+	}
+
+	return
+}
+
 func main() {
 	// inputPath, outputPath := parseArgs()
 	inputPath, _ := parseArgs()
 
-	xmlDoc, err := getXmlDoc(inputPath)
-	defer xmlDoc.Free()
+	doc, err := getXmlDoc(inputPath)
+	defer doc.Free()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 
-	// http://stackoverflow.com/a/27475227/358804
-	xp := xmlDoc.DocXPathCtx()
-	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
-
-	query := xpath.Compile("//w:tbl")
-	nodes, err := xmlDoc.Search(query)
+	err = handleXmlDoc(doc)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
-	}
-	for _, node := range nodes {
-		fmt.Printf("%#v\n", node)
 	}
 
 	// doc.WriteToFile(outputPath, content)
