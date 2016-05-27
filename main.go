@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/moovweb/gokogiri"
+	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/opencontrol/doc-template/docx"
 )
@@ -19,23 +20,28 @@ func parseArgs() (inputPath, outputPath string) {
 	return
 }
 
-func main() {
-	// inputPath, outputPath := parseArgs()
-	inputPath, _ := parseArgs()
-
+func getXmlDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
 	wordDoc := new(docx.Docx)
-	wordDoc.ReadFile(inputPath)
+	wordDoc.ReadFile(path)
 
 	content := wordDoc.GetContent()
 	// http://stackoverflow.com/a/28261008/358804
 	bytes := []byte(content)
 
-	xmlDoc, err := gokogiri.ParseXml(bytes)
+	xmlDoc, err = gokogiri.ParseXml(bytes)
+	return
+}
+
+func main() {
+	// inputPath, outputPath := parseArgs()
+	inputPath, _ := parseArgs()
+
+	xmlDoc, err := getXmlDoc(inputPath)
+	defer xmlDoc.Free()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	defer xmlDoc.Free()
 
 	// http://stackoverflow.com/a/27475227/358804
 	xp := xmlDoc.DocXPathCtx()
@@ -47,7 +53,9 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	fmt.Println(len(nodes))
+	for _, node := range nodes {
+		fmt.Printf("%#v\n", node)
+	}
 
 	// doc.WriteToFile(outputPath, content)
 }
