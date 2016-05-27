@@ -67,6 +67,9 @@ func fillTable(table xml.Node) (err error) {
 	if err != nil {
 		return
 	}
+
+	printNode(roleCell)
+	roleCell.SetContent("foo")
 	printNode(roleCell)
 
 	return
