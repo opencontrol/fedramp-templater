@@ -65,17 +65,26 @@ func findResponsibleRoleCell(table xml.Node) (node xml.Node, err error) {
 	return
 }
 
+func fillTable(table xml.Node) (err error) {
+	roleCell, err := findResponsibleRoleCell(table)
+	if err != nil {
+		return
+	}
+	printNode(roleCell)
+
+	return
+}
+
 func handleXmlDoc(doc *xml.XmlDocument) (err error) {
 	tables, err := findControlEnhancementTables(doc)
 	if err != nil {
 		return
 	}
 	for _, table := range tables {
-		node, err := findResponsibleRoleCell(table)
+		err = fillTable(table)
 		if err != nil {
 			return err
 		}
-		printNode(node)
 	}
 
 	return
