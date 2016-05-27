@@ -29,22 +29,33 @@ func getXmlDoc(path string) (xmlDoc *xml.XmlDocument, err error) {
 	bytes := []byte(content)
 
 	xmlDoc, err = gokogiri.ParseXml(bytes)
-	return
-}
-
-func handleXmlDoc(doc *xml.XmlDocument) (err error) {
-	// http://stackoverflow.com/a/27475227/358804
-	xp := doc.DocXPathCtx()
-	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
-
-	query := xpath.Compile("//w:tbl")
-	nodes, err := doc.Search(query)
 	if err != nil {
 		return
 	}
+	// http://stackoverflow.com/a/27475227/358804
+	xp := xmlDoc.DocXPathCtx()
+	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+
+	return
+}
+
+func findTables(doc *xml.XmlDocument) (nodes []xml.Node, err error) {
+	query := xpath.Compile("//w:tbl[contains(., 'Control Enhancement Summary')]")
+	return doc.Search(query)
+}
+
+func printNodes(nodes []xml.Node) {
 	for _, node := range nodes {
 		fmt.Printf("%#v\n", node)
 	}
+}
+
+func handleXmlDoc(doc *xml.XmlDocument) (err error) {
+	tables, err := findTables(doc)
+	if err != nil {
+		return
+	}
+	printNodes(tables)
 
 	return
 }
