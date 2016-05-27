@@ -95,24 +95,31 @@ func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 	return
 }
 
-func main() {
-	inputPath, outputPath := parseArgs()
-	wordDoc := getWordDoc(inputPath)
-
+func templatizeWordDoc(wordDoc *docx.Docx) (err error) {
 	xmlDoc, err := getXMLDoc(wordDoc)
 	defer xmlDoc.Free()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		return
 	}
 
 	err = templatizeXMLDoc(xmlDoc)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		return
 	}
 
 	wordDoc.UpdateConent(xmlDoc.String())
+	return
+}
+
+func main() {
+	inputPath, outputPath := parseArgs()
+	wordDoc := getWordDoc(inputPath)
+
+	err := templatizeWordDoc(wordDoc)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 	// TODO this should use the current content, or not be a method
 	wordDoc.WriteToFile(outputPath, wordDoc.GetContent())
 }
