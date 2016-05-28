@@ -48,46 +48,19 @@ func printNodes(nodes []xml.Node) {
 	}
 }
 
-func findResponsibleRoleCell(table xml.Node) (node xml.Node, err error) {
-	nodes, err := table.Search("//w:tc//w:t[contains(., 'Responsible Role')]")
-	if err != nil {
-		return
-	}
-	node = nodes[0]
-	return
-}
-
-// modifies the `table`
-func FillTable(table xml.Node) (err error) {
-	roleCell, err := findResponsibleRoleCell(table)
-	if err != nil {
-		return
-	}
-
-	content := roleCell.Content()
-	// TODO remove hard-coding
-	content += " {{getResponsibleRole \"NIST-800-53\" \"AC-2 (1)\"}}"
-	roleCell.SetContent(content)
-
-	return
-}
-
-func addControlEnhancementTags(doc *xml.XmlDocument) (err error) {
+func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 	tables, err := findControlEnhancementTables(doc)
 	if err != nil {
 		return
 	}
 	for _, table := range tables {
-		err = FillTable(table)
+		ct := ControlTable{Root: table}
+		err = ct.Fill()
 		if err != nil {
 			return err
 		}
 	}
 	return
-}
-
-func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
-	return addControlEnhancementTags(doc)
 }
 
 func TemplatizeWordDoc(wordDoc *docx.Docx) (err error) {
