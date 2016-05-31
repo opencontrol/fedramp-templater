@@ -1,4 +1,4 @@
-# FedRAMP Templater
+# FedRAMP Templater [![Build Status](https://travis-ci.org/opencontrol/fedramp-templater.svg?branch=master)](https://travis-ci.org/opencontrol/fedramp-templater)
 
 This is a command-line tool to take the [FedRAMP](http://www.fedramp.gov/) System Security Plan template and transform it to be [Compliance Masonry](https://github.com/opencontrol/compliance-masonry)-compatible.
 
