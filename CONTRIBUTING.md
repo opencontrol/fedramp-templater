@@ -20,6 +20,8 @@ with this waiver of copyright interest.
 
 ## Development
 
+Requires [Go](https://golang.org/) 1.6+.
+
 1. Clone the repository.
 
     ```bash
