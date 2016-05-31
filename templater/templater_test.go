@@ -28,13 +28,15 @@ var _ = Describe("Templater", func() {
 	Describe("GetWordDoc", func() {
 		It("gets the content from the doc", func() {
 			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2-1_v2.1.docx")
-			doc := GetWordDoc(path)
+			doc, err := GetWordDoc(path)
 
+			Expect(err).NotTo(HaveOccurred())
 			Expect(doc.GetContent()).To(ContainSubstring("Control Enhancement"))
 		})
 
-		It("returns an empty string when the doc isn't found", func() {
-			doc := GetWordDoc("non-existent.docx")
+		It("give an error when the doc isn't found", func() {
+			doc, err := GetWordDoc("non-existent.docx")
+			Expect(err).To(HaveOccurred())
 			Expect(doc.GetContent()).To(Equal(""))
 		})
 	})

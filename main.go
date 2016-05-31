@@ -19,9 +19,13 @@ func parseArgs() (inputPath, outputPath string) {
 
 func main() {
 	inputPath, outputPath := parseArgs()
-	wordDoc := templater.GetWordDoc(inputPath)
+	wordDoc, err := templater.GetWordDoc(inputPath)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
-	err := templater.TemplatizeWordDoc(wordDoc)
+	err = templater.TemplatizeWordDoc(wordDoc)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)

@@ -9,9 +9,9 @@ import (
 	"github.com/opencontrol/doc-template/docx"
 )
 
-func GetWordDoc(path string) (doc *docx.Docx) {
+func GetWordDoc(path string) (doc *docx.Docx, err error) {
 	doc = new(docx.Docx)
-	doc.ReadFile(path)
+	err = doc.ReadFile(path)
 	return
 }
 
