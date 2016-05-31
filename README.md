@@ -21,4 +21,4 @@ Requires [Go](https://golang.org/) 1.6+.
     fedramp-templater FedRAMP-System-Security-Plan-Template-v2.1.docx FedRAMP-Masonry-Template-v2.1.docx
     ```
 
-The output document will be the same as the input one, albeit with a bunch of Compliance Masonry tags (e.g. `{{ getControl "NIST-800-53@CM-2"}}`) inserted.
+The output document will be the same as the input one, albeit with a bunch of Compliance Masonry tags (e.g. `{{ getControl "NIST-800-53@CM-2"}}`) inserted. The resulting document can then be run through [the Compliance Masonry .docx formatter](https://github.com/opencontrol/compliance-masonry/#create-docx-template).

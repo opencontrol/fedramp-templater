@@ -1,0 +1,1035 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" mc:Ignorable="w14 w15 wp14">
+<w:body>
+    <w:tbl>
+        <w:tblPr>
+            <w:tblW w:w="5000" w:type="pct"/>
+            <w:tblBorders>
+                <w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                <w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                <w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                <w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                <w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+            </w:tblBorders>
+            <w:tblLayout w:type="fixed"/>
+            <w:tblCellMar>
+                <w:left w:w="115" w:type="dxa"/>
+                <w:right w:w="115" w:type="dxa"/>
+            </w:tblCellMar>
+            <w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/>
+        </w:tblPr>
+        <w:tblGrid>
+            <w:gridCol w:w="9590"/>
+        </w:tblGrid>
+        <w:tr w:rsidR="0026354B" w:rsidRPr="002C3786" w14:paraId="37D593B0" w14:textId="77777777" w:rsidTr="00B77E33">
+            <w:trPr>
+                <w:cantSplit/>
+                <w:trHeight w:val="377"/>
+                <w:tblHeader/>
+            </w:trPr>
+            <w:tc>
+                <w:tcPr>
+                    <w:tcW w:w="5000" w:type="pct"/>
+                    <w:shd w:val="clear" w:color="auto" w:fill="DBE5F1" w:themeFill="accent1" w:themeFillTint="33"/>
+                    <w:tcMar>
+                        <w:top w:w="43" w:type="dxa"/>
+                        <w:bottom w:w="43" w:type="dxa"/>
+                    </w:tcMar>
+                </w:tcPr>
+                <w:p w14:paraId="37D593AF" w14:textId="77777777" w:rsidR="0026354B" w:rsidRPr="002C3786" w:rsidRDefault="0026354B" w:rsidP="00B77E33">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="center"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>AC-2 (1) Control</w:t>
+                    </w:r>
+                    <w:r w:rsidR="00915AA7" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Enhancement</w:t>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Summary Information</w:t>
+                    </w:r>
+                </w:p>
+            </w:tc>
+        </w:tr>
+        <w:tr w:rsidR="00B2536C" w:rsidRPr="002C3786" w14:paraId="37D593B2" w14:textId="77777777" w:rsidTr="00D633D4">
+            <w:trPr>
+                <w:trHeight w:val="377"/>
+            </w:trPr>
+            <w:tc>
+                <w:tcPr>
+                    <w:tcW w:w="5000" w:type="pct"/>
+                    <w:tcMar>
+                        <w:top w:w="43" w:type="dxa"/>
+                        <w:bottom w:w="43" w:type="dxa"/>
+                    </w:tcMar>
+                </w:tcPr>
+                <w:p w14:paraId="37D593B1" w14:textId="77777777" w:rsidR="00B2536C" w:rsidRPr="002C3786" w:rsidRDefault="00B2536C">
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>Responsible Role:</w:t>
+                    </w:r>
+                </w:p>
+            </w:tc>
+        </w:tr>
+        <w:tr w:rsidR="007645A9" w:rsidRPr="002C3786" w14:paraId="37D593B9" w14:textId="77777777" w:rsidTr="0077441A">
+            <w:trPr>
+                <w:trHeight w:val="377"/>
+            </w:trPr>
+            <w:tc>
+                <w:tcPr>
+                    <w:tcW w:w="5000" w:type="pct"/>
+                    <w:tcMar>
+                        <w:top w:w="43" w:type="dxa"/>
+                        <w:bottom w:w="43" w:type="dxa"/>
+                    </w:tcMar>
+                    <w:vAlign w:val="bottom"/>
+                </w:tcPr>
+                <w:p w14:paraId="37D593B3" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="00C96FCF" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>Implementation Status</w:t>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> (check all that apply):</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593B4" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="007442A0" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Implemented</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593B5" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Partially implemented</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593B6" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Planned</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593B7" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Alternative implementation</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593B8" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="007645A9" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Not applicable</w:t>
+                    </w:r>
+                </w:p>
+            </w:tc>
+        </w:tr>
+        <w:tr w:rsidR="007645A9" w:rsidRPr="002C3786" w14:paraId="37D593C2" w14:textId="77777777" w:rsidTr="0077441A">
+            <w:trPr>
+                <w:trHeight w:val="377"/>
+            </w:trPr>
+            <w:tc>
+                <w:tcPr>
+                    <w:tcW w:w="5000" w:type="pct"/>
+                    <w:tcMar>
+                        <w:top w:w="43" w:type="dxa"/>
+                        <w:bottom w:w="43" w:type="dxa"/>
+                    </w:tcMar>
+                    <w:vAlign w:val="bottom"/>
+                </w:tcPr>
+                <w:p w14:paraId="37D593BA" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="007645A9" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>Control Origination</w:t>
+                    </w:r>
+                    <w:r w:rsidR="003D021B" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> (check all that apply)</w:t>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>:</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593BB" w14:textId="77777777" w:rsidR="000E1FA1" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00CD03DC">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Service Provider</w:t>
+                    </w:r>
+                    <w:r w:rsidR="000E1FA1" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Corporate</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593BC" w14:textId="77777777" w:rsidR="000E1FA1" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00CD03DC">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="000E1FA1" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="000E1FA1" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Service Provider System Specific</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593BD" w14:textId="77777777" w:rsidR="00CD03DC" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00CD03DC">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="000E1FA1" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="000E1FA1" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Service Provider Hybrid (Corporate and System Specific)</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593BE" w14:textId="77777777" w:rsidR="00CD03DC" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00CD03DC">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Configured by Customer (Customer System Specific) </w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593BF" w14:textId="77777777" w:rsidR="00CD03DC" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00CD03DC">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Provided by Customer (Customer System Specific) </w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593C0" w14:textId="77777777" w:rsidR="00605B9A" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="000E1FA1" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Shared</w:t>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> (Service Provider and Customer</w:t>
+                    </w:r>
+                    <w:r w:rsidR="000E1FA1" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Responsibility</w:t>
+                    </w:r>
+                    <w:r w:rsidR="00CD03DC" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>)</w:t>
+                    </w:r>
+                </w:p>
+                <w:p w14:paraId="37D593C1" w14:textId="77777777" w:rsidR="007645A9" w:rsidRPr="002C3786" w:rsidRDefault="0020781C" w:rsidP="00E215FD">
+                    <w:pPr>
+                        <w:overflowPunct w:val="0"/>
+                        <w:autoSpaceDE w:val="0"/>
+                        <w:autoSpaceDN w:val="0"/>
+                        <w:adjustRightInd w:val="0"/>
+                        <w:jc w:val="both"/>
+                        <w:textAlignment w:val="baseline"/>
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:pPr>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="begin">
+                            <w:ffData>
+                                <w:name w:val=""/>
+                                <w:enabled/>
+                                <w:calcOnExit w:val="0"/>
+                                <w:checkBox>
+                                    <w:size w:val="24"/>
+                                    <w:default w:val="0"/>
+                                </w:checkBox>
+                            </w:ffData>
+                        </w:fldChar>
+                    </w:r>
+                    <w:r w:rsidR="00605B9A" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:instrText xml:space="preserve"> FORMCHECKBOX </w:instrText>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                    </w:r>
+                    <w:r w:rsidR="00F116F8">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="separate"/>
+                    </w:r>
+                    <w:r w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:fldChar w:fldCharType="end"/>
+                    </w:r>
+                    <w:r w:rsidR="00605B9A" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t xml:space="preserve"> Inherited from pre-existing Provisional Authorization (PA) for &lt;</w:t>
+                    </w:r>
+                    <w:r w:rsidR="00F3531F">
+                        <w:rPr>
+                            <w:b/>
+                            <w:color w:val="365F91" w:themeColor="accent1" w:themeShade="BF"/>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>Information System Abbreviation</w:t>
+                    </w:r>
+                    <w:r w:rsidR="00605B9A" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>&gt;, &lt;</w:t>
+                    </w:r>
+                    <w:r w:rsidR="00605B9A" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:b/>
+                            <w:color w:val="365F91" w:themeColor="accent1" w:themeShade="BF"/>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>Date of PA</w:t>
+                    </w:r>
+                    <w:r w:rsidR="00605B9A" w:rsidRPr="002C3786">
+                        <w:rPr>
+                            <w:spacing w:val="-5"/>
+                            <w:sz w:val="20"/>
+                        </w:rPr>
+                        <w:t>&gt;</w:t>
+                    </w:r>
+                </w:p>
+            </w:tc>
+        </w:tr>
+    </w:tbl>
+</w:body>
+</w:document>
