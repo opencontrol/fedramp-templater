@@ -4,7 +4,7 @@ This is a command-line tool to take the [FedRAMP](http://www.fedramp.gov/) Syste
 
 ## Usage
 
-Requires [Go](https://golang.org/) 1.2+.
+Requires [Go](https://golang.org/) 1.6+.
 
 1. Install the tool:
 
