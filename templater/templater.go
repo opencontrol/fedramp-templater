@@ -72,7 +72,7 @@ func FillTable(table xml.Node) (err error) {
 	return
 }
 
-func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
+func addControlEnhancementTags(doc *xml.XmlDocument) (err error) {
 	tables, err := findControlEnhancementTables(doc)
 	if err != nil {
 		return
@@ -83,8 +83,11 @@ func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 			return err
 		}
 	}
-
 	return
+}
+
+func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
+	return addControlEnhancementTags(doc)
 }
 
 func TemplatizeWordDoc(wordDoc *docx.Docx) (err error) {
