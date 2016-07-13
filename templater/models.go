@@ -1,14 +1,16 @@
 package templater
 
 import (
+	"errors"
 	"fmt"
+	"regexp"
 
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
 )
 
 type ControlTable struct {
-  Root xml.Node
+	Root xml.Node
 }
 
 func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
@@ -20,9 +22,32 @@ func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
 	return
 }
 
-func (ct *ControlTable) controlName() (name string) {
-	// TODO remove hard-coding
-	return "AC-2 (1)"
+func (ct *ControlTable) tableHeader() (content string, err error) {
+	nodes, err := ct.Root.Search("//w:tr[1]")
+	if err != nil {
+		return
+	}
+	if len(nodes) != 1 {
+		err = errors.New("Could not find control name.")
+		return
+	}
+	content = nodes[0].Content()
+
+	return
+}
+
+func (ct *ControlTable) controlName() (name string, err error) {
+	content, err := ct.tableHeader()
+	if err != nil {
+		return
+	}
+
+	regex := regexp.MustCompile(`[A-Z]{2}-\d+( \(.\))?`)
+	name = regex.FindString(content)
+	if name == "" {
+		err = errors.New("Control name not found.")
+	}
+	return
 }
 
 // modifies the `table`
@@ -34,7 +59,12 @@ func (ct *ControlTable) Fill() (err error) {
 
 	existingContent := roleCell.Content()
 	standard := "NIST-800-53"
-	content := fmt.Sprintf("%s {{getResponsibleRole %q %q}}", existingContent, standard, ct.controlName())
+	control, err := ct.controlName()
+	if err != nil {
+		return
+	}
+
+	content := fmt.Sprintf("%s {{getResponsibleRole %q %q}}", existingContent, standard, control)
 	roleCell.SetContent(content)
 
 	return
