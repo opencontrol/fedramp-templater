@@ -23,14 +23,15 @@ func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
 }
 
 func (ct *ControlTable) tableHeader() (content string, err error) {
-	nodes, err := ct.Root.Search("//w:tr[1]")
+	nodes, err := ct.Root.Search("//w:tr")
 	if err != nil {
 		return
 	}
-	if len(nodes) != 1 {
+	if len(nodes) == 0 {
 		err = errors.New("Could not find control name.")
 		return
 	}
+	// we only care about the first match
 	content = nodes[0].Content()
 
 	return
