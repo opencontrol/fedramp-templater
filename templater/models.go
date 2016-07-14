@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strings"
 
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
@@ -13,9 +14,23 @@ type ControlTable struct {
 	Root xml.Node
 }
 
+func (ct *ControlTable) searchSubtree(xpath string) (nodes []xml.Node, err error) {
+	// http://stackoverflow.com/a/25387687/358804
+	if !strings.HasPrefix(xpath, ".") {
+		err = errors.New("XPath must have leading period (`.`) to only search the subtree.")
+		return
+	}
+
+	return ct.Root.Search(xpath)
+}
+
 func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
-	nodes, err := ct.Root.Search("//w:tc//w:t[contains(., 'Responsible Role')]")
+	nodes, err := ct.searchSubtree(".//w:tc//w:t[contains(., 'Responsible Role')]")
 	if err != nil {
+		return
+	}
+	if len(nodes) != 1 {
+		err = errors.New("Could not find Responsible Role cell.")
 		return
 	}
 	node = nodes[0]
@@ -23,7 +38,7 @@ func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
 }
 
 func (ct *ControlTable) tableHeader() (content string, err error) {
-	nodes, err := ct.Root.Search("//w:tr")
+	nodes, err := ct.searchSubtree(".//w:tr")
 	if err != nil {
 		return
 	}
