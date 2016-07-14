@@ -33,28 +33,9 @@ func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 	return ParseWordXML(bytes)
 }
 
-// TODO merge these
-func controlSummaryTables(doc *xml.XmlDocument) (tables []xml.Node, err error) {
-	return doc.Search("//w:tbl[contains(., 'Control Summary')]")
-}
-
-func controlEnhancementSummaryTables(doc *xml.XmlDocument) (tables []xml.Node, err error) {
-	return doc.Search("//w:tbl[contains(., 'Control Enhancement Summary')]")
-}
-
 // returns the tables for the controls and the control enhancements
 func findSummaryTables(doc *xml.XmlDocument) (tables []xml.Node, err error) {
-	controlTables, err := controlSummaryTables(doc)
-	if err != nil {
-		return
-	}
-	enhancementTables, err := controlEnhancementSummaryTables(doc)
-	if err != nil {
-		return
-	}
-
-	tables = append(controlTables, enhancementTables...)
-	return
+	return doc.Search("//w:tbl[contains(., 'Control Summary') or contains(., 'Control Enhancement Summary')]")
 }
 
 func printNode(node xml.Node) {
