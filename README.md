@@ -4,13 +4,29 @@ This is a command-line tool to take the [FedRAMP](http://www.fedramp.gov/) Syste
 
 ## Usage
 
-Requires [Go](https://golang.org/) 1.6+.
+Requires [Go](https://golang.org/) 1.6+. 
+
 
 1. Install the tool:
 
+    For Ubuntu/Debian:
     ```bash
+    sudo apt-get install libxml2-dev 
     go get github.com/opencontrol/fedramp-templater
     ```
+    
+    For OsX:
+    ```
+    brew install homebrew/dupes/apple-gcc42
+    export CC=/usr/local/Cellar/apple-gcc42/4.2.1-5666.3/bin/gcc-4.2
+    brew install libxml2
+    ln -s /usr/local/Cellar/libxml2/2.9.4/lib/pkgconfig/libxml-2.0.pc /usr/local/lib/pkgconfig/libxml-2.0.pc
+    export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+    go get github.com/moovweb/gokogiri
+    go get github.com/opencontrol/fedramp-templater
+    ```
+  
+
 
 1. [Download the `System Security Plan (SSP)` template.](https://www.fedramp.gov/resources/templates-2016/) (Tested with [v2.1](https://www.fedramp.gov/files/2015/03/FedRAMP-System-Security-Plan-Template-v2.1.docx).)
 1. Run
