@@ -10,6 +10,7 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 )
 
+// ControlTable represents the node in the Word docx XML tree that corresponds to a security control.
 type ControlTable struct {
 	Root xml.Node
 }
@@ -17,7 +18,7 @@ type ControlTable struct {
 func (ct *ControlTable) searchSubtree(xpath string) (nodes []xml.Node, err error) {
 	// http://stackoverflow.com/a/25387687/358804
 	if !strings.HasPrefix(xpath, ".") {
-		err = errors.New("XPath must have leading period (`.`) to only search the subtree.")
+		err = errors.New("XPath must have leading period (`.`) to only search the subtree")
 		return
 	}
 
@@ -30,7 +31,7 @@ func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
 		return
 	}
 	if len(nodes) != 1 {
-		err = errors.New("Could not find Responsible Role cell.")
+		err = errors.New("could not find Responsible Role cell")
 		return
 	}
 	node = nodes[0]
@@ -43,7 +44,7 @@ func (ct *ControlTable) tableHeader() (content string, err error) {
 		return
 	}
 	if len(nodes) == 0 {
-		err = errors.New("Could not find control name.")
+		err = errors.New("could not find control name")
 		return
 	}
 	// we only care about the first match
@@ -61,12 +62,12 @@ func (ct *ControlTable) controlName() (name string, err error) {
 	regex := regexp.MustCompile(`[A-Z]{2}-\d+( \(.\))?`)
 	name = regex.FindString(content)
 	if name == "" {
-		err = errors.New("Control name not found.")
+		err = errors.New("control name not found")
 	}
 	return
 }
 
-// modifies the `table`
+// Fill inserts the tags into the table. Note this modifies the `table`.
 func (ct *ControlTable) Fill() (err error) {
 	roleCell, err := ct.responsibleRoleCell()
 	if err != nil {
