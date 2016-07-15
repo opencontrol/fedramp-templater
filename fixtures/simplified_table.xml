@@ -55,7 +55,7 @@
                             <w:spacing w:val="-5"/>
                             <w:sz w:val="20"/>
                         </w:rPr>
-                        <w:t>AC-2 (1) Control</w:t>
+                        <w:t>{{ .Control }} Control</w:t>
                     </w:r>
                     <w:r w:rsidR="00915AA7" w:rsidRPr="002C3786">
                         <w:rPr>

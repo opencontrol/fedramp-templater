@@ -1,8 +1,9 @@
 package templater_test
 
 import (
-	"io/ioutil"
+	"bytes"
 	"path/filepath"
+	"text/template"
 
 	. "github.com/opencontrol/fedramp-templater/templater"
 
@@ -10,12 +11,22 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+type tableData struct {
+	Control string
+}
+
 var _ = Describe("ControlTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role field", func() {
 			path := filepath.Join("..", "fixtures", "simplified_table.xml")
-			content, _ := ioutil.ReadFile(path)
-			doc, _ := ParseWordXML(content)
+			tpl, err := template.ParseFiles(path)
+			Expect(err).ToNot(HaveOccurred())
+
+			buf := new(bytes.Buffer)
+			data := tableData{"AC-2 (1)"}
+			tpl.Execute(buf, data)
+
+			doc, _ := ParseWordXML(buf.Bytes())
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 

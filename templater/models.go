@@ -59,6 +59,7 @@ func (ct *ControlTable) controlName() (name string, err error) {
 		return
 	}
 
+	// matches controls and control enhancements, e.g. `AC-2`, `AC-2 (1)`, etc.
 	regex := regexp.MustCompile(`[A-Z]{2}-\d+( +\(\d+\))?`)
 	name = regex.FindString(content)
 	if name == "" {
