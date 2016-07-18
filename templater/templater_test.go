@@ -25,4 +25,19 @@ var _ = Describe("Templater", func() {
 			Expect(doc.GetContent()).To(Equal(""))
 		})
 	})
+
+	Describe("TemplatizeWordDoc", func() {
+		It("fills in the Responsible Role fields", func() {
+			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2_v2.1.docx")
+			doc, err := GetWordDoc(path)
+			Expect(err).NotTo(HaveOccurred())
+
+			err = TemplatizeWordDoc(doc)
+
+			Expect(err).NotTo(HaveOccurred())
+			content := doc.GetContent()
+			Expect(content).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2"}}`))
+			Expect(content).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2 (1)"}}`))
+		})
+	})
 })
