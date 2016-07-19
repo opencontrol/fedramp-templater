@@ -2,45 +2,12 @@ package templater
 
 import (
 	"github.com/opencontrol/fedramp-templater/models"
-
-	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
-	"github.com/jbowtie/gokogiri"
-	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/doc-template/docx"
+	"github.com/opencontrol/fedramp-templater/ssp"
 )
 
-func GetWordDoc(path string) (doc *docx.Docx, err error) {
-	doc = new(docx.Docx)
-	err = doc.ReadFile(path)
-	return
-}
-
-func ParseWordXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
-	xmlDoc, err = gokogiri.ParseXml(content)
-	if err != nil {
-		return
-	}
-	// http://stackoverflow.com/a/27475227/358804
-	xp := xmlDoc.DocXPathCtx()
-	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
-	return
-}
-
-func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
-	content := wordDoc.GetContent()
-	// http://stackoverflow.com/a/28261008/358804
-	bytes := []byte(content)
-	return ParseWordXML(bytes)
-}
-
-// findSummaryTables returns the tables for the controls and the control enhancements.
-func findSummaryTables(doc *xml.XmlDocument) (tables []xml.Node, err error) {
-	// find the tables matching the provided headers, ignoring whitespace
-	return doc.Search("//w:tbl[contains(normalize-space(.), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]")
-}
-
-func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
-	tables, err := findSummaryTables(doc)
+// TemplatizeSsp inserts template tags into (i.e. modifies) the provided Ssp.
+func TemplatizeSsp(s *ssp.Ssp) (err error) {
+	tables, err := s.SummaryTables()
 	if err != nil {
 		return
 	}
@@ -51,22 +18,8 @@ func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 			return err
 		}
 	}
-	return
-}
 
-// TemplatizeWordDoc inserts template tags into (i.e. modifies) the provided document.
-func TemplatizeWordDoc(wordDoc *docx.Docx) (err error) {
-	xmlDoc, err := getXMLDoc(wordDoc)
-	defer xmlDoc.Free()
-	if err != nil {
-		return
-	}
+	s.UpdateContent()
 
-	err = templatizeXMLDoc(xmlDoc)
-	if err != nil {
-		return
-	}
-
-	wordDoc.UpdateConent(xmlDoc.String())
 	return
 }
