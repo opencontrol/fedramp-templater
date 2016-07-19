@@ -32,9 +32,10 @@ func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 	return ParseWordXML(bytes)
 }
 
-// returns the tables for the controls and the control enhancements
+// findSummaryTables returns the tables for the controls and the control enhancements.
 func findSummaryTables(doc *xml.XmlDocument) (tables []xml.Node, err error) {
-	return doc.Search("//w:tbl[contains(., 'Control Summary') or contains(., 'Control Enhancement Summary')]")
+	// find the tables matching the provided headers, ignoring whitespace
+	return doc.Search("//w:tbl[contains(normalize-space(.), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]")
 }
 
 func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
@@ -52,6 +53,7 @@ func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 	return
 }
 
+// TemplatizeWordDoc inserts template tags into (i.e. modifies) the provided document.
 func TemplatizeWordDoc(wordDoc *docx.Docx) (err error) {
 	xmlDoc, err := getXMLDoc(wordDoc)
 	defer xmlDoc.Free()
