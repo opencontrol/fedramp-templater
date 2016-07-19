@@ -1,6 +1,7 @@
 package templater
 
 import (
+	"github.com/opencontrol/fedramp-templater/models"
 
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri"
@@ -44,7 +45,7 @@ func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
 		return
 	}
 	for _, table := range tables {
-		ct := ControlTable{Root: table}
+		ct := models.ControlTable{Root: table}
 		err = ct.Fill()
 		if err != nil {
 			return err

@@ -1,4 +1,4 @@
-package templater
+package models
 
 import (
 	"errors"

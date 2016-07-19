@@ -1,4 +1,4 @@
-package templater_test
+package models_test
 
 import (
 	"bytes"
@@ -7,7 +7,8 @@ import (
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
 
-	. "github.com/opencontrol/fedramp-templater/templater"
+	. "github.com/opencontrol/fedramp-templater/models"
+	"github.com/opencontrol/fedramp-templater/templater"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -26,7 +27,7 @@ func docFixture(control string) *xml.XmlDocument {
 	data := tableData{control}
 	tpl.Execute(buf, data)
 
-	doc, err := ParseWordXML(buf.Bytes())
+	doc, err := templater.ParseWordXML(buf.Bytes())
 	Expect(err).ToNot(HaveOccurred())
 
 	return doc
