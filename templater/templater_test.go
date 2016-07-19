@@ -14,8 +14,9 @@ var _ = Describe("Templater", func() {
 		It("gets the content from the doc", func() {
 			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2-1_v2.1.docx")
 			doc, err := GetWordDoc(path)
-
 			Expect(err).NotTo(HaveOccurred())
+			defer doc.Close()
+
 			Expect(doc.GetContent()).To(ContainSubstring("Control Enhancement"))
 		})
 
@@ -31,6 +32,7 @@ var _ = Describe("Templater", func() {
 			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2_v2.1.docx")
 			doc, err := GetWordDoc(path)
 			Expect(err).NotTo(HaveOccurred())
+			defer doc.Close()
 
 			err = TemplatizeWordDoc(doc)
 

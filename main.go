@@ -25,6 +25,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+	defer wordDoc.Close()
 
 	err = templater.TemplatizeWordDoc(wordDoc)
 	if err != nil {
