@@ -8,7 +8,7 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 
 	. "github.com/opencontrol/fedramp-templater/control_table"
-	"github.com/opencontrol/fedramp-templater/ssp"
+	"github.com/opencontrol/fedramp-templater/docx_helper"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -27,7 +27,7 @@ func docFixture(control string) *xml.XmlDocument {
 	data := tableData{control}
 	tpl.Execute(buf, data)
 
-	doc, err := ssp.ParseWordXML(buf.Bytes())
+	doc, err := docx_helper.ParseXML(buf.Bytes())
 	Expect(err).ToNot(HaveOccurred())
 
 	return doc

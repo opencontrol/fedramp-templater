@@ -2,29 +2,10 @@ package ssp
 
 import (
 	"github.com/opencontrol/doc-template/docx"
+	"github.com/opencontrol/fedramp-templater/docx_helper"
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
-	"github.com/jbowtie/gokogiri"
 	"github.com/jbowtie/gokogiri/xml"
 )
-
-// ParseWordXML converts the XML text to a structure.
-func ParseWordXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
-	xmlDoc, err = gokogiri.ParseXml(content)
-	if err != nil {
-		return
-	}
-	// http://stackoverflow.com/a/27475227/358804
-	xp := xmlDoc.DocXPathCtx()
-	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
-	return
-}
-
-func generateXml(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
-	content := wordDoc.GetContent()
-	// http://stackoverflow.com/a/28261008/358804
-	bytes := []byte(content)
-	return ParseWordXML(bytes)
-}
 
 type Ssp struct {
 	wordDoc *docx.Docx
@@ -42,7 +23,7 @@ func Load(path string) (ssp *Ssp, err error) {
 	if err != nil {
 		return
 	}
-	xmlDoc, err := generateXml(doc)
+	xmlDoc, err := docx_helper.GenerateXml(doc)
 	if err != nil {
 		return
 	}
