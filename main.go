@@ -37,6 +37,6 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	// TODO this should use the current content, or not be a method
-	ssp.Doc.WriteToFile(outputPath, ssp.Content())
+
+	ssp.CopyTo(outputPath)
 }

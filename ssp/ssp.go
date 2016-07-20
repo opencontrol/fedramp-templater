@@ -27,8 +27,8 @@ func generateXml(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 }
 
 type Ssp struct {
-	Doc    *docx.Docx
-	xmlDoc *xml.XmlDocument
+	wordDoc *docx.Docx
+	xmlDoc  *xml.XmlDocument
 }
 
 func getWordDoc(path string) (doc *docx.Docx, err error) {
@@ -48,8 +48,8 @@ func Load(path string) (ssp *Ssp, err error) {
 	}
 
 	ssp = &Ssp{
-		Doc:    doc,
-		xmlDoc: xmlDoc,
+		wordDoc: doc,
+		xmlDoc:  xmlDoc,
 	}
 	return
 }
@@ -61,16 +61,21 @@ func (s *Ssp) SummaryTables() (tables []xml.Node, err error) {
 }
 
 func (s *Ssp) Content() string {
-	return s.Doc.GetContent()
+	return s.wordDoc.GetContent()
 }
 
 func (s *Ssp) UpdateContent() {
 	content := s.xmlDoc.String()
 	// TODO fix spelling upstream
-	s.Doc.UpdateConent(content)
+	s.wordDoc.UpdateConent(content)
+}
+
+func (s *Ssp) CopyTo(path string) {
+	// TODO fix upstream: WriteToFile should use the doc's content, or not be a method
+	s.wordDoc.WriteToFile(path, s.Content())
 }
 
 func (s *Ssp) Close() error {
 	s.xmlDoc.Free()
-	return s.Doc.Close()
+	return s.wordDoc.Close()
 }
