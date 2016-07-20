@@ -5,8 +5,8 @@ import (
 	"github.com/opencontrol/fedramp-templater/ssp"
 )
 
-// TemplatizeSsp inserts template tags into (i.e. modifies) the provided Ssp.
-func TemplatizeSsp(s *ssp.Document) (err error) {
+// TemplatizeSSP inserts template tags into (i.e. modifies) the provided SSP.
+func TemplatizeSSP(s *ssp.Document) (err error) {
 	tables, err := s.SummaryTables()
 	if err != nil {
 		return

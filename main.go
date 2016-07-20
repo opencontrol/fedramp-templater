@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	sspPkg "github.com/opencontrol/fedramp-templater/ssp"
+	"github.com/opencontrol/fedramp-templater/ssp"
 	"github.com/opencontrol/fedramp-templater/templater"
 )
 
@@ -21,13 +21,13 @@ func parseArgs() (inputPath, outputPath string) {
 func main() {
 	inputPath, outputPath := parseArgs()
 
-	ssp, err := sspPkg.Load(inputPath)
+	doc, err := ssp.Load(inputPath)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	defer ssp.Close()
+	defer doc.Close()
 
-	err = templater.TemplatizeSsp(ssp)
+	err = templater.TemplatizeSSP(doc)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -38,5 +38,8 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	ssp.CopyTo(outputPath)
+	err = doc.CopyTo(outputPath)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }

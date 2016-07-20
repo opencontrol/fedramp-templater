@@ -11,14 +11,14 @@ import (
 )
 
 var _ = Describe("Templater", func() {
-	Describe("TemplatizeSsp", func() {
+	Describe("TemplatizeSSP", func() {
 		It("fills in the Responsible Role fields", func() {
 			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2_v2.1.docx")
 			s, err := ssp.Load(path)
 			Expect(err).NotTo(HaveOccurred())
 			defer s.Close()
 
-			err = TemplatizeSsp(s)
+			err = TemplatizeSSP(s)
 
 			Expect(err).NotTo(HaveOccurred())
 			content := s.Content()

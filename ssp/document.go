@@ -52,8 +52,8 @@ func (s *Document) UpdateContent() {
 }
 
 // CopyTo copies the contents of this Word document to a new file at the provided path.
-func (s *Document) CopyTo(path string) {
-	s.wordDoc.WriteToFile(path, s.Content())
+func (s *Document) CopyTo(path string) error {
+	return s.wordDoc.WriteToFile(path, s.Content())
 }
 
 // Close releases the underlying resources.

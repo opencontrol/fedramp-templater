@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Ssp", func() {
+var _ = Describe("SSP", func() {
 	Describe("Load", func() {
 		It("gets the content from the doc", func() {
 			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2-1_v2.1.docx")

@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestSsp(t *testing.T) {
+func TestSSP(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Ssp Suite")
+	RunSpecs(t, "SSP Suite")
 }
