@@ -1,4 +1,4 @@
-package control_table_test
+package control_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestControlTable(t *testing.T) {
+func TestControl(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "ControlTable Suite")
+	RunSpecs(t, "Control Suite")
 }

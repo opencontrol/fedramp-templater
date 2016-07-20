@@ -1,4 +1,4 @@
-package control_table
+package control
 
 import (
 	"errors"
@@ -10,12 +10,12 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 )
 
-// ControlTable represents the node in the Word docx XML tree that corresponds to a security control.
-type ControlTable struct {
+// Table represents the node in the Word docx XML tree that corresponds to a security control.
+type Table struct {
 	Root xml.Node
 }
 
-func (ct *ControlTable) searchSubtree(xpath string) (nodes []xml.Node, err error) {
+func (ct *Table) searchSubtree(xpath string) (nodes []xml.Node, err error) {
 	// http://stackoverflow.com/a/25387687/358804
 	if !strings.HasPrefix(xpath, ".") {
 		err = errors.New("XPath must have leading period (`.`) to only search the subtree")
@@ -25,7 +25,7 @@ func (ct *ControlTable) searchSubtree(xpath string) (nodes []xml.Node, err error
 	return ct.Root.Search(xpath)
 }
 
-func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
+func (ct *Table) responsibleRoleCell() (node xml.Node, err error) {
 	nodes, err := ct.searchSubtree(".//w:tc//w:t[contains(., 'Responsible Role')]")
 	if err != nil {
 		return
@@ -38,7 +38,7 @@ func (ct *ControlTable) responsibleRoleCell() (node xml.Node, err error) {
 	return
 }
 
-func (ct *ControlTable) tableHeader() (content string, err error) {
+func (ct *Table) tableHeader() (content string, err error) {
 	nodes, err := ct.searchSubtree(".//w:tr")
 	if err != nil {
 		return
@@ -53,7 +53,7 @@ func (ct *ControlTable) tableHeader() (content string, err error) {
 	return
 }
 
-func (ct *ControlTable) controlName() (name string, err error) {
+func (ct *Table) controlName() (name string, err error) {
 	content, err := ct.tableHeader()
 	if err != nil {
 		return
@@ -69,7 +69,7 @@ func (ct *ControlTable) controlName() (name string, err error) {
 }
 
 // Fill inserts the tags into the table. Note this modifies the `table`.
-func (ct *ControlTable) Fill() (err error) {
+func (ct *Table) Fill() (err error) {
 	roleCell, err := ct.responsibleRoleCell()
 	if err != nil {
 		return

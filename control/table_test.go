@@ -1,4 +1,4 @@
-package control_table_test
+package control_test
 
 import (
 	"bytes"
@@ -7,8 +7,8 @@ import (
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
 
-	. "github.com/opencontrol/fedramp-templater/control_table"
-	"github.com/opencontrol/fedramp-templater/docx_helper"
+	. "github.com/opencontrol/fedramp-templater/control"
+	"github.com/opencontrol/fedramp-templater/docx/helper"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -27,20 +27,20 @@ func docFixture(control string) *xml.XmlDocument {
 	data := tableData{control}
 	tpl.Execute(buf, data)
 
-	doc, err := docx_helper.ParseXML(buf.Bytes())
+	doc, err := helper.ParseXML(buf.Bytes())
 	Expect(err).ToNot(HaveOccurred())
 
 	return doc
 }
 
-var _ = Describe("ControlTable", func() {
+var _ = Describe("Table", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
 			doc := docFixture("AC-2")
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 
-			ct := ControlTable{Root: table}
+			ct := Table{Root: table}
 			ct.Fill()
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2"}}`))
@@ -51,7 +51,7 @@ var _ = Describe("ControlTable", func() {
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 
-			ct := ControlTable{Root: table}
+			ct := Table{Root: table}
 			ct.Fill()
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2 (1)"}}`))

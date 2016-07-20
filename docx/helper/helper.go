@@ -1,4 +1,4 @@
-package docx_helper
+package helper
 
 import (
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
@@ -7,7 +7,7 @@ import (
 	"github.com/opencontrol/doc-template/docx"
 )
 
-// ParseWordXML converts the XML text to a structure.
+// ParseXML converts the XML text to a structure.
 func ParseXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
 	xmlDoc, err = gokogiri.ParseXml(content)
 	if err != nil {
@@ -19,7 +19,8 @@ func ParseXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
 	return
 }
 
-func GenerateXml(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
+// GenerateXML gives the underlying XML document for the provided Word document.
+func GenerateXML(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 	content := wordDoc.GetContent()
 	// http://stackoverflow.com/a/28261008/358804
 	bytes := []byte(content)
