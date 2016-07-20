@@ -1,7 +1,7 @@
 package templater
 
 import (
-	"fmt"
+	"github.com/opencontrol/fedramp-templater/models"
 
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri"
@@ -16,14 +16,14 @@ func GetWordDoc(path string) (doc *docx.Docx, err error) {
 }
 
 func ParseWordXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
-  xmlDoc, err = gokogiri.ParseXml(content)
+	xmlDoc, err = gokogiri.ParseXml(content)
 	if err != nil {
 		return
 	}
 	// http://stackoverflow.com/a/27475227/358804
 	xp := xmlDoc.DocXPathCtx()
 	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
-  return
+	return
 }
 
 func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
@@ -33,52 +33,20 @@ func getXMLDoc(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 	return ParseWordXML(bytes)
 }
 
-func findControlEnhancementTables(doc *xml.XmlDocument) (nodes []xml.Node, err error) {
-	return doc.Search("//w:tbl[contains(., 'Control Enhancement Summary')]")
+// findSummaryTables returns the tables for the controls and the control enhancements.
+func findSummaryTables(doc *xml.XmlDocument) (tables []xml.Node, err error) {
+	// find the tables matching the provided headers, ignoring whitespace
+	return doc.Search("//w:tbl[contains(normalize-space(.), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]")
 }
 
-func printNode(node xml.Node) {
-	fmt.Printf("%#v ", node)
-	fmt.Printf("\"%s\"\n", node.Content())
-}
-
-func printNodes(nodes []xml.Node) {
-	for _, node := range nodes {
-		printNode(node)
-	}
-}
-
-func findResponsibleRoleCell(table xml.Node) (node xml.Node, err error) {
-	nodes, err := table.Search("//w:tc//w:t[contains(., 'Responsible Role')]")
-	if err != nil {
-		return
-	}
-	node = nodes[0]
-	return
-}
-
-// modifies the `table`
-func FillTable(table xml.Node) (err error) {
-	roleCell, err := findResponsibleRoleCell(table)
-	if err != nil {
-		return
-	}
-
-	content := roleCell.Content()
-	// TODO remove hard-coding
-	content += " {{getResponsibleRole \"NIST-800-53\" \"AC-2 (1)\"}}"
-	roleCell.SetContent(content)
-
-	return
-}
-
-func addControlEnhancementTags(doc *xml.XmlDocument) (err error) {
-	tables, err := findControlEnhancementTables(doc)
+func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
+	tables, err := findSummaryTables(doc)
 	if err != nil {
 		return
 	}
 	for _, table := range tables {
-		err = FillTable(table)
+		ct := models.ControlTable{Root: table}
+		err = ct.Fill()
 		if err != nil {
 			return err
 		}
@@ -86,10 +54,7 @@ func addControlEnhancementTags(doc *xml.XmlDocument) (err error) {
 	return
 }
 
-func templatizeXMLDoc(doc *xml.XmlDocument) (err error) {
-	return addControlEnhancementTags(doc)
-}
-
+// TemplatizeWordDoc inserts template tags into (i.e. modifies) the provided document.
 func TemplatizeWordDoc(wordDoc *docx.Docx) (err error) {
 	xmlDoc, err := getXMLDoc(wordDoc)
 	defer xmlDoc.Free()
