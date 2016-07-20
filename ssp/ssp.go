@@ -19,19 +19,16 @@ func getWordDoc(path string) (doc *docx.Docx, err error) {
 }
 
 func Load(path string) (ssp *Ssp, err error) {
-	doc, err := getWordDoc(path)
+	wordDoc, err := getWordDoc(path)
 	if err != nil {
 		return
 	}
-	xmlDoc, err := docx_helper.GenerateXml(doc)
+	xmlDoc, err := docx_helper.GenerateXml(wordDoc)
 	if err != nil {
 		return
 	}
 
-	ssp = &Ssp{
-		wordDoc: doc,
-		xmlDoc:  xmlDoc,
-	}
+	ssp = &Ssp{wordDoc, xmlDoc}
 	return
 }
 
