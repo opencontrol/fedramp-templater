@@ -1,4 +1,4 @@
-package models_test
+package control_table_test
 
 import (
 	"bytes"
@@ -7,7 +7,7 @@ import (
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
 
-	. "github.com/opencontrol/fedramp-templater/models"
+	. "github.com/opencontrol/fedramp-templater/control_table"
 	"github.com/opencontrol/fedramp-templater/ssp"
 
 	. "github.com/onsi/ginkgo"

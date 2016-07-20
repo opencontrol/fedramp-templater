@@ -1,7 +1,7 @@
 package templater
 
 import (
-	"github.com/opencontrol/fedramp-templater/models"
+	"github.com/opencontrol/fedramp-templater/control_table"
 	"github.com/opencontrol/fedramp-templater/ssp"
 )
 
@@ -12,7 +12,7 @@ func TemplatizeSsp(s *ssp.Ssp) (err error) {
 		return
 	}
 	for _, table := range tables {
-		ct := models.ControlTable{Root: table}
+		ct := control_table.ControlTable{Root: table}
 		err = ct.Fill()
 		if err != nil {
 			return err

@@ -1,4 +1,4 @@
-package models
+package control_table
 
 import (
 	"errors"
