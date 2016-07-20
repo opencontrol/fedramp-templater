@@ -1,0 +1,47 @@
+hash: 494f08cb83bebd39f7d4e3b4714b3b5012f504a5f76c944a7fd80cb9f0fe1014
+updated: 2016-07-20T16:33:06.821077121-04:00
+imports:
+- name: github.com/jbowtie/gokogiri
+  version: ""
+  subpackages:
+  - help
+  - html
+  - util
+  - xml
+  - xpath
+- name: github.com/onsi/ginkgo
+  version: ""
+  subpackages:
+  - config
+  - internal/codelocation
+  - internal/containernode
+  - internal/failer
+  - internal/leafnodes
+  - internal/remote
+  - internal/spec
+  - internal/specrunner
+  - internal/suite
+  - internal/testingtproxy
+  - internal/writer
+  - reporters
+  - reporters/stenographer
+  - types
+- name: github.com/onsi/gomega
+  version: ""
+  subpackages:
+  - format
+  - internal/assertion
+  - internal/asyncassertion
+  - internal/oraclematcher
+  - internal/testingtsupport
+  - matchers
+  - matchers/support/goraph/bipartitegraph
+  - matchers/support/goraph/edge
+  - matchers/support/goraph/node
+  - matchers/support/goraph/util
+  - types
+- name: github.com/opencontrol/doc-template
+  version: ""
+  subpackages:
+  - docx
+testImports: []

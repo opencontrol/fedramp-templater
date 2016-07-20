@@ -41,6 +41,8 @@ with this waiver of copyright interest.
     open tmp/output.docx
     ```
 
+[Glide](https://glide.sh/) is used to manage dependencies.
+
 ## Resources
 
 ### Tools
