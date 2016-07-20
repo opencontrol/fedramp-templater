@@ -15,17 +15,13 @@ Requires [Go](https://golang.org/) 1.6+.
     go get github.com/opencontrol/fedramp-templater
     ```
     
-    For OsX:
+    For OsX (assuming you have [HomeBrew installed](http://brew.sh/))
     ```
-    brew install homebrew/dupes/apple-gcc42
-    export CC=/usr/local/Cellar/apple-gcc42/4.2.1-5666.3/bin/gcc-4.2
     brew install libxml2
-    ln -s /usr/local/Cellar/libxml2/2.9.4/lib/pkgconfig/libxml-2.0.pc /usr/local/lib/pkgconfig/libxml-2.0.pc
-    export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
     go get github.com/moovweb/gokogiri
-    go get github.com/opencontrol/fedramp-templater
     ```
-  
+   
+    Note that installation issues are usually caused by installation Gokogiri, and if you run into issues you may find some help at [this issue](https://github.com/moovweb/gokogiri/issues/14) and with the [update to the GokoGiri README](https://github.com/moovweb/gokogiri/pull/95)
 
 
 1. [Download the `System Security Plan (SSP)` template.](https://www.fedramp.gov/resources/templates-2016/) (Tested with [v2.1](https://www.fedramp.gov/files/2015/03/FedRAMP-System-Security-Plan-Template-v2.1.docx).)
