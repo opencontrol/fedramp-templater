@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/opencontrol/fedramp-templater/ssp"
 	"github.com/opencontrol/fedramp-templater/templater"
 )
 
@@ -20,14 +20,14 @@ func parseArgs() (inputPath, outputPath string) {
 
 func main() {
 	inputPath, outputPath := parseArgs()
-	wordDoc, err := templater.GetWordDoc(inputPath)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
-	defer wordDoc.Close()
 
-	err = templater.TemplatizeWordDoc(wordDoc)
+	doc, err := ssp.Load(inputPath)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer doc.Close()
+
+	err = templater.TemplatizeSSP(doc)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -37,6 +37,9 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	// TODO this should use the current content, or not be a method
-	wordDoc.WriteToFile(outputPath, wordDoc.GetContent())
+
+	err = doc.CopyTo(outputPath)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }

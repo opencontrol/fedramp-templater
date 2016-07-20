@@ -3,6 +3,7 @@ package templater_test
 import (
 	"path/filepath"
 
+	"github.com/opencontrol/fedramp-templater/ssp"
 	. "github.com/opencontrol/fedramp-templater/templater"
 
 	. "github.com/onsi/ginkgo"
@@ -10,34 +11,17 @@ import (
 )
 
 var _ = Describe("Templater", func() {
-	Describe("GetWordDoc", func() {
-		It("gets the content from the doc", func() {
-			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2-1_v2.1.docx")
-			doc, err := GetWordDoc(path)
-			Expect(err).NotTo(HaveOccurred())
-			defer doc.Close()
-
-			Expect(doc.GetContent()).To(ContainSubstring("Control Enhancement"))
-		})
-
-		It("give an error when the doc isn't found", func() {
-			doc, err := GetWordDoc("non-existent.docx")
-			Expect(err).To(HaveOccurred())
-			Expect(doc.GetContent()).To(Equal(""))
-		})
-	})
-
-	Describe("TemplatizeWordDoc", func() {
+	Describe("TemplatizeSSP", func() {
 		It("fills in the Responsible Role fields", func() {
 			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2_v2.1.docx")
-			doc, err := GetWordDoc(path)
+			s, err := ssp.Load(path)
 			Expect(err).NotTo(HaveOccurred())
-			defer doc.Close()
+			defer s.Close()
 
-			err = TemplatizeWordDoc(doc)
+			err = TemplatizeSSP(s)
 
 			Expect(err).NotTo(HaveOccurred())
-			content := doc.GetContent()
+			content := s.Content()
 			Expect(content).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2"}}`))
 			Expect(content).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2 (1)"}}`))
 		})
