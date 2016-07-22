@@ -1,0 +1,49 @@
+hash: b518013d04c8467885516bdfc136e76f57b2ffc00d6e3dce0564b08d60044627
+updated: 2016-07-22T03:32:01.623302464-04:00
+imports:
+- name: github.com/jbowtie/gokogiri
+  version: 94c317865760e3580e90e49c08ca54953ef1b7cb
+  subpackages:
+  - help
+  - html
+  - util
+  - xml
+  - xpath
+- name: github.com/onsi/ginkgo
+  version: 5437a97bf824dec14e58d68c56ee36e772670c2e
+  subpackages:
+  - config
+  - internal/codelocation
+  - internal/containernode
+  - internal/failer
+  - internal/leafnodes
+  - internal/remote
+  - internal/spec
+  - internal/specrunner
+  - internal/suite
+  - internal/testingtproxy
+  - internal/writer
+  - reporters
+  - reporters/stenographer
+  - types
+- name: github.com/onsi/gomega
+  version: a1094b2db2d4845621602c667bd4ccf09834544e
+  subpackages:
+  - format
+  - internal/assertion
+  - internal/asyncassertion
+  - internal/oraclematcher
+  - internal/testingtsupport
+  - matchers
+  - matchers/support/goraph/bipartitegraph
+  - matchers/support/goraph/edge
+  - matchers/support/goraph/node
+  - matchers/support/goraph/util
+  - types
+- name: github.com/opencontrol/compliance-masonry
+  version: 721e83953ab8d3d38151c3348144f5d6c36ceaad
+- name: github.com/opencontrol/doc-template
+  version: 489eade80a930ff92a4f89d5d7118b9f5b9f314e
+  subpackages:
+  - docx
+testImports: []

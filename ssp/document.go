@@ -48,7 +48,7 @@ func (s *Document) Content() string {
 // UpdateContent modifies the state of the underlying Word document. Note this is purely for bookkeeping in memory, and does not actually make any changes to the file.
 func (s *Document) UpdateContent() {
 	content := s.xmlDoc.String()
-	s.wordDoc.UpdateConent(content)
+	s.wordDoc.UpdateContent(content)
 }
 
 // CopyTo copies the contents of this Word document to a new file at the provided path.

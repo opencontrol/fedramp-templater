@@ -33,8 +33,8 @@ func (d *Docx) ReadFile(path string) error {
 	return nil
 }
 
-// UpdateConent updates the content string
-func (d *Docx) UpdateConent(newContent string) {
+// UpdateContent updates the content string
+func (d *Docx) UpdateContent(newContent string) {
 	d.content = newContent
 }
 

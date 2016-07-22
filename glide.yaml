@@ -1,0 +1,44 @@
+package: github.com/opencontrol/fedramp-templater
+import:
+- package: github.com/jbowtie/gokogiri
+  version: 94c317865760e3580e90e49c08ca54953ef1b7cb
+  subpackages:
+  - help
+  - html
+  - util
+  - xml
+  - xpath
+- package: github.com/onsi/ginkgo
+  version: 5437a97bf824dec14e58d68c56ee36e772670c2e
+  subpackages:
+  - config
+  - internal/codelocation
+  - internal/containernode
+  - internal/failer
+  - internal/leafnodes
+  - internal/remote
+  - internal/spec
+  - internal/specrunner
+  - internal/suite
+  - internal/testingtproxy
+  - internal/writer
+  - reporters
+  - reporters/stenographer
+  - types
+- package: github.com/onsi/gomega
+  version: a1094b2db2d4845621602c667bd4ccf09834544e
+  subpackages:
+  - format
+  - internal/assertion
+  - internal/asyncassertion
+  - internal/oraclematcher
+  - internal/testingtsupport
+  - matchers
+  - matchers/support/goraph/bipartitegraph
+  - matchers/support/goraph/edge
+  - matchers/support/goraph/node
+  - matchers/support/goraph/util
+  - types
+- package: github.com/opencontrol/compliance-masonry
+  version: ^1.1.2
+- package: github.com/opencontrol/doc-template
