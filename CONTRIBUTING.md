@@ -20,17 +20,20 @@ with this waiver of copyright interest.
 
 ## Development
 
-Requires [Go](https://golang.org/) 1.6+.
-
-1. Clone the repository.
+1. Follow the [installation instructions](README.md#installation).
+1. Go to the repository directory.
 
     ```bash
-    git clone https://github.com/opencontrol/fedramp-templater
-    cd fedramp-templater
+    cd $GOPATH/src/github.com/opencontrol/fedramp-templater
     ```
 
-1. [Install `gokogiri` dependencies.](https://github.com/moovweb/gokogiri/pull/95/files)
 1. _code code code_
+1. Run the tests.
+
+    ```bash
+    go test -v $(go list ./... | grep -v /vendor/)
+    ```
+
 1. Run the CLI.
 
     ```bash
