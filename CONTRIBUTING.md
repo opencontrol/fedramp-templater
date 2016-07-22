@@ -43,6 +43,12 @@ with this waiver of copyright interest.
 
 [Glide](https://glide.sh/) is used to manage dependencies.
 
+### Adding dependencies
+
+```bash
+glide get --strip-vcs --strip-vendor <package>
+```
+
 ## Resources
 
 ### Tools
