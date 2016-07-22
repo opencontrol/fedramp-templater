@@ -8,6 +8,7 @@ import (
 
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
 
 // Table represents the node in the Word docx XML tree that corresponds to a security control.
@@ -68,21 +69,21 @@ func (ct *Table) controlName() (name string, err error) {
 	return
 }
 
-// Fill inserts the tags into the table. Note this modifies the `table`.
-func (ct *Table) Fill() (err error) {
+// Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
+func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
 	roleCell, err := ct.responsibleRoleCell()
 	if err != nil {
 		return
 	}
 
 	existingContent := roleCell.Content()
-	standard := "NIST-800-53"
 	control, err := ct.controlName()
 	if err != nil {
 		return
 	}
 
-	content := fmt.Sprintf("%s {{getResponsibleRole %q %q}}", existingContent, standard, control)
+	roles := openControlData.GetResponsibleRoles(control)
+	content := fmt.Sprintf("%s %s", existingContent, roles)
 	roleCell.SetContent(content)
 
 	return
