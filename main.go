@@ -5,21 +5,38 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/ssp"
 	"github.com/opencontrol/fedramp-templater/templater"
 )
 
-func parseArgs() (inputPath, outputPath string) {
-	if len(os.Args) != 3 {
-		log.Fatal("Usage:\n\n\tfedramp-templater <input> <output>\n\n")
+func parseArgs() (openControlsDir, inputPath, outputPath string) {
+	if len(os.Args) != 4 {
+		log.Fatal("Usage:\n\n\tfedramp-templater <openControlsDir> <inputDoc> <outputDoc>\n\n")
 	}
-	inputPath = os.Args[1]
-	outputPath = os.Args[2]
+	openControlsDir = os.Args[1]
+	inputPath = os.Args[2]
+	outputPath = os.Args[3]
 	return
 }
 
+func loadOpenControls(path string) opencontrols.Data {
+	path, err := filepath.Abs(path)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	openControlData, errors := opencontrols.LoadFrom(path)
+	if len(errors) > 0 {
+		log.Fatal(errors)
+	}
+	return openControlData
+}
+
 func main() {
-	inputPath, outputPath := parseArgs()
+	openControlsDir, inputPath, outputPath := parseArgs()
+
+	openControlData := loadOpenControls(openControlsDir)
 
 	doc, err := ssp.Load(inputPath)
 	if err != nil {
@@ -27,7 +44,7 @@ func main() {
 	}
 	defer doc.Close()
 
-	err = templater.TemplatizeSSP(doc)
+	err = templater.TemplatizeSSP(doc, openControlData)
 	if err != nil {
 		log.Fatalln(err)
 	}

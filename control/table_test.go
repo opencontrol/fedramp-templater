@@ -2,6 +2,7 @@ package control_test
 
 import (
 	"bytes"
+	"os"
 	"path/filepath"
 	"text/template"
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
@@ -9,6 +10,7 @@ import (
 
 	. "github.com/opencontrol/fedramp-templater/control"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
+	"github.com/opencontrol/fedramp-templater/opencontrols"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -33,6 +35,26 @@ func docFixture(control string) *xml.XmlDocument {
 	return doc
 }
 
+func openControlFixturePath() string {
+	path := filepath.Join("..", "fixtures", "opencontrols")
+	path, err := filepath.Abs(path)
+	Expect(err).NotTo(HaveOccurred())
+	_, err = os.Stat(path)
+	Expect(err).NotTo(HaveOccurred())
+
+	return path
+}
+
+func openControlFixture() opencontrols.Data {
+	path := openControlFixturePath()
+	data, errors := opencontrols.LoadFrom(path)
+	for _, err := range errors {
+		Expect(err).NotTo(HaveOccurred())
+	}
+
+	return data
+}
+
 var _ = Describe("Table", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
@@ -41,9 +63,10 @@ var _ = Describe("Table", func() {
 			table := tables[0]
 
 			ct := Table{Root: table}
-			ct.Fill()
+			openControlData := openControlFixture()
+			ct.Fill(openControlData)
 
-			Expect(table.Content()).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2"}}`))
+			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 
 		It("fills in the Responsible Role for control enhancements", func() {
@@ -52,9 +75,10 @@ var _ = Describe("Table", func() {
 			table := tables[0]
 
 			ct := Table{Root: table}
-			ct.Fill()
+			openControlData := openControlFixture()
+			ct.Fill(openControlData)
 
-			Expect(table.Content()).To(ContainSubstring(`Responsible Role: {{getResponsibleRole "NIST-800-53" "AC-2 (1)"}}`))
+			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 	})
 })
