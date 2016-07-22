@@ -22,7 +22,7 @@ func LoadFrom(path string) (data Data, errors []error) {
 	return
 }
 
-// GetResponsibleRoles returns the resposible role information for each component matching the specified control.
+// GetResponsibleRoles returns the responsible role information for each component matching the specified control.
 func (d *Data) GetResponsibleRoles(control string) string {
 	return d.ocd.FormatResponsibleRoles("NIST-800-53", control)
 }
