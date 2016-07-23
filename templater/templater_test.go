@@ -1,6 +1,7 @@
 package templater_test
 
 import (
+	"bytes"
 	"path/filepath"
 
 	"github.com/opencontrol/fedramp-templater/opencontrols"
@@ -10,16 +11,25 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/opencontrol/fedramp-templater/reporter"
-	"bytes"
 )
 
-func loadOpenControlData(openControlDir string) opencontrols.Data {
+func loadSSP(name string) *ssp.Document {
+	sspPath := filepath.Join("..", "fixtures", name)
+	doc, err := ssp.Load(sspPath)
+	Expect(err).NotTo(HaveOccurred())
+
+	return doc
+}
+
+func loadOpenControlFixture() opencontrols.Data {
+	openControlDir := filepath.Join("..", "fixtures", "opencontrols")
 	openControlDir, err := filepath.Abs(openControlDir)
 	Expect(err).NotTo(HaveOccurred())
 	openControlData, errors := opencontrols.LoadFrom(openControlDir)
 	for _, err := range errors {
 		Expect(err).NotTo(HaveOccurred())
 	}
+
 	return openControlData
 }
 
@@ -34,22 +44,20 @@ func extractDiffReport(reporters []reporter.Reporter) string {
 var _ = Describe("Templater", func() {
 	Describe("TemplatizeSSP", func() {
 		It("fills in the Responsible Role fields", func() {
-			sspPath := filepath.Join("..", "fixtures", "FedRAMP_ac-2-1_v2.1.docx")
-			s, err := ssp.Load(sspPath)
-			Expect(err).NotTo(HaveOccurred())
-			defer s.Close()
+			doc := loadSSP("FedRAMP_ac-2-1_v2.1.docx")
+			defer doc.Close()
+			openControlData := loadOpenControlFixture()
 
-			openControlData := loadOpenControlData(filepath.Join("..", "fixtures", "opencontrols"))
-
-			err = TemplatizeSSP(s, openControlData)
+			err := TemplatizeSSP(doc, openControlData)
 
 			Expect(err).NotTo(HaveOccurred())
-			content := s.Content()
+			content := doc.Content()
 			Expect(content).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 	})
+
 	Describe("DiffSSP", func() {
-		It("should warn the user if the current SSP contains a responsible role that conflicts with the " +
+		It("should warn the user if the current SSP contains a responsible role that conflicts with the "+
 			"responsbile role in the YAML", func() {
 
 			By("Loading the SSP with the Responsible Role being 'OpenControl Role Placeholder' " +
@@ -61,7 +69,7 @@ var _ = Describe("Templater", func() {
 
 			By("Loading the data from the opencontrol workspace with the Responsible Role being " +
 				"'Amazon Elastic Compute Cloud: AWS Staff' for Control 'AC-2 (1)'")
-			openControlData := loadOpenControlData(filepath.Join("..", "fixtures", "opencontrols"))
+			openControlData := loadOpenControlFixture()
 
 			By("Calling 'diff' on the SSP")
 			diffInfo, err := DiffSSP(s, openControlData)
