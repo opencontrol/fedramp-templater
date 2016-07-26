@@ -9,15 +9,20 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func loadSSP(name string) *Document {
+	path := filepath.Join("..", "fixtures", name)
+	doc, err := Load(path)
+	Expect(err).NotTo(HaveOccurred())
+	return doc
+}
+
 var _ = Describe("SSP", func() {
 	Describe("Load", func() {
 		It("gets the content from the doc", func() {
-			path := filepath.Join("..", "fixtures", "FedRAMP_ac-2-1_v2.1.docx")
-			s, err := Load(path)
-			Expect(err).NotTo(HaveOccurred())
-			defer s.Close()
+			doc := loadSSP("FedRAMP_ac-2-1_v2.1.docx")
+			defer doc.Close()
 
-			Expect(s.Content()).To(ContainSubstring("Control Enhancement"))
+			Expect(doc.Content()).To(ContainSubstring("Control Enhancement"))
 		})
 
 		It("give an error when the doc isn't found", func() {
