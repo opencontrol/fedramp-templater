@@ -13,7 +13,7 @@ func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err erro
 		return
 	}
 	for _, table := range tables {
-		ct := control.Table{Root: table}
+		ct := control.SummaryTable{Root: table}
 		err = ct.Fill(openControlData)
 		if err != nil {
 			return err
