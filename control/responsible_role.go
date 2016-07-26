@@ -1,15 +1,16 @@
 package control
 
 import (
-	"github.com/jbowtie/gokogiri/xml"
 	"errors"
+	"fmt"
 	"regexp"
 	"strings"
-	"fmt"
+
+	"github.com/jbowtie/gokogiri/xml"
 )
 
 // findResponsibleRole looks for the Responsible Role cell in the control table.
-func findResponsibleRole(ct *Table) (*responsibleRole, error) {
+func findResponsibleRole(ct *SummaryTable) (*responsibleRole, error) {
 	nodes, err := ct.searchSubtree(".//w:tc[starts-with(normalize-space(.), 'Responsible Role')]")
 	if err != nil {
 		return nil, err
@@ -28,7 +29,7 @@ func findResponsibleRole(ct *Table) (*responsibleRole, error) {
 // responsibleRole is the container for the responsible role cell.
 type responsibleRole struct {
 	parentNode xml.Node
-	textNodes *[]xml.Node
+	textNodes  *[]xml.Node
 }
 
 // getContent returns the full string representation of the content of the cell itself.

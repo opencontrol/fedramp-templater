@@ -56,14 +56,14 @@ func openControlFixture() opencontrols.Data {
 	return data
 }
 
-var _ = Describe("Table", func() {
+var _ = Describe("SummaryTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
 			doc := docFixture("AC-2")
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 
-			ct := Table{Root: table}
+			ct := SummaryTable{Root: table}
 			openControlData := openControlFixture()
 			ct.Fill(openControlData)
 
@@ -75,7 +75,7 @@ var _ = Describe("Table", func() {
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 
-			ct := Table{Root: table}
+			ct := SummaryTable{Root: table}
 			openControlData := openControlFixture()
 			ct.Fill(openControlData)
 
@@ -88,7 +88,7 @@ var _ = Describe("Table", func() {
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 
-			ct := Table{Root: table}
+			ct := SummaryTable{Root: table}
 			openControlData := openControlFixture()
 			diff, err := ct.Diff(openControlData)
 
