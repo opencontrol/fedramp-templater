@@ -4,14 +4,26 @@ This is a command-line tool to take the [FedRAMP](http://www.fedramp.gov/) Syste
 
 ## Installation
 
-Requires [Go](https://golang.org/) 1.6+.
+Requires [Go](https://golang.org/) 1.6+. 
+
 
 1. [Install `gokogiri` dependencies.](https://github.com/moovweb/gokogiri/pull/95/files)
 1. Install the templater:
 
+    For Ubuntu/Debian:
     ```bash
+    sudo apt-get install libxml2-dev 
     go get github.com/opencontrol/fedramp-templater
     ```
+    
+    For OsX (assuming you have [HomeBrew installed](http://brew.sh/))
+    ```
+    brew install libxml2
+    go get github.com/moovweb/gokogiri
+    ```
+   
+    Note that installation issues are usually caused by the install of Gokogiri, and if you run into issues you may find some help at [this issue](https://github.com/moovweb/gokogiri/issues/14) and with the [update to the GokoGiri README](https://github.com/moovweb/gokogiri/pull/95)
+
 
 ## Usage
 
