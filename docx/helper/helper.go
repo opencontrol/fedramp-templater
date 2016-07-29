@@ -1,7 +1,6 @@
 package helper
 
 import (
-	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri"
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/doc-template/docx"

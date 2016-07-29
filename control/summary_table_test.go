@@ -5,9 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"text/template"
-	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
-	"github.com/jbowtie/gokogiri/xml"
 
+	"github.com/jbowtie/gokogiri/xml"
 	. "github.com/opencontrol/fedramp-templater/control"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
