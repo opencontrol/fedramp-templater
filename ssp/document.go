@@ -36,10 +36,16 @@ func Load(path string) (ssp *Document, err error) {
 	return
 }
 
-// SummaryTables returns the tables for the controls and the control enhancements.
+// SummaryTables returns the summary tables for the controls and the control enhancements.
 func (s *Document) SummaryTables() (tables []xml.Node, err error) {
 	// find the tables matching the provided headers, ignoring whitespace
 	return s.xmlDoc.Search(SummaryTablesXPath)
+}
+
+// NarrativeTables returns the narrative tables for the controls and the control enhancements.
+func (s *Document) NarrativeTables() (tables []xml.Node, err error) {
+	// find the tables matching the provided headers, ignoring whitespace
+	return s.xmlDoc.Search("//w:tbl[contains(normalize-space(.), 'What is the solution and how is it implemented?')]")
 }
 
 // Content retrieves the text from within the Word document.
