@@ -35,6 +35,13 @@ func docFixture(control string) *xml.XmlDocument {
 	return doc
 }
 
+func getTable(control string) xml.Node {
+	doc := docFixture(control)
+	tables, err := doc.Search("//w:tbl")
+	Expect(err).NotTo(HaveOccurred())
+	return tables[0]
+}
+
 func openControlFixturePath() string {
 	path := filepath.Join("..", "fixtures", "opencontrols")
 	path, err := filepath.Abs(path)
@@ -58,24 +65,20 @@ func openControlFixture() opencontrols.Data {
 var _ = Describe("SummaryTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
-			doc := docFixture("AC-2")
-			tables, _ := doc.Search("//w:tbl")
-			table := tables[0]
-
+			table := getTable("AC-2")
 			ct := SummaryTable{Root: table}
 			openControlData := openControlFixture()
+
 			ct.Fill(openControlData)
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 
 		It("fills in the Responsible Role for control enhancements", func() {
-			doc := docFixture("AC-2 (1)")
-			tables, _ := doc.Search("//w:tbl")
-			table := tables[0]
-
+			table := getTable("AC-2 (1)")
 			ct := SummaryTable{Root: table}
 			openControlData := openControlFixture()
+
 			ct.Fill(openControlData)
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
