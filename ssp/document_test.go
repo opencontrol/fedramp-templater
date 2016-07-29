@@ -42,4 +42,16 @@ var _ = Describe("SSP", func() {
 			Expect(len(tables)).To(Equal(10))
 		})
 	})
+
+	Describe("NarrativeTables", func() {
+		It("returns the tables", func() {
+			doc := loadSSP("FedRAMP_ac-2_v2.1.docx")
+			defer doc.Close()
+
+			tables, err := doc.NarrativeTables()
+
+			Expect(err).NotTo(HaveOccurred())
+			Expect(len(tables)).To(Equal(8))
+		})
+	})
 })
