@@ -1,10 +1,9 @@
 package ssp
 
 import (
+	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/doc-template/docx"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
-	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
-	"github.com/jbowtie/gokogiri/xml"
 )
 
 // Document represents a system security plan file and its contents.
