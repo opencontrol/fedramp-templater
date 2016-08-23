@@ -26,19 +26,6 @@ func (ct *Table) searchSubtree(xpath string) (nodes []xml.Node, err error) {
 	return ct.Root.Search(xpath)
 }
 
-func (ct *Table) responsibleRoleCell() (node xml.Node, err error) {
-	nodes, err := ct.searchSubtree(".//w:tc//w:t[contains(., 'Responsible Role')]")
-	if err != nil {
-		return
-	}
-	if len(nodes) != 1 {
-		err = errors.New("could not find Responsible Role cell")
-		return
-	}
-	node = nodes[0]
-	return
-}
-
 func (ct *Table) tableHeader() (content string, err error) {
 	nodes, err := ct.searchSubtree(".//w:tr")
 	if err != nil {
@@ -71,12 +58,12 @@ func (ct *Table) controlName() (name string, err error) {
 
 // Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
 func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
-	roleCell, err := ct.responsibleRoleCell()
+	roleCell, err := FindResponsibleRole(ct)
 	if err != nil {
 		return
 	}
 
-	existingContent := roleCell.Content()
+	existingContent := roleCell.GetContent()
 	control, err := ct.controlName()
 	if err != nil {
 		return
@@ -87,4 +74,22 @@ func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
 	roleCell.SetContent(content)
 
 	return
+}
+
+func (ct *Table) Diff(openControlData opencontrols.Data) string {
+	control, err := ct.controlName()
+	if err != nil {
+		return ""
+	}
+
+	roleCell, err := FindResponsibleRole(ct)
+	if err != nil {
+		return ""
+	}
+	roles := openControlData.GetResponsibleRoles(control)
+	value := roleCell.GetValue()
+	if roleCell.IsDefaultValue(value) || roles == value {
+		return ""
+	}
+	return fmt.Sprintf("Control: %s. Responsible Role in doc :\"%s\". Responsible Role in YAML \"%s\"\n", control, value, roles)
 }

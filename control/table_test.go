@@ -81,4 +81,29 @@ var _ = Describe("Table", func() {
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 	})
+	Describe("Diff", func() {
+		It("detects no diff when the value of responsible role is empty", func() {
+			doc := docFixture("AC-2")
+			tables, _ := doc.Search("//w:tbl")
+			table := tables[0]
+
+			ct := Table{Root: table}
+			openControlData := openControlFixture()
+			diff := ct.Diff(openControlData)
+
+			Expect(diff).To(Equal(""))
+		})
+		It("detects a diff when the value of responsible role is different from `Amazon Elastic Compute Cloud: AWS Staff`", func() {
+			Skip("will fix soon")
+			doc := docFixture("AC-2")
+			tables, _ := doc.Search("//w:tbl")
+			table := tables[0]
+
+			ct := Table{Root: table}
+			openControlData := openControlFixture()
+			diff := ct.Diff(openControlData)
+
+			Expect(diff).ToNot(Equal(""))
+		})
+	})
 })
