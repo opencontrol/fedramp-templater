@@ -89,9 +89,10 @@ var _ = Describe("Table", func() {
 
 			ct := Table{Root: table}
 			openControlData := openControlFixture()
-			diff := ct.Diff(openControlData)
+			diff, err := ct.Diff(openControlData)
 
-			Expect(diff).To(Equal(""))
+			Expect(diff).To(Equal([]string{}))
+			Expect(err).To(BeNil())
 		})
 		It("detects a diff when the value of responsible role is different from `Amazon Elastic Compute Cloud: AWS Staff`", func() {
 			Skip("will fix soon")
@@ -101,9 +102,10 @@ var _ = Describe("Table", func() {
 
 			ct := Table{Root: table}
 			openControlData := openControlFixture()
-			diff := ct.Diff(openControlData)
+			diff, err := ct.Diff(openControlData)
 
-			Expect(diff).ToNot(Equal(""))
+			Expect(diff).ToNot(Equal([]string{}))
+			Expect(err).To(BeNil())
 		})
 	})
 })
