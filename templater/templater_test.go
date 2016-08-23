@@ -34,11 +34,11 @@ var _ = Describe("Templater", func() {
 			Expect(content).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 	})
-	Describe("LintSSP", func() {
+	Describe("DiffSSP", func() {
 		It("should warn the user if the current SSP contains a responsible role that conflicts with the responsbile role in the YAML", func() {
 			By("Loading the SSP with the Responsible Role being 'X' for Control 'Y'")
 			By("Loading the data from the opencontrol workspace with the Responsible Role being 'Z' for Control 'Y'")
-			By("Calling the linter on the SSP, it should find the difference in responsible roles and report it.")
+			By("Calling 'diff' on the SSP, it should find the difference in responsible roles and report it.")
 		})
 	})
 })
