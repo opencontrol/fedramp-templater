@@ -25,6 +25,7 @@ func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err erro
 	return
 }
 
+// DiffSSP will find the differences between data in the SSP and the OpenControl data.
 func DiffSSP(s *ssp.Document, openControlData opencontrols.Data) ([]string, error){
 	var diffInfo []string
 	tables, err := s.SummaryTables()
