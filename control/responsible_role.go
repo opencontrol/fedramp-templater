@@ -24,21 +24,18 @@ func FindResponsibleRole(ct *Table) (*ResponsibleRole, error) {
 	if err != nil || len(childNodes) < 1 {
 		return nil, errors.New("Should not happen, cannot find text nodes.")
 	}
-	return &ResponsibleRole{textNodes: &childNodes}, nil
+	return &ResponsibleRole{parentNode: parentNode, textNodes: &childNodes}, nil
 }
 
 // ResponsibleRole is the container for the responsible role cell.
 type ResponsibleRole struct {
+	parentNode xml.Node
 	textNodes *[]xml.Node
 }
 
 // GetContent returns the full string representation of the content of the cell itself.
 func (r *ResponsibleRole) GetContent() string {
-	content := ""
-	for _, textNode := range *(r.textNodes) {
-		content = content + textNode.Content()
-	}
-	return content
+	return r.parentNode.Content()
 }
 
 // SetValue will set the value of the responsible role cell and do any needed formatting.
@@ -65,18 +62,16 @@ func (r *ResponsibleRole) IsDefaultValue(value string) bool {
 func (r *ResponsibleRole) GetValue() string {
 	re := regexp.MustCompile("Responsible Role:?")
 	result := ""
-	for _, node := range *(r.textNodes) {
-		// Get all the substrings
-		subStrings := re.Split(node.Content(), -1)
-		// Go through the substrings and find the first one that is not empty.
-		// (So far has always been the string at index 1)
-		for _, subString := range subStrings {
-			// If we find an non-empty string, return it.
-			trimmedString := strings.TrimSpace(subString)
-			if len(trimmedString) > 0 {
-				result = trimmedString
-				break
-			}
+	// Get all the substrings
+	subStrings := re.Split(r.parentNode.Content(), -1)
+	// Go through the substrings and find the first one that is not empty.
+	// (So far has always been the string at index 1)
+	for _, subString := range subStrings {
+		// If we find an non-empty string, return it.
+		trimmedString := strings.TrimSpace(subString)
+		if len(trimmedString) > 0 {
+			result = trimmedString
+			break
 		}
 	}
 	return result
