@@ -24,3 +24,20 @@ func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err erro
 
 	return
 }
+
+func DiffSSP(s *ssp.Document, openControlData opencontrols.Data) ([]string, error){
+	var diffInfo []string
+	tables, err := s.SummaryTables()
+	if err != nil {
+		return diffInfo, err
+	}
+	for _, table := range tables {
+		ct := control.Table{Root: table}
+		tableDiffInfo, err := ct.Diff(openControlData)
+		if err != nil {
+			return diffInfo, err
+		}
+		diffInfo = append(diffInfo, tableDiffInfo...)
+	}
+	return diffInfo, nil
+}

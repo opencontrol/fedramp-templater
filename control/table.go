@@ -63,21 +63,19 @@ func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
 		return
 	}
 
-	existingContent := roleCell.GetContent()
 	control, err := ct.controlName()
 	if err != nil {
 		return
 	}
 
 	roles := openControlData.GetResponsibleRoles(control)
-	content := fmt.Sprintf("%s %s", existingContent, roles)
-	roleCell.SetContent(content)
+	roleCell.SetValue(roles)
 
 	return
 }
 
-// DiffResponsibleRole computes the diff of the responsible role cell.
-func (ct *Table) DiffResponsibleRole(control string, openControlData opencontrols.Data) ([]string, error) {
+// diffResponsibleRole computes the diff of the responsible role cell.
+func (ct *Table) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]string, error) {
 	roleCell, err := FindResponsibleRole(ct)
 	if err != nil {
 		return []string{}, err
@@ -97,5 +95,5 @@ func (ct *Table) Diff(openControlData opencontrols.Data) ([]string, error) {
 	if err != nil {
 		return []string{}, err
 	}
-	return ct.DiffResponsibleRole(control, openControlData)
+	return ct.diffResponsibleRole(control, openControlData)
 }
