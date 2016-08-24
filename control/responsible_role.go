@@ -24,12 +24,11 @@ func FindResponsibleRole(ct *Table) (*ResponsibleRole, error) {
 	if err != nil || len(childNodes) < 1 {
 		return nil, errors.New("Should not happen, cannot find text nodes.")
 	}
-	return &ResponsibleRole{parentNode: nodes[0].Parent(), textNodes: &childNodes}, nil
+	return &ResponsibleRole{textNodes: &childNodes}, nil
 }
 
 // ResponsibleRole is the container for the responsible role cell.
 type ResponsibleRole struct {
-	parentNode xml.Node
 	textNodes *[]xml.Node
 }
 
