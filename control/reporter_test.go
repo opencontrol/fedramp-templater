@@ -25,7 +25,7 @@ var _ = Describe("Reporter", func() {
 			diff = NewDiff("control", "myfield", "sspValue", "yamlValue")
 			fakeConsole := createFakeStdOut()
 			diff.WriteTextTo(fakeConsole)
-			Expect(fakeConsole.String()).To(Equal("Control: control. myfield in SSP: \"sspValue\". myfield in YAML: \"yamlValue\"\n"))
+			Expect(fakeConsole.String()).To(Equal("Control: control. myfield in SSP: \"sspValue\". myfield in YAML: \"yamlValue\"."))
 		})
 	})
 })
