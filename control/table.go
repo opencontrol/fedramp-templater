@@ -2,13 +2,17 @@ package control
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 	"strings"
 
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
+	"github.com/opencontrol/fedramp-templater/reporter"
+)
+
+const (
+	responsibleRoleField = "Responsible Role"
 )
 
 // Table represents the node in the Word docx XML tree that corresponds to a security control.
@@ -75,25 +79,24 @@ func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
 }
 
 // diffResponsibleRole computes the diff of the responsible role cell.
-func (ct *Table) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]string, error) {
+func (ct *Table) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]reporter.Reporter, error) {
 	roleCell, err := FindResponsibleRole(ct)
 	if err != nil {
-		return []string{}, err
+		return []reporter.Reporter{}, err
 	}
-	roles := openControlData.GetResponsibleRoles(control)
-	value := roleCell.GetValue()
-	if roleCell.IsDefaultValue(value) || roles == value {
-		return []string{}, nil
+	yamlRoles := openControlData.GetResponsibleRoles(control)
+	sspRoles := roleCell.GetValue()
+	if roleCell.IsDefaultValue(sspRoles) || yamlRoles == sspRoles {
+		return []reporter.Reporter{}, nil
 	}
-	return []string{
-		fmt.Sprintf("Control: %s. Responsible Role in doc :\"%s\". Responsible Role in YAML \"%s\"\n", control, value, roles)}, nil
+	return []reporter.Reporter{NewDiff(control, responsibleRoleField, sspRoles, yamlRoles)}, nil
 }
 
 // Diff returns the list of diffs in the control table.
-func (ct *Table) Diff(openControlData opencontrols.Data) ([]string, error) {
+func (ct *Table) Diff(openControlData opencontrols.Data) ([]reporter.Reporter, error) {
 	control, err := ct.controlName()
 	if err != nil {
-		return []string{}, err
+		return []reporter.Reporter{}, err
 	}
 	return ct.diffResponsibleRole(control, openControlData)
 }

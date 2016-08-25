@@ -14,6 +14,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/opencontrol/fedramp-templater/reporter"
 )
 
 type tableData struct {
@@ -91,7 +92,7 @@ var _ = Describe("Table", func() {
 			openControlData := openControlFixture()
 			diff, err := ct.Diff(openControlData)
 
-			Expect(diff).To(Equal([]string{}))
+			Expect(diff).To(Equal([]reporter.Reporter{}))
 			Expect(err).To(BeNil())
 		})
 		It("detects a diff when the value of responsible role is different from `Amazon Elastic Compute Cloud: AWS Staff`", func() {
@@ -104,7 +105,7 @@ var _ = Describe("Table", func() {
 			openControlData := openControlFixture()
 			diff, err := ct.Diff(openControlData)
 
-			Expect(diff).ToNot(Equal([]string{}))
+			Expect(diff).ToNot(Equal([]reporter.Reporter{}))
 			Expect(err).To(BeNil())
 		})
 	})
