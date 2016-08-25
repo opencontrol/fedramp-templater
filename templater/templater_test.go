@@ -70,9 +70,9 @@ var _ = Describe("Templater", func() {
 			By("extracting the report, it should find the difference in responsible " +
 				"roles and return it.")
 			report := extractDiffReport(diffInfo)
-			Expect(report).To(ContainSubstring("Control: AC-2 (1). " +
+			Expect(report).To(Equal("Control: AC-2 (1). " +
 				"Responsible Role in SSP: \"OpenControl Role Placeholder\". " +
-				"Responsible Role in YAML: \"Amazon Elastic Compute Cloud: AWS Staff\"."))
+				"Responsible Role in YAML: \"Amazon Elastic Compute Cloud: AWS Staff\".\n"))
 		})
 	})
 })

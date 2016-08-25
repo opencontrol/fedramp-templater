@@ -26,7 +26,7 @@ func NewDiff(controlName, field, sspValue, yamlValue string) reporter.Reporter {
 
 // WriteTextTo writes diff information for a control to the writer in plain text format.
 func (r diffReporter) WriteTextTo(writer io.Writer) error {
-	_ , err := fmt.Fprintf(writer, "Control: %s. %s in SSP: \"%s\". %s in YAML: \"%s\".",
+	_ , err := fmt.Fprintf(writer, "Control: %s. %s in SSP: \"%s\". %s in YAML: \"%s\".\n",
 		r.controlName, r.field, r.sspValue, r.field, r.yamlValue)
 	return err
 }
