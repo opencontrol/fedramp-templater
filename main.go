@@ -8,7 +8,6 @@ import (
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/ssp"
 	"github.com/opencontrol/fedramp-templater/templater"
-	"flag"
 )
 
 type options struct {
@@ -19,29 +18,37 @@ type options struct {
 	fill bool
 }
 
+func printUsage() {
+	log.Fatal("Usage:\n\n" +
+		"\tfedramp-templater fill <openControlsDir> <inputDoc> <outputDoc>\n\n" +
+		"\tor\n\n" +
+		"\tfedramp-templater diff <openControlsDir> <inputDoc>")
+}
+
 func parseArgs() (opts options) {
-	flag.Usage = func() {
-		log.Fatal("Usage:\n\n" +
-			"\tfedramp-templater -fill <openControlsDir> <inputDoc> <outputDoc>\n\n" +
-			"\tor\n\n" +
-			"\tfedramp-templater -diff <openControlsDir> <inputDoc>")
+	if len(os.Args) < 4 || len(os.Args) > 5 {
+		printUsage()
 	}
-	diffPtr := flag.Bool("diff", false, "flag to indicate using diff.")
-	fillPtr := flag.Bool("fill", false, "flag to indicate using fill.")
-	flag.Parse()
-	if (*diffPtr && flag.NArg() == 2 && !*fillPtr) {
-		// diff command only has two args
-		opts.diff = *diffPtr
-		opts.openControlsDir = flag.Args()[0]
-		opts.inputPath = flag.Args()[1]
-	} else if (*fillPtr && flag.NArg() == 3 && !*diffPtr) {
-		// fill command only has two args
-		opts.fill = *fillPtr
-		opts.openControlsDir = flag.Args()[0]
-		opts.inputPath = flag.Args()[1]
-		opts.outputPath = flag.Args()[2]
+	switch (os.Args[1]) {
+	case "diff":
+		opts.diff = true
+	case "fill":
+		opts.fill = true
+	default:
+		log.Printf("Unknown command: %s\n", os.Args[1])
+		printUsage()
+	}
+	if (opts.diff && len(os.Args) == 4) {
+		// diff command only has four args
+		opts.openControlsDir = os.Args[2]
+		opts.inputPath = os.Args[3]
+	} else if (opts.fill && len(os.Args) == 5) {
+		// fill command only has five args
+		opts.openControlsDir = os.Args[2]
+		opts.inputPath = os.Args[3]
+		opts.outputPath = os.Args[4]
 	} else {
-		flag.Usage()
+		printUsage()
 	}
 	return
 }
