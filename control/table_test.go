@@ -95,18 +95,5 @@ var _ = Describe("Table", func() {
 			Expect(diff).To(Equal([]reporter.Reporter{}))
 			Expect(err).To(BeNil())
 		})
-		It("detects a diff when the value of responsible role is different from `Amazon Elastic Compute Cloud: AWS Staff`", func() {
-			Skip("will fix soon")
-			doc := docFixture("AC-2")
-			tables, _ := doc.Search("//w:tbl")
-			table := tables[0]
-
-			ct := Table{Root: table}
-			openControlData := openControlFixture()
-			diff, err := ct.Diff(openControlData)
-
-			Expect(diff).ToNot(Equal([]reporter.Reporter{}))
-			Expect(err).To(BeNil())
-		})
 	})
 })
