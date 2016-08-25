@@ -8,8 +8,8 @@ import (
 	"fmt"
 )
 
-// FindResponsibleRole looks for the Responsible Role cell in the control table.
-func FindResponsibleRole(ct *Table) (*ResponsibleRole, error) {
+// findResponsibleRole looks for the Responsible Role cell in the control table.
+func findResponsibleRole(ct *Table) (*responsibleRole, error) {
 	nodes, err := ct.searchSubtree(".//w:tc//w:t[contains(., 'Responsible Role')]")
 	if err != nil {
 		return nil, err
@@ -24,24 +24,24 @@ func FindResponsibleRole(ct *Table) (*ResponsibleRole, error) {
 	if err != nil || len(childNodes) < 1 {
 		return nil, errors.New("Should not happen, cannot find text nodes.")
 	}
-	return &ResponsibleRole{parentNode: parentNode, textNodes: &childNodes}, nil
+	return &responsibleRole{parentNode: parentNode, textNodes: &childNodes}, nil
 }
 
-// ResponsibleRole is the container for the responsible role cell.
-type ResponsibleRole struct {
+// responsibleRole is the container for the responsible role cell.
+type responsibleRole struct {
 	parentNode xml.Node
 	textNodes *[]xml.Node
 }
 
-// GetContent returns the full string representation of the content of the cell itself.
-func (r *ResponsibleRole) GetContent() string {
+// getContent returns the full string representation of the content of the cell itself.
+func (r *responsibleRole) getContent() string {
 	return r.parentNode.Content()
 }
 
-// SetValue will set the value of the responsible role cell and do any needed formatting.
+// setValue will set the value of the responsible role cell and do any needed formatting.
 // In this case, it will just place the text after "Responsible Role: "
 // If there are other nodes, we don't care about them, zero the content out.
-func (r *ResponsibleRole) SetValue(value string) {
+func (r *responsibleRole) setValue(value string) {
 	for idx, node := range *(r.textNodes) {
 		if idx == 0 {
 			node.SetContent(fmt.Sprintf("Responsible Role: %s", value))
@@ -51,15 +51,15 @@ func (r *ResponsibleRole) SetValue(value string) {
 	}
 }
 
-// IsDefaultValue contains the logic to detect if the input is a default value. This is looking at the extracted
+// isDefaultValue contains the logic to detect if the input is a default value. This is looking at the extracted
 // value of responsible role and not the full string representation.
-func (r *ResponsibleRole) IsDefaultValue(value string) bool {
+func (r *responsibleRole) isDefaultValue(value string) bool {
 	return value == ""
 }
 
-// GetValue extracts the unique value from the full string representation.
+// getValue extracts the unique value from the full string representation.
 // It looks at all the text after "Responsible Role:".
-func (r *ResponsibleRole) GetValue() string {
+func (r *responsibleRole) getValue() string {
 	re := regexp.MustCompile("Responsible Role:?")
 	result := ""
 	// Get all the substrings

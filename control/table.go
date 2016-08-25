@@ -62,7 +62,7 @@ func (ct *Table) controlName() (name string, err error) {
 
 // Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
 func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
-	roleCell, err := FindResponsibleRole(ct)
+	roleCell, err := findResponsibleRole(ct)
 	if err != nil {
 		return
 	}
@@ -73,20 +73,20 @@ func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
 	}
 
 	roles := openControlData.GetResponsibleRoles(control)
-	roleCell.SetValue(roles)
+	roleCell.setValue(roles)
 
 	return
 }
 
 // diffResponsibleRole computes the diff of the responsible role cell.
 func (ct *Table) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]reporter.Reporter, error) {
-	roleCell, err := FindResponsibleRole(ct)
+	roleCell, err := findResponsibleRole(ct)
 	if err != nil {
 		return []reporter.Reporter{}, err
 	}
 	yamlRoles := openControlData.GetResponsibleRoles(control)
-	sspRoles := roleCell.GetValue()
-	if roleCell.IsDefaultValue(sspRoles) || yamlRoles == sspRoles {
+	sspRoles := roleCell.getValue()
+	if roleCell.isDefaultValue(sspRoles) || yamlRoles == sspRoles {
 		return []reporter.Reporter{}, nil
 	}
 	return []reporter.Reporter{NewDiff(control, responsibleRoleField, sspRoles, yamlRoles)}, nil
