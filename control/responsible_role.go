@@ -10,7 +10,7 @@ import (
 
 // findResponsibleRole looks for the Responsible Role cell in the control table.
 func findResponsibleRole(ct *Table) (*responsibleRole, error) {
-	nodes, err := ct.searchSubtree(".//w:tc//w:t[contains(., 'Responsible Role')]")
+	nodes, err := ct.searchSubtree(".//w:tc[starts-with(normalize-space(.), 'Responsible Role')]")
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +19,7 @@ func findResponsibleRole(ct *Table) (*responsibleRole, error) {
 	}
 	// Not sure why we have to get the parent's parent, but we need to.
 	// If we only go up once, it won't find the other text nodes.
-	parentNode := nodes[0].Parent().Parent()
+	parentNode := nodes[0].Parent()
 	childNodes, err := parentNode.Search(".//w:t")
 	if err != nil || len(childNodes) < 1 {
 		return nil, errors.New("Should not happen, cannot find text nodes.")
