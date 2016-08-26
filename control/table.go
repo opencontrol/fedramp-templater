@@ -2,13 +2,17 @@ package control
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 	"strings"
 
 	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
+	"github.com/opencontrol/fedramp-templater/reporter"
+)
+
+const (
+	responsibleRoleField = "Responsible Role"
 )
 
 // Table represents the node in the Word docx XML tree that corresponds to a security control.
@@ -24,19 +28,6 @@ func (ct *Table) searchSubtree(xpath string) (nodes []xml.Node, err error) {
 	}
 
 	return ct.Root.Search(xpath)
-}
-
-func (ct *Table) responsibleRoleCell() (node xml.Node, err error) {
-	nodes, err := ct.searchSubtree(".//w:tc//w:t[contains(., 'Responsible Role')]")
-	if err != nil {
-		return
-	}
-	if len(nodes) != 1 {
-		err = errors.New("could not find Responsible Role cell")
-		return
-	}
-	node = nodes[0]
-	return
 }
 
 func (ct *Table) tableHeader() (content string, err error) {
@@ -71,20 +62,43 @@ func (ct *Table) controlName() (name string, err error) {
 
 // Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
 func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
-	roleCell, err := ct.responsibleRoleCell()
+	roleCell, err := findResponsibleRole(ct)
 	if err != nil {
 		return
 	}
 
-	existingContent := roleCell.Content()
 	control, err := ct.controlName()
 	if err != nil {
 		return
 	}
 
 	roles := openControlData.GetResponsibleRoles(control)
-	content := fmt.Sprintf("%s %s", existingContent, roles)
-	roleCell.SetContent(content)
+	roleCell.setValue(roles)
 
 	return
+}
+
+// diffResponsibleRole computes the diff of the responsible role cell.
+func (ct *Table) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]reporter.Reporter, error) {
+	roleCell, err := findResponsibleRole(ct)
+	if err != nil {
+		return []reporter.Reporter{}, err
+	}
+	yamlRoles := openControlData.GetResponsibleRoles(control)
+	sspRoles := roleCell.getValue()
+	if roleCell.isDefaultValue(sspRoles) || yamlRoles == sspRoles {
+		return []reporter.Reporter{}, nil
+	}
+	return []reporter.Reporter{
+		NewDiff(control, responsibleRoleField, sspRoles, yamlRoles),
+	}, nil
+}
+
+// Diff returns the list of diffs in the control table.
+func (ct *Table) Diff(openControlData opencontrols.Data) ([]reporter.Reporter, error) {
+	control, err := ct.controlName()
+	if err != nil {
+		return []reporter.Reporter{}, err
+	}
+	return ct.diffResponsibleRole(control, openControlData)
 }
