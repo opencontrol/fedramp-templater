@@ -89,7 +89,9 @@ func (ct *Table) diffResponsibleRole(control string, openControlData opencontrol
 	if roleCell.isDefaultValue(sspRoles) || yamlRoles == sspRoles {
 		return []reporter.Reporter{}, nil
 	}
-	return []reporter.Reporter{NewDiff(control, responsibleRoleField, sspRoles, yamlRoles)}, nil
+	return []reporter.Reporter{
+		NewDiff(control, responsibleRoleField, sspRoles, yamlRoles),
+	}, nil
 }
 
 // Diff returns the list of diffs in the control table.
