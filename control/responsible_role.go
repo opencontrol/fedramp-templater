@@ -17,9 +17,7 @@ func findResponsibleRole(ct *Table) (*responsibleRole, error) {
 	if len(nodes) != 1 {
 		return nil, errors.New("could not find Responsible Role cell")
 	}
-	// Not sure why we have to get the parent's parent, but we need to.
-	// If we only go up once, it won't find the other text nodes.
-	parentNode := nodes[0].Parent()
+	parentNode := nodes[0]
 	childNodes, err := parentNode.Search(".//w:t")
 	if err != nil || len(childNodes) < 1 {
 		return nil, errors.New("Should not happen, cannot find text nodes.")
