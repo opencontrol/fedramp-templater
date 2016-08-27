@@ -2,14 +2,12 @@ package control_test
 
 import (
 	"bytes"
-	"os"
-	"path/filepath"
 	"text/template"
 
 	"github.com/jbowtie/gokogiri/xml"
 	. "github.com/opencontrol/fedramp-templater/control"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
-	"github.com/opencontrol/fedramp-templater/opencontrols"
+	"github.com/opencontrol/fedramp-templater/fixtures"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -21,7 +19,7 @@ type tableData struct {
 }
 
 func docFixture(control string) *xml.XmlDocument {
-	path := filepath.Join("..", "fixtures", "simplified_table.xml")
+	path := fixtures.FixturePath("simplified_table.xml")
 	tpl, err := template.ParseFiles(path)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -42,32 +40,12 @@ func getTable(control string) xml.Node {
 	return tables[0]
 }
 
-func openControlFixturePath() string {
-	path := filepath.Join("..", "fixtures", "opencontrols")
-	path, err := filepath.Abs(path)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = os.Stat(path)
-	Expect(err).NotTo(HaveOccurred())
-
-	return path
-}
-
-func openControlFixture() opencontrols.Data {
-	path := openControlFixturePath()
-	data, errors := opencontrols.LoadFrom(path)
-	for _, err := range errors {
-		Expect(err).NotTo(HaveOccurred())
-	}
-
-	return data
-}
-
 var _ = Describe("SummaryTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
 			table := getTable("AC-2")
 			ct := SummaryTable{Root: table}
-			openControlData := openControlFixture()
+			openControlData := fixtures.LoadOpenControlFixture()
 
 			ct.Fill(openControlData)
 
@@ -77,13 +55,14 @@ var _ = Describe("SummaryTable", func() {
 		It("fills in the Responsible Role for control enhancements", func() {
 			table := getTable("AC-2 (1)")
 			ct := SummaryTable{Root: table}
-			openControlData := openControlFixture()
+			openControlData := fixtures.LoadOpenControlFixture()
 
 			ct.Fill(openControlData)
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 	})
+
 	Describe("Diff", func() {
 		It("detects no diff when the value of responsible role is empty", func() {
 			doc := docFixture("AC-2")
@@ -91,7 +70,7 @@ var _ = Describe("SummaryTable", func() {
 			table := tables[0]
 
 			ct := SummaryTable{Root: table}
-			openControlData := openControlFixture()
+			openControlData := fixtures.LoadOpenControlFixture()
 			diff, err := ct.Diff(openControlData)
 
 			Expect(diff).To(Equal([]reporter.Reporter{}))

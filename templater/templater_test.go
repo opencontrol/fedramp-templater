@@ -2,36 +2,14 @@ package templater_test
 
 import (
 	"bytes"
-	"path/filepath"
 
-	"github.com/opencontrol/fedramp-templater/opencontrols"
-	"github.com/opencontrol/fedramp-templater/ssp"
+	"github.com/opencontrol/fedramp-templater/fixtures"
 	. "github.com/opencontrol/fedramp-templater/templater"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/opencontrol/fedramp-templater/reporter"
 )
-
-func loadSSP(name string) *ssp.Document {
-	sspPath := filepath.Join("..", "fixtures", name)
-	doc, err := ssp.Load(sspPath)
-	Expect(err).NotTo(HaveOccurred())
-
-	return doc
-}
-
-func loadOpenControlFixture() opencontrols.Data {
-	openControlDir := filepath.Join("..", "fixtures", "opencontrols")
-	openControlDir, err := filepath.Abs(openControlDir)
-	Expect(err).NotTo(HaveOccurred())
-	openControlData, errors := opencontrols.LoadFrom(openControlDir)
-	for _, err := range errors {
-		Expect(err).NotTo(HaveOccurred())
-	}
-
-	return openControlData
-}
 
 func extractDiffReport(reporters []reporter.Reporter) string {
 	report := &bytes.Buffer{}
@@ -44,9 +22,9 @@ func extractDiffReport(reporters []reporter.Reporter) string {
 var _ = Describe("Templater", func() {
 	Describe("TemplatizeSSP", func() {
 		It("fills in the Responsible Role fields", func() {
-			doc := loadSSP("FedRAMP_ac-2-1_v2.1.docx")
+			doc := fixtures.LoadSSP("FedRAMP_ac-2-1_v2.1.docx")
 			defer doc.Close()
-			openControlData := loadOpenControlFixture()
+			openControlData := fixtures.LoadOpenControlFixture()
 
 			err := TemplatizeSSP(doc, openControlData)
 
@@ -62,14 +40,12 @@ var _ = Describe("Templater", func() {
 
 			By("Loading the SSP with the Responsible Role being 'OpenControl Role Placeholder' " +
 				"for Control 'AC-2 (1)'")
-			sspPath := filepath.Join("..", "fixtures", "FedRAMP_ac-2-1_v2.1.docx")
-			s, err := ssp.Load(sspPath)
-			Expect(err).NotTo(HaveOccurred())
+			s := fixtures.LoadSSP("FedRAMP_ac-2-1_v2.1.docx")
 			defer s.Close()
 
 			By("Loading the data from the opencontrol workspace with the Responsible Role being " +
 				"'Amazon Elastic Compute Cloud: AWS Staff' for Control 'AC-2 (1)'")
-			openControlData := loadOpenControlFixture()
+			openControlData := fixtures.LoadOpenControlFixture()
 
 			By("Calling 'diff' on the SSP")
 			diffInfo, err := DiffSSP(s, openControlData)
