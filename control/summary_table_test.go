@@ -11,6 +11,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/opencontrol/fedramp-templater/reporter"
 )
 
 type tableData struct {
@@ -59,6 +60,21 @@ var _ = Describe("SummaryTable", func() {
 			ct.Fill(openControlData)
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
+		})
+	})
+
+	Describe("Diff", func() {
+		It("detects no diff when the value of responsible role is empty", func() {
+			doc := docFixture("AC-2")
+			tables, _ := doc.Search("//w:tbl")
+			table := tables[0]
+
+			ct := SummaryTable{Root: table}
+			openControlData := fixtures.LoadOpenControlFixture()
+			diff, err := ct.Diff(openControlData)
+
+			Expect(diff).To(Equal([]reporter.Reporter{}))
+			Expect(err).To(BeNil())
 		})
 	})
 })
