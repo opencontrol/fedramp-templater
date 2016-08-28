@@ -1,15 +1,40 @@
 package control
 
 import (
+	"errors"
+	"regexp"
+
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
 
-func fillRow(row xml.Node, data opencontrols.Data, control string, section string) {
-	// equivalent XPath: `./w:tc[last()]/w:p[1]`
-	textField := row.LastChild().FirstChild()
+func findSectionKey(row xml.Node) (section string, err error) {
+	re := regexp.MustCompile(`Part ([a-z])`)
+	subMatches := re.FindSubmatch([]byte(row.Content()))
+	if len(subMatches) != 2 {
+		err = errors.New("No Parts found.")
+		return
+	}
+	section = string(subMatches[1])
+	return
+}
+
+func fillRow(row xml.Node, data opencontrols.Data, control string, section string) (err error) {
+	paragraphNodes, err := row.Search(`./w:tc[last()]/w:p[1]`)
+	if err != nil {
+		return
+	}
+	paragraphNode := paragraphNodes[0]
+
+	err = paragraphNode.SetChildren(`<w:r><w:t></w:t></w:r>`)
+	if err != nil {
+		return
+	}
+	textCell := paragraphNode.FirstChild().FirstChild()
+
 	narrative := data.GetNarrative(control, section)
-	textField.SetContent(narrative)
+	textCell.SetContent(narrative)
+	return
 }
 
 type NarrativeTable struct {
@@ -44,9 +69,15 @@ func (t *NarrativeTable) Fill(openControlData opencontrols.Data) (err error) {
 	} else {
 		// multiple parts
 		for _, row := range rows {
-			// TODO remove hard-coding
-			sectionKey := "b"
-			fillRow(row, openControlData, control, sectionKey)
+			sectionKey, err := findSectionKey(row)
+			if err != nil {
+				return err
+			}
+
+			err = fillRow(row, openControlData, control, sectionKey)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
