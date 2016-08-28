@@ -1,47 +1,14 @@
 package control
 
 import (
-	"errors"
-	"regexp"
-
 	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/fedramp-templater/docx/helper"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
 
-func findSectionKey(row xml.Node) (section string, err error) {
-	re := regexp.MustCompile(`Part ([a-z])`)
-	subMatches := re.FindSubmatch([]byte(row.Content()))
-	if len(subMatches) != 2 {
-		err = errors.New("No Parts found.")
-		return
-	}
-	section = string(subMatches[1])
-	return
-}
-
-func fillRow(row xml.Node, data opencontrols.Data, control string, section string) (err error) {
-	// the row should have one or two cells; either way, the last one is what should be filled
-	cellNodes, err := row.Search(`./w:tc[last()]`)
-	if err != nil {
-		return
-	}
-	cellNode := cellNodes[0]
-
-	narrative := data.GetNarrative(control, section)
-	helper.FillCell(cellNode, narrative)
-
-	return
-}
-
 func fillRows(rows []xml.Node, data opencontrols.Data, control string) error {
 	for _, row := range rows {
-		sectionKey, err := findSectionKey(row)
-		if err != nil {
-			return err
-		}
-
-		err = fillRow(row, data, control, sectionKey)
+		section := narrativeSection{row}
+		err := section.Fill(data, control)
 		if err != nil {
 			return err
 		}
@@ -78,14 +45,6 @@ func (t *NarrativeTable) Fill(openControlData opencontrols.Data) (err error) {
 		return
 	}
 
-	if len(rows) == 1 {
-		// singular narrative
-		row := rows[0]
-		fillRow(row, openControlData, control, "")
-	} else {
-		// multiple parts
-		fillRows(rows, openControlData, control)
-	}
-
+	fillRows(rows, openControlData, control)
 	return
 }
