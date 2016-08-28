@@ -5,6 +5,7 @@ import (
 	"regexp"
 
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/docx/helper"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
 
@@ -20,21 +21,32 @@ func findSectionKey(row xml.Node) (section string, err error) {
 }
 
 func fillRow(row xml.Node, data opencontrols.Data, control string, section string) (err error) {
+	// the row should have one or two cells; either way, the last one is what should be filled
 	paragraphNodes, err := row.Search(`./w:tc[last()]/w:p[1]`)
 	if err != nil {
 		return
 	}
 	paragraphNode := paragraphNodes[0]
 
-	err = paragraphNode.SetChildren(`<w:r><w:t></w:t></w:r>`)
-	if err != nil {
-		return
-	}
-	textCell := paragraphNode.FirstChild().FirstChild()
-
 	narrative := data.GetNarrative(control, section)
-	textCell.SetContent(narrative)
+	helper.FillParagraph(paragraphNode, narrative)
+
 	return
+}
+
+func fillRows(rows []xml.Node, data opencontrols.Data, control string) error {
+	for _, row := range rows {
+		sectionKey, err := findSectionKey(row)
+		if err != nil {
+			return err
+		}
+
+		err = fillRow(row, data, control, sectionKey)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 type NarrativeTable struct {
@@ -68,17 +80,7 @@ func (t *NarrativeTable) Fill(openControlData opencontrols.Data) (err error) {
 		fillRow(row, openControlData, control, "")
 	} else {
 		// multiple parts
-		for _, row := range rows {
-			sectionKey, err := findSectionKey(row)
-			if err != nil {
-				return err
-			}
-
-			err = fillRow(row, openControlData, control, sectionKey)
-			if err != nil {
-				return err
-			}
-		}
+		fillRows(rows, openControlData, control)
 	}
 
 	return
