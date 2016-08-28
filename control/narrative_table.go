@@ -1,8 +1,6 @@
 package control
 
 import (
-	"fmt"
-
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
@@ -26,13 +24,39 @@ func (t *NarrativeTable) Fill(openControlData opencontrols.Data) (err error) {
 	if err != nil {
 		return
 	}
-	// TODO remove hard-coding
-	sectionKey := "b"
 
-	narrative := openControlData.GetNarrative(control, sectionKey)
-	fmt.Println(narrative)
+	rows, err := t.SectionRows()
+	if err != nil {
+		return
+	}
 
-	// TODO fill it in
+	if len(rows) == 1 {
+		// singular narrative
+		row := rows[0]
+		textFields, err := row.Search(`(./w:tc/w:p)[1]`)
+		if err != nil {
+			return err
+		}
+		textField := textFields[0]
+
+		narrative := openControlData.GetNarrative(control, "")
+		textField.SetContent(narrative)
+	} else {
+		// multiple parts
+		for _, row := range rows {
+			// TODO remove hard-coding
+			sectionKey := "b"
+
+			textFields, err := row.Search(`./w:tc[position() = 1]/w:p`)
+			if err != nil {
+				return err
+			}
+			textField := textFields[0]
+
+			narrative := openControlData.GetNarrative(control, sectionKey)
+			textField.SetContent(narrative)
+		}
+	}
 
 	return
 }
