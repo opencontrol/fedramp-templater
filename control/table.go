@@ -3,23 +3,17 @@ package control
 import (
 	"errors"
 	"regexp"
-	"strings"
 
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
 type table struct {
 	Root xml.Node
 }
 
-func (t *table) searchSubtree(xpath string) (nodes []xml.Node, err error) {
-	// http://stackoverflow.com/a/25387687/358804
-	if !strings.HasPrefix(xpath, ".") {
-		err = errors.New("XPath must have leading period (`.`) to only search the subtree")
-		return
-	}
-
-	return t.Root.Search(xpath)
+func (t *table) searchSubtree(xpath string) ([]xml.Node, error) {
+	return helper.SearchSubtree(t.Root, xpath)
 }
 
 func (t *table) tableHeader() (content string, err error) {
