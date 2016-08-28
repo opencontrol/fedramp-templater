@@ -26,6 +26,7 @@ func GenerateXML(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 	return ParseXML(bytes)
 }
 
+// FillParagraph inserts the given content into the provided docx XML paragraph node.
 func FillParagraph(paragraph xml.Node, content string) (err error) {
 	// this seems to be the easiest way to create child notes
 	err = paragraph.SetChildren(`<w:r><w:t></w:t></w:r>`)

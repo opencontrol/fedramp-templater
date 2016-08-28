@@ -1,6 +1,7 @@
 package ssp
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/jbowtie/gokogiri/xml"
@@ -49,21 +50,26 @@ func (s *Document) findNarrativeTables(control string) ([]xml.Node, error) {
 	// find the tables matching the provided headers, ignoring whitespace
 	xpath := fmt.Sprintf("//w:tbl[contains(normalize-space(.), '%s What is the solution and how is it implemented?')]", control)
 	return s.xmlDoc.Search(xpath)
-	// TODO return NarrativeTables
 }
 
-// NarrativeTables returns the narrative tables for the controls and the control enhancements.
+// NarrativeTables returns the narrative tables for all controls and the control enhancements.
 func (s *Document) NarrativeTables() ([]xml.Node, error) {
 	return s.findNarrativeTables("")
 }
 
-// NarrativeTables returns the narrative tables for the specified control or control enhancement.
+// NarrativeTable returns the narrative table for the specified control or control enhancement.
 func (s *Document) NarrativeTable(control string) (table xml.Node, err error) {
 	tables, err := s.findNarrativeTables(control)
 	if err != nil {
 		return
 	}
-	// TODO return error if there is more than one
+	if len(tables) == 0 {
+		err = errors.New("No narrative tables found.")
+		return
+	} else if len(tables) > 1 {
+		err = errors.New("Too many narrative tables were matched.")
+		return
+	}
 	table = tables[0]
 	return
 }
