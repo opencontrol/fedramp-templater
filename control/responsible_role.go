@@ -10,8 +10,8 @@ import (
 )
 
 // findResponsibleRole looks for the Responsible Role cell in the control table.
-func findResponsibleRole(st *SummaryTable) (*responsibleRole, error) {
-	nodes, err := st.tbl.searchSubtree(".//w:tc[starts-with(normalize-space(.), 'Responsible Role')]")
+func findResponsibleRole(ct *SummaryTable) (*responsibleRole, error) {
+	nodes, err := ct.table.searchSubtree(".//w:tc[starts-with(normalize-space(.), 'Responsible Role')]")
 	if err != nil {
 		return nil, err
 	}
