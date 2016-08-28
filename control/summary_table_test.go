@@ -44,7 +44,7 @@ var _ = Describe("SummaryTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
 			table := getTable("AC-2")
-			ct := SummaryTable{Root: table}
+			ct := NewSummaryTable(table)
 			openControlData := fixtures.LoadOpenControlFixture()
 
 			ct.Fill(openControlData)
@@ -54,7 +54,7 @@ var _ = Describe("SummaryTable", func() {
 
 		It("fills in the Responsible Role for control enhancements", func() {
 			table := getTable("AC-2 (1)")
-			ct := SummaryTable{Root: table}
+			ct := NewSummaryTable(table)
 			openControlData := fixtures.LoadOpenControlFixture()
 
 			ct.Fill(openControlData)
@@ -69,7 +69,7 @@ var _ = Describe("SummaryTable", func() {
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 
-			ct := SummaryTable{Root: table}
+			ct := NewSummaryTable(table)
 			openControlData := fixtures.LoadOpenControlFixture()
 			diff, err := ct.Diff(openControlData)
 

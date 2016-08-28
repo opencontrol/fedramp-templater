@@ -14,7 +14,7 @@ func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err erro
 		return
 	}
 	for _, table := range tables {
-		ct := control.SummaryTable{Root: table}
+		ct := control.NewSummaryTable(table)
 		err = ct.Fill(openControlData)
 		if err != nil {
 			return err
@@ -34,7 +34,7 @@ func DiffSSP(s *ssp.Document, openControlData opencontrols.Data) ([]reporter.Rep
 		return diffInfo, err
 	}
 	for _, table := range tables {
-		ct := control.SummaryTable{Root: table}
+		ct := control.NewSummaryTable(table)
 		tableDiffInfo, err := ct.Diff(openControlData)
 		if err != nil {
 			return diffInfo, err
