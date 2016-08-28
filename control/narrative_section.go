@@ -5,8 +5,9 @@ import (
 	"regexp"
 
 	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/fedramp-templater/docx/helper"
+	docxHelper "github.com/opencontrol/fedramp-templater/docx/helper"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
+	xmlHelper "github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
 type narrativeSection struct {
@@ -27,7 +28,7 @@ func (n narrativeSection) parsePart() (key string, err error) {
 
 // GetKey returns the narrative section "part"/key. `key` will be an empty string if there is no "Part".
 func (n narrativeSection) GetKey() (key string, err error) {
-	cells, err := n.row.Search(`./w:tc`)
+	cells, err := xmlHelper.SearchSubtree(n.row, `./w:tc`)
 	numCells := len(cells)
 	if numCells == 1 {
 		// there is only a single narrative section
@@ -47,11 +48,10 @@ func (n narrativeSection) GetKey() (key string, err error) {
 // Fill populates the section/part with the narrative for this control part from the provided data.
 func (n narrativeSection) Fill(data opencontrols.Data, control string) (err error) {
 	// the row should have one or two cells; either way, the last one is what should be filled
-	cellNodes, err := n.row.Search(`./w:tc[last()]`)
+	cellNode, err := xmlHelper.SearchOne(n.row, `./w:tc[last()]`)
 	if err != nil {
 		return
 	}
-	cellNode := cellNodes[0]
 
 	key, err := n.GetKey()
 	if err != nil {
@@ -59,7 +59,7 @@ func (n narrativeSection) Fill(data opencontrols.Data, control string) (err erro
 	}
 
 	narrative := data.GetNarrative(control, key)
-	helper.FillCell(cellNode, narrative)
+	docxHelper.FillCell(cellNode, narrative)
 
 	return
 }

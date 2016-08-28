@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
 // findResponsibleRole looks for the Responsible Role cell in the control table.
@@ -19,7 +20,7 @@ func findResponsibleRole(ct *SummaryTable) (*responsibleRole, error) {
 		return nil, errors.New("could not find Responsible Role cell")
 	}
 	parentNode := nodes[0]
-	childNodes, err := parentNode.Search(".//w:t")
+	childNodes, err := helper.SearchSubtree(parentNode, `.//w:t`)
 	if err != nil || len(childNodes) < 1 {
 		return nil, errors.New("Should not happen, cannot find text nodes.")
 	}
