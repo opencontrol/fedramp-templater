@@ -5,6 +5,13 @@ import (
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
 
+func fillRow(row xml.Node, data opencontrols.Data, control string, section string) {
+	// equivalent XPath: `./w:tc[last()]/w:p[1]`
+	textField := row.LastChild().FirstChild()
+	narrative := data.GetNarrative(control, section)
+	textField.SetContent(narrative)
+}
+
 type NarrativeTable struct {
 	tbl table
 }
@@ -33,28 +40,13 @@ func (t *NarrativeTable) Fill(openControlData opencontrols.Data) (err error) {
 	if len(rows) == 1 {
 		// singular narrative
 		row := rows[0]
-		textFields, err := row.Search(`(./w:tc/w:p)[1]`)
-		if err != nil {
-			return err
-		}
-		textField := textFields[0]
-
-		narrative := openControlData.GetNarrative(control, "")
-		textField.SetContent(narrative)
+		fillRow(row, openControlData, control, "")
 	} else {
 		// multiple parts
 		for _, row := range rows {
 			// TODO remove hard-coding
 			sectionKey := "b"
-
-			textFields, err := row.Search(`./w:tc[position() = 1]/w:p`)
-			if err != nil {
-				return err
-			}
-			textField := textFields[0]
-
-			narrative := openControlData.GetNarrative(control, sectionKey)
-			textField.SetContent(narrative)
+			fillRow(row, openControlData, control, sectionKey)
 		}
 	}
 
