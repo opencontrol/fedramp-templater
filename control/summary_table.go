@@ -10,11 +10,12 @@ const (
 	responsibleRoleField = "Responsible Role"
 )
 
-// SummaryTable represents the node in the Word docx XML tree that corresponds to a security control.
+// SummaryTable represents the node in the Word docx XML tree that corresponds to the summary information for a security control.
 type SummaryTable struct {
 	tbl table
 }
 
+// NewSummaryTable creates a SummaryTable instance.
 func NewSummaryTable(root xml.Node) SummaryTable {
 	tbl := table{Root: root}
 	return SummaryTable{tbl}
