@@ -49,6 +49,14 @@ with this waiver of copyright interest.
 glide get --strip-vcs --strip-vendor <package>
 ```
 
+## Inspecting Word docx XML
+
+Only tested on Mac.
+
+```bash
+./scripts/preview-doc <path/to/word.docx>
+```
+
 ## Resources
 
 ### Tools

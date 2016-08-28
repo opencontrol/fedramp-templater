@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+CMD=$0
+INPUT=$1
+
+if [ "$INPUT" == "" ]; then
+  echo -e "Usage:\n\n\t\$ $CMD <path/to/word.docx>\n"
+  exit 1
+fi
+
+OUTPUT_DIR=$(mktemp -d)
+unzip -q "$1" -d "$OUTPUT_DIR"
+xmllint --format "$OUTPUT_DIR/word/document.xml" | less
