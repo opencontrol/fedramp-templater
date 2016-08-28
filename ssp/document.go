@@ -7,6 +7,9 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 )
 
+// SummaryTablesXPath is the pattern used to find summary tables within an SSP's XML.
+const SummaryTablesXPath = "//w:tbl[contains(normalize-space(.), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]"
+
 // Document represents a system security plan file and its contents.
 type Document struct {
 	wordDoc *docx.Docx
@@ -37,7 +40,7 @@ func Load(path string) (ssp *Document, err error) {
 // SummaryTables returns the tables for the controls and the control enhancements.
 func (s *Document) SummaryTables() (tables []xml.Node, err error) {
 	// find the tables matching the provided headers, ignoring whitespace
-	return s.xmlDoc.Search("//w:tbl[contains(normalize-space(.), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]")
+	return s.xmlDoc.Search(SummaryTablesXPath)
 }
 
 // Content retrieves the text from within the Word document.

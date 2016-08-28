@@ -11,6 +11,7 @@ import (
 	. "github.com/opencontrol/fedramp-templater/control"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
+	"github.com/opencontrol/fedramp-templater/ssp"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -38,7 +39,8 @@ func docFixture(control string) *xml.XmlDocument {
 
 func getTable(control string) xml.Node {
 	doc := docFixture(control)
-	tables, err := doc.Search("//w:tbl")
+	// replicate what ssp.Document's SummaryTables() method is doing, except that this source isn't a full Word doc
+	tables, err := doc.Search(ssp.SummaryTablesXPath)
 	Expect(err).NotTo(HaveOccurred())
 	return tables[0]
 }
@@ -85,14 +87,13 @@ var _ = Describe("SummaryTable", func() {
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 	})
+
 	Describe("Diff", func() {
 		It("detects no diff when the value of responsible role is empty", func() {
-			doc := docFixture("AC-2")
-			tables, _ := doc.Search("//w:tbl")
-			table := tables[0]
-
+			table := getTable("AC-2")
 			st := SummaryTable{Root: table}
 			openControlData := openControlFixture()
+
 			diff, err := st.Diff(openControlData)
 
 			Expect(diff).To(Equal([]reporter.Reporter{}))
