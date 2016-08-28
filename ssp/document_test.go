@@ -37,7 +37,7 @@ var _ = Describe("SSP", func() {
 
 	Describe("NarrativeTables", func() {
 		It("returns the tables", func() {
-			doc := loadSSP("FedRAMP_ac-2_v2.1.docx")
+			doc := fixtures.LoadSSP("FedRAMP_ac-2_v2.1.docx")
 			defer doc.Close()
 
 			tables, err := doc.NarrativeTables()
