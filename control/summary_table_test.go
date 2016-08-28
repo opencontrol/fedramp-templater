@@ -46,7 +46,7 @@ var _ = Describe("SummaryTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
 			table := getTable("AC-2")
-			st := SummaryTable{Root: table}
+			st := NewSummaryTable(table)
 			openControlData := fixtures.LoadOpenControlFixture()
 
 			st.Fill(openControlData)
@@ -56,7 +56,7 @@ var _ = Describe("SummaryTable", func() {
 
 		It("fills in the Responsible Role for control enhancements", func() {
 			table := getTable("AC-2 (1)")
-			st := SummaryTable{Root: table}
+			st := NewSummaryTable(table)
 			openControlData := fixtures.LoadOpenControlFixture()
 
 			st.Fill(openControlData)
@@ -68,7 +68,7 @@ var _ = Describe("SummaryTable", func() {
 	Describe("Diff", func() {
 		It("detects no diff when the value of responsible role is empty", func() {
 			table := getTable("AC-2")
-			st := SummaryTable{Root: table}
+			st := NewSummaryTable(table)
 			openControlData := fixtures.LoadOpenControlFixture()
 			diff, err := st.Diff(openControlData)
 
