@@ -67,20 +67,20 @@ var _ = Describe("SummaryTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
 			table := getTable("AC-2")
-			ct := SummaryTable{Root: table}
+			st := SummaryTable{Root: table}
 			openControlData := openControlFixture()
 
-			ct.Fill(openControlData)
+			st.Fill(openControlData)
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
 
 		It("fills in the Responsible Role for control enhancements", func() {
 			table := getTable("AC-2 (1)")
-			ct := SummaryTable{Root: table}
+			st := SummaryTable{Root: table}
 			openControlData := openControlFixture()
 
-			ct.Fill(openControlData)
+			st.Fill(openControlData)
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
@@ -91,9 +91,9 @@ var _ = Describe("SummaryTable", func() {
 			tables, _ := doc.Search("//w:tbl")
 			table := tables[0]
 
-			ct := SummaryTable{Root: table}
+			st := SummaryTable{Root: table}
 			openControlData := openControlFixture()
-			diff, err := ct.Diff(openControlData)
+			diff, err := st.Diff(openControlData)
 
 			Expect(diff).To(Equal([]reporter.Reporter{}))
 			Expect(err).To(BeNil())

@@ -20,18 +20,18 @@ type SummaryTable struct {
 	Root xml.Node
 }
 
-func (ct *SummaryTable) searchSubtree(xpath string) (nodes []xml.Node, err error) {
+func (st *SummaryTable) searchSubtree(xpath string) (nodes []xml.Node, err error) {
 	// http://stackoverflow.com/a/25387687/358804
 	if !strings.HasPrefix(xpath, ".") {
 		err = errors.New("XPath must have leading period (`.`) to only search the subtree")
 		return
 	}
 
-	return ct.Root.Search(xpath)
+	return st.Root.Search(xpath)
 }
 
-func (ct *SummaryTable) tableHeader() (content string, err error) {
-	nodes, err := ct.searchSubtree(".//w:tr")
+func (st *SummaryTable) tableHeader() (content string, err error) {
+	nodes, err := st.searchSubtree(".//w:tr")
 	if err != nil {
 		return
 	}
@@ -45,8 +45,8 @@ func (ct *SummaryTable) tableHeader() (content string, err error) {
 	return
 }
 
-func (ct *SummaryTable) controlName() (name string, err error) {
-	content, err := ct.tableHeader()
+func (st *SummaryTable) controlName() (name string, err error) {
+	content, err := st.tableHeader()
 	if err != nil {
 		return
 	}
@@ -61,13 +61,13 @@ func (ct *SummaryTable) controlName() (name string, err error) {
 }
 
 // Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
-func (ct *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
-	roleCell, err := findResponsibleRole(ct)
+func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
+	roleCell, err := findResponsibleRole(st)
 	if err != nil {
 		return
 	}
 
-	control, err := ct.controlName()
+	control, err := st.controlName()
 	if err != nil {
 		return
 	}
@@ -79,8 +79,8 @@ func (ct *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 }
 
 // diffResponsibleRole computes the diff of the responsible role cell.
-func (ct *SummaryTable) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]reporter.Reporter, error) {
-	roleCell, err := findResponsibleRole(ct)
+func (st *SummaryTable) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]reporter.Reporter, error) {
+	roleCell, err := findResponsibleRole(st)
 	if err != nil {
 		return []reporter.Reporter{}, err
 	}
@@ -95,10 +95,10 @@ func (ct *SummaryTable) diffResponsibleRole(control string, openControlData open
 }
 
 // Diff returns the list of diffs in the control table.
-func (ct *SummaryTable) Diff(openControlData opencontrols.Data) ([]reporter.Reporter, error) {
-	control, err := ct.controlName()
+func (st *SummaryTable) Diff(openControlData opencontrols.Data) ([]reporter.Reporter, error) {
+	control, err := st.controlName()
 	if err != nil {
 		return []reporter.Reporter{}, err
 	}
-	return ct.diffResponsibleRole(control, openControlData)
+	return st.diffResponsibleRole(control, openControlData)
 }
