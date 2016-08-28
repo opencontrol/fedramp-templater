@@ -22,14 +22,14 @@ func findSectionKey(row xml.Node) (section string, err error) {
 
 func fillRow(row xml.Node, data opencontrols.Data, control string, section string) (err error) {
 	// the row should have one or two cells; either way, the last one is what should be filled
-	paragraphNodes, err := row.Search(`./w:tc[last()]/w:p[1]`)
+	cellNodes, err := row.Search(`./w:tc[last()]`)
 	if err != nil {
 		return
 	}
-	paragraphNode := paragraphNodes[0]
+	cellNode := cellNodes[0]
 
 	narrative := data.GetNarrative(control, section)
-	helper.FillParagraph(paragraphNode, narrative)
+	helper.FillCell(cellNode, narrative)
 
 	return
 }
