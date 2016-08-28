@@ -25,3 +25,15 @@ func GenerateXML(wordDoc *docx.Docx) (xmlDoc *xml.XmlDocument, err error) {
 	bytes := []byte(content)
 	return ParseXML(bytes)
 }
+
+func FillParagraph(paragraph xml.Node, content string) (err error) {
+	// this seems to be the easiest way to create child notes
+	err = paragraph.SetChildren(`<w:r><w:t></w:t></w:r>`)
+	if err != nil {
+		return
+	}
+	textCell := paragraph.FirstChild().FirstChild()
+
+	textCell.SetContent(content)
+	return
+}
