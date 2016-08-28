@@ -32,6 +32,19 @@ var _ = Describe("Templater", func() {
 			content := doc.Content()
 			Expect(content).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
 		})
+
+		It("fills in the narrative field", func() {
+			doc := fixtures.LoadSSP("FedRAMP_ac-2_v2.1.docx")
+			defer doc.Close()
+			openControlData := fixtures.LoadOpenControlFixture()
+
+			err := TemplatizeSSP(doc, openControlData)
+
+			Expect(err).NotTo(HaveOccurred())
+			content := doc.Content()
+			Expect(content).To(ContainSubstring(`Justification in narrative form B for AC-2`))
+			Expect(content).To(ContainSubstring(`Justification in narrative form for AC-2 (1)`))
+		})
 	})
 
 	Describe("DiffSSP", func() {

@@ -7,8 +7,7 @@ import (
 	"github.com/opencontrol/fedramp-templater/ssp"
 )
 
-// TemplatizeSSP inserts OpenControl data into (i.e. modifies) the provided SSP.
-func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err error) {
+func fillSummaryTables(s *ssp.Document, openControlData opencontrols.Data) (err error) {
 	tables, err := s.SummaryTables()
 	if err != nil {
 		return
@@ -17,10 +16,33 @@ func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err erro
 		st := control.NewSummaryTable(table)
 		err = st.Fill(openControlData)
 		if err != nil {
-			return err
+			return
 		}
 	}
 
+	return
+}
+
+func fillNarrativeTables(s *ssp.Document, openControlData opencontrols.Data) (err error) {
+	tables, err := s.NarrativeTables()
+	if err != nil {
+		return
+	}
+	for _, table := range tables {
+		ct := control.NewNarrativeTable(table)
+		err = ct.Fill(openControlData)
+		if err != nil {
+			return
+		}
+	}
+
+	return
+}
+
+// TemplatizeSSP inserts OpenControl data into (i.e. modifies) the provided SSP.
+func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err error) {
+	fillSummaryTables(s, openControlData)
+	fillNarrativeTables(s, openControlData)
 	s.UpdateContent()
 
 	return

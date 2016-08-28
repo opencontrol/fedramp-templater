@@ -1,6 +1,8 @@
 package ssp
 
 import (
+	"fmt"
+
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/doc-template/docx"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
@@ -37,15 +39,33 @@ func Load(path string) (ssp *Document, err error) {
 }
 
 // SummaryTables returns the summary tables for the controls and the control enhancements.
-func (s *Document) SummaryTables() (tables []xml.Node, err error) {
+func (s *Document) SummaryTables() ([]xml.Node, error) {
 	// find the tables matching the provided headers, ignoring whitespace
 	return s.xmlDoc.Search(SummaryTablesXPath)
 }
 
-// NarrativeTables returns the narrative tables for the controls and the control enhancements.
-func (s *Document) NarrativeTables() (tables []xml.Node, err error) {
+// to retrieve all narrative tables, pass in an empty string
+func (s *Document) findNarrativeTables(control string) ([]xml.Node, error) {
 	// find the tables matching the provided headers, ignoring whitespace
-	return s.xmlDoc.Search("//w:tbl[contains(normalize-space(.), 'What is the solution and how is it implemented?')]")
+	xpath := fmt.Sprintf("//w:tbl[contains(normalize-space(.), '%s What is the solution and how is it implemented?')]", control)
+	return s.xmlDoc.Search(xpath)
+	// TODO return NarrativeTables
+}
+
+// NarrativeTables returns the narrative tables for the controls and the control enhancements.
+func (s *Document) NarrativeTables() ([]xml.Node, error) {
+	return s.findNarrativeTables("")
+}
+
+// NarrativeTables returns the narrative tables for the specified control or control enhancement.
+func (s *Document) NarrativeTable(control string) (table xml.Node, err error) {
+	tables, err := s.findNarrativeTables(control)
+	if err != nil {
+		return
+	}
+	// TODO return error if there is more than one
+	table = tables[0]
+	return
 }
 
 // Content retrieves the text from within the Word document.
