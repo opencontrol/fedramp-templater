@@ -3,35 +3,21 @@ package control
 import (
 	"errors"
 	"regexp"
-	"strings"
 
-	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
 	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/fedramp-templater/opencontrols"
-	"github.com/opencontrol/fedramp-templater/reporter"
+	"github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
-const (
-	responsibleRoleField = "Responsible Role"
-)
-
-// Table represents the node in the Word docx XML tree that corresponds to a security control.
-type Table struct {
+type table struct {
 	Root xml.Node
 }
 
-func (ct *Table) searchSubtree(xpath string) (nodes []xml.Node, err error) {
-	// http://stackoverflow.com/a/25387687/358804
-	if !strings.HasPrefix(xpath, ".") {
-		err = errors.New("XPath must have leading period (`.`) to only search the subtree")
-		return
-	}
-
-	return ct.Root.Search(xpath)
+func (t *table) searchSubtree(xpath string) ([]xml.Node, error) {
+	return helper.SearchSubtree(t.Root, xpath)
 }
 
-func (ct *Table) tableHeader() (content string, err error) {
-	nodes, err := ct.searchSubtree(".//w:tr")
+func (t *table) tableHeader() (content string, err error) {
+	nodes, err := t.searchSubtree(".//w:tr")
 	if err != nil {
 		return
 	}
@@ -45,8 +31,8 @@ func (ct *Table) tableHeader() (content string, err error) {
 	return
 }
 
-func (ct *Table) controlName() (name string, err error) {
-	content, err := ct.tableHeader()
+func (t *table) controlName() (name string, err error) {
+	content, err := t.tableHeader()
 	if err != nil {
 		return
 	}
@@ -58,47 +44,4 @@ func (ct *Table) controlName() (name string, err error) {
 		err = errors.New("control name not found")
 	}
 	return
-}
-
-// Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
-func (ct *Table) Fill(openControlData opencontrols.Data) (err error) {
-	roleCell, err := findResponsibleRole(ct)
-	if err != nil {
-		return
-	}
-
-	control, err := ct.controlName()
-	if err != nil {
-		return
-	}
-
-	roles := openControlData.GetResponsibleRoles(control)
-	roleCell.setValue(roles)
-
-	return
-}
-
-// diffResponsibleRole computes the diff of the responsible role cell.
-func (ct *Table) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]reporter.Reporter, error) {
-	roleCell, err := findResponsibleRole(ct)
-	if err != nil {
-		return []reporter.Reporter{}, err
-	}
-	yamlRoles := openControlData.GetResponsibleRoles(control)
-	sspRoles := roleCell.getValue()
-	if roleCell.isDefaultValue(sspRoles) || yamlRoles == sspRoles {
-		return []reporter.Reporter{}, nil
-	}
-	return []reporter.Reporter{
-		NewDiff(control, responsibleRoleField, sspRoles, yamlRoles),
-	}, nil
-}
-
-// Diff returns the list of diffs in the control table.
-func (ct *Table) Diff(openControlData opencontrols.Data) ([]reporter.Reporter, error) {
-	control, err := ct.controlName()
-	if err != nil {
-		return []reporter.Reporter{}, err
-	}
-	return ct.diffResponsibleRole(control, openControlData)
 }

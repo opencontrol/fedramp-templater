@@ -1,11 +1,16 @@
 package ssp
 
 import (
+	"errors"
+	"fmt"
+
+	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/doc-template/docx"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
-	// using fork because of https://github.com/moovweb/gokogiri/pull/93#issuecomment-215582446
-	"github.com/jbowtie/gokogiri/xml"
 )
+
+// SummaryTablesXPath is the pattern used to find summary tables within an SSP's XML.
+const SummaryTablesXPath = "//w:tbl[contains(normalize-space(.), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]"
 
 // Document represents a system security plan file and its contents.
 type Document struct {
@@ -34,10 +39,39 @@ func Load(path string) (ssp *Document, err error) {
 	return
 }
 
-// SummaryTables returns the tables for the controls and the control enhancements.
-func (s *Document) SummaryTables() (tables []xml.Node, err error) {
+// SummaryTables returns the summary tables for the controls and the control enhancements.
+func (s *Document) SummaryTables() ([]xml.Node, error) {
 	// find the tables matching the provided headers, ignoring whitespace
-	return s.xmlDoc.Search("//w:tbl[contains(normalize-space(.), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]")
+	return s.xmlDoc.Search(SummaryTablesXPath)
+}
+
+// to retrieve all narrative tables, pass in an empty string
+func (s *Document) findNarrativeTables(control string) ([]xml.Node, error) {
+	// find the tables matching the provided headers, ignoring whitespace
+	xpath := fmt.Sprintf("//w:tbl[contains(normalize-space(.), '%s What is the solution and how is it implemented?')]", control)
+	return s.xmlDoc.Search(xpath)
+}
+
+// NarrativeTables returns the narrative tables for all controls and the control enhancements.
+func (s *Document) NarrativeTables() ([]xml.Node, error) {
+	return s.findNarrativeTables("")
+}
+
+// NarrativeTable returns the narrative table for the specified control or control enhancement.
+func (s *Document) NarrativeTable(control string) (table xml.Node, err error) {
+	tables, err := s.findNarrativeTables(control)
+	if err != nil {
+		return
+	}
+	if len(tables) == 0 {
+		err = errors.New("No narrative tables found.")
+		return
+	} else if len(tables) > 1 {
+		err = errors.New("Too many narrative tables were matched.")
+		return
+	}
+	table = tables[0]
+	return
 }
 
 // Content retrieves the text from within the Word document.

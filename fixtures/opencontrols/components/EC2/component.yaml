@@ -14,7 +14,10 @@ satisfies:
   implementation_status: partial
   control_origin: shared
   narrative:
-    - text: "Justification in narrative form for AC-2"
+  - key: "a"
+    text: "Justification in narrative form A for AC-2"
+  - key: "b"
+    text: "Justification in narrative form B for AC-2"
   standard_key: NIST-800-53
 - control_key: AC-2 (1)
   covered_by:
@@ -25,10 +28,7 @@ satisfies:
   implementation_status: partial
   control_origin: shared
   narrative:
-    - key: "a"
-      text: "Justification in narrative form A for AC-2 (1)"
-    - key: "b"
-      text: "Justification in narrative form B for AC-2 (1)"
+  - text: "Justification in narrative form for AC-2 (1)"
   standard_key: NIST-800-53
 responsible_role: "AWS Staff"
 schema_version: 3.0.0

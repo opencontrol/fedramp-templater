@@ -1,16 +1,18 @@
 package control
 
 import (
-	"github.com/jbowtie/gokogiri/xml"
 	"errors"
+	"fmt"
 	"regexp"
 	"strings"
-	"fmt"
+
+	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
 // findResponsibleRole looks for the Responsible Role cell in the control table.
-func findResponsibleRole(ct *Table) (*responsibleRole, error) {
-	nodes, err := ct.searchSubtree(".//w:tc[starts-with(normalize-space(.), 'Responsible Role')]")
+func findResponsibleRole(ct *SummaryTable) (*responsibleRole, error) {
+	nodes, err := ct.table.searchSubtree(".//w:tc[starts-with(normalize-space(.), 'Responsible Role')]")
 	if err != nil {
 		return nil, err
 	}
@@ -18,7 +20,7 @@ func findResponsibleRole(ct *Table) (*responsibleRole, error) {
 		return nil, errors.New("could not find Responsible Role cell")
 	}
 	parentNode := nodes[0]
-	childNodes, err := parentNode.Search(".//w:t")
+	childNodes, err := helper.SearchSubtree(parentNode, `.//w:t`)
 	if err != nil || len(childNodes) < 1 {
 		return nil, errors.New("Should not happen, cannot find text nodes.")
 	}
@@ -28,7 +30,7 @@ func findResponsibleRole(ct *Table) (*responsibleRole, error) {
 // responsibleRole is the container for the responsible role cell.
 type responsibleRole struct {
 	parentNode xml.Node
-	textNodes *[]xml.Node
+	textNodes  *[]xml.Node
 }
 
 // getContent returns the full string representation of the content of the cell itself.
