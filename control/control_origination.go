@@ -6,7 +6,6 @@ import (
 )
 
 const (
-	noOrigin = ""
 	serviceProviderCorporate = "Service Provider Corporate"
 	serviceProviderSystemSpecific = "Service Provider System Specific"
 	serviceProviderHybrid = "Service Provider Hybrid"
@@ -51,8 +50,4 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 		origins = append(origins, newCheckBox(checkBox[0], &textNodes))
 	}
 	return &controlOrigination{cell: rows[0], origins:origins}, nil
-}
-
-func detectControlOrigin(textNodes *[]xml.Node) (string, error) {
-	return noOrigin, nil
 }
