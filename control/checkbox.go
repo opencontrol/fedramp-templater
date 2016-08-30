@@ -15,11 +15,18 @@ type checkBox struct {
 }
 
 func (c *checkBox) isChecked() bool {
+	if c.checkMark.Attr("val") == "1" {
+		return true
+	}
 	return false
 }
 
 func (c *checkBox) setCheckMarkTo(value bool) {
-
+	checkBoxValue := "0"
+	if value == true {
+		checkBoxValue = "1"
+	}
+	c.checkMark.SetAttr("val", checkBoxValue)
 }
 
 func (c *checkBox) getTextValue() string {

@@ -36,8 +36,12 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 	var origins []*checkBox
 	paragraphs, err := rows[0].Search(".//w:p")
 	for _, paragraph := range paragraphs {
-		checkBox, err := paragraph.Search(".//w:checkBox")
+		checkBox, err := paragraph.Search(".//w:checkBox//w:default")
 		if len(checkBox) != 1 || err != nil {
+			continue
+		}
+		// Have to use Attr. Using Attribute does not work for checking "val"
+		if len(checkBox[0].Attr("val")) == 0 {
 			continue
 		}
 		textNodes, err := paragraph.Search(".//w:t")
