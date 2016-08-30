@@ -16,20 +16,36 @@ var _ = Describe("controlOrignation", func() {
 			Expect(err).NotTo(HaveOccurred())
 			st := NewSummaryTable(tables[0])
 			co, err := newControlOrigination(st)
+			// Check error
 			Expect(err).ToNot(HaveOccurred())
+			// Check number of control origination.
 			Expect(len(co.origins)).To(Equal(7))
+
+			// Find the checked service provided corporate origination.
 			Expect(co.origins[0].getTextValue()).To(ContainSubstring(serviceProviderCorporate))
 			Expect(co.origins[0].isChecked()).To(Equal(true))
+
+			// Find the unchecked service provided system specific origination.
 			Expect(co.origins[1].getTextValue()).To(ContainSubstring(serviceProviderSystemSpecific))
 			Expect(co.origins[1].isChecked()).To(Equal(false))
+
+			// Find the unchecked service provided hybrid origination.
 			Expect(co.origins[2].getTextValue()).To(ContainSubstring(serviceProviderHybrid))
 			Expect(co.origins[2].isChecked()).To(Equal(false))
+
+			// Find the unchecked configured by customer origination.
 			Expect(co.origins[3].getTextValue()).To(ContainSubstring(configuredByCustomer))
 			Expect(co.origins[3].isChecked()).To(Equal(false))
+
+			// Find the unchecked provided by customer origination.
 			Expect(co.origins[4].getTextValue()).To(ContainSubstring(providedByCustomer))
 			Expect(co.origins[4].isChecked()).To(Equal(false))
+
+			// Find the unchecked shared origination.
 			Expect(co.origins[5].getTextValue()).To(ContainSubstring(shared))
 			Expect(co.origins[5].isChecked()).To(Equal(false))
+
+			// Find the unchecked inherited origination.
 			Expect(co.origins[6].getTextValue()).To(ContainSubstring(inherited))
 			Expect(co.origins[6].isChecked()).To(Equal(false))
 		})

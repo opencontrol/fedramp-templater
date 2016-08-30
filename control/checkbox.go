@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+const checkBoxAttributeKey = "val"
+
 func newCheckBox(checkMark xml.Node, textNodes *[]xml.Node) *checkBox {
 	return &checkBox{checkMark: checkMark, textNodes: textNodes}
 }
@@ -15,7 +17,7 @@ type checkBox struct {
 }
 
 func (c *checkBox) isChecked() bool {
-	if c.checkMark.Attr("val") == "1" {
+	if c.checkMark.Attr(checkBoxAttributeKey) == "1" {
 		return true
 	}
 	return false
@@ -26,7 +28,7 @@ func (c *checkBox) setCheckMarkTo(value bool) {
 	if value == true {
 		checkBoxValue = "1"
 	}
-	c.checkMark.SetAttr("val", checkBoxValue)
+	c.checkMark.SetAttr(checkBoxAttributeKey, checkBoxValue)
 }
 
 func (c *checkBox) getTextValue() string {
