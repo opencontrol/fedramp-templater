@@ -50,6 +50,9 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 	// Each checkbox is contained in a paragraph.
 	var origins []*checkBox
 	paragraphs, err := rows[0].Search(".//w:p")
+	if err != nil {
+		return nil, err
+	}
 	for _, paragraph := range paragraphs {
 		// 1. Find the box of the checkbox.
 		checkBox, err := findControlOriginationBox(paragraph)
