@@ -38,7 +38,7 @@ func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
 }
 
 func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
-	// Find the control origination row
+	// Find the control origination row.
 	rows, err := st.Root.Search(".//w:tc[starts-with(normalize-space(.), 'Control Origination')]")
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 	var origins []*checkBox
 	paragraphs, err := rows[0].Search(".//w:p")
 	for _, paragraph := range paragraphs {
-		// 1. Find the box of the checkbox
+		// 1. Find the box of the checkbox.
 		checkBox, err := findControlOriginationBox(paragraph)
 		if err != nil {
 			continue
