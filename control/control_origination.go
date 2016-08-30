@@ -7,13 +7,13 @@ import (
 
 // Origination prefixes.
 const (
-	serviceProviderCorporate = "Service Provider Corporate"
-	serviceProviderSystemSpecific = "Service Provider System Specific"
-	serviceProviderHybrid = "Service Provider Hybrid"
-	configuredByCustomer = "Configured by Customer"
-	providedByCustomer = "Provided by Customer"
-	shared = "Shared"
-	inherited = "Inherited"
+	serviceProviderCorporateOrigination = "Service Provider Corporate"
+	serviceProviderSystemSpecificOrigination = "Service Provider System Specific"
+	serviceProviderHybridOrigination = "Service Provider Hybrid"
+	configuredByCustomerOrigination = "Configured by Customer"
+	providedByCustomerOrigination = "Provided by Customer"
+	sharedOrigination = "Shared"
+	inheritedOrigination = "Inherited"
 
 )
 
