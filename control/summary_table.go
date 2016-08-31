@@ -51,7 +51,6 @@ func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data
 			continue
 		}
 		controlOrigination.origins[controlOriginKey].SetCheckMarkTo(true)
-		//panic(controlOriginKey + control + string(controlOrigination.origins[controlOriginKey].isChecked()))
 	}
 
 	// TODO. ensure the ones, not specified are set to false.
