@@ -16,29 +16,63 @@ type SummaryTable struct {
 }
 
 // NewSummaryTable creates a SummaryTable instance.
-func NewSummaryTable(root xml.Node) SummaryTable {
+func NewSummaryTable(root xml.Node) *SummaryTable {
 	tbl := table{Root: root}
-	return SummaryTable{tbl}
+	return &SummaryTable{tbl}
 }
 
 func (st *SummaryTable) controlName() (name string, err error) {
 	return st.table.controlName()
 }
 
-// Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
-func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
+func (st *SummaryTable) fillResponsibleRole(openControlData opencontrols.Data, control string) (err error) {
 	roleCell, err := findResponsibleRole(st)
-	if err != nil {
-		return
-	}
-
-	control, err := st.controlName()
 	if err != nil {
 		return
 	}
 
 	roles := openControlData.GetResponsibleRoles(control)
 	roleCell.setValue(roles)
+	return
+}
+
+
+
+func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data, control string) (err error) {
+	controlOrigination, err := newControlOrigination(st)
+	if err != nil {
+		return
+	}
+
+	controlOrigins := openControlData.GetControlOrigins(control)
+	for _, controlOrigin := range controlOrigins {
+		controlOriginKey := detectControlOriginKeyFromData(controlOrigin)
+		if controlOriginKey == noOrigin {
+			continue
+		}
+		controlOrigination.origins[controlOriginKey].SetCheckMarkTo(true)
+		//panic(controlOriginKey + control + string(controlOrigination.origins[controlOriginKey].isChecked()))
+	}
+
+	// TODO. ensure the ones, not specified are set to false.
+	return
+}
+
+
+// Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
+func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
+	control, err := st.controlName()
+	if err != nil {
+		return
+	}
+	err = st.fillResponsibleRole(openControlData, control)
+	if err != nil {
+		return
+	}
+	err = st.fillControlOrigination(openControlData, control)
+	if err != nil {
+		return
+	}
 
 	return
 }

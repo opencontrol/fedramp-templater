@@ -33,3 +33,13 @@ func (d *Data) GetResponsibleRoles(control string) string {
 func (d *Data) GetNarrative(control string, sectionKey string) string {
 	return d.ocd.FormatNarrative(standardKey, control, sectionKey)
 }
+
+// GetControlOrigins returns the control origination information for each component matching the specified control.
+func (d *Data) GetControlOrigins(control string) []string {
+	var controlOrigins []string
+	justifications := d.ocd.Justifications.Get(standardKey, control)
+	for _, justification := range justifications {
+		controlOrigins = append(controlOrigins, justification.SatisfiesData.GetControlOrigin())
+	}
+	return controlOrigins
+}

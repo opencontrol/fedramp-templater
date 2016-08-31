@@ -48,7 +48,7 @@ func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
 	return checkBoxes[0], nil
 }
 
-func detectControlOriginKey(textNodes []xml.Node) string {
+func detectControlOriginKeyFromDoc(textNodes []xml.Node) string {
 	textField := helper.ConcatTextNodes(textNodes)
 	controlOrigins := getAllControlOrigins()
 	for _, controlOrigin := range controlOrigins {
@@ -59,7 +59,27 @@ func detectControlOriginKey(textNodes []xml.Node) string {
 	return noOrigin
 }
 
-func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
+func detectControlOriginKeyFromData(text string) string {
+	switch text {
+	case "service_provider_corporate":
+		return serviceProviderCorporateOrigination
+	case "service_provided_system_specific":
+		return serviceProviderSystemSpecificOrigination
+	case "hybrid":
+		return serviceProviderHybridOrigination
+	case "customer_configured":
+		return configuredByCustomerOrigination
+	case "customer_provided":
+		return providedByCustomerOrigination
+	case "shared":
+		return sharedOrigination
+	case "inherited":
+		return inheritedOrigination
+	}
+	return noOrigin
+}
+
+func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 	// Find the control origination row.
 	rows, err := st.Root.Search(".//w:tc[starts-with(normalize-space(.), 'Control Origination')]")
 	if err != nil {
@@ -89,7 +109,7 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 		}
 
 		// 3. Detect the key for the map.
-		controlOriginKey := detectControlOriginKey(textNodes)
+		controlOriginKey := detectControlOriginKeyFromDoc(textNodes)
 		// if couldn't detect an origin, skip.
 		if controlOriginKey == noOrigin {
 			continue
