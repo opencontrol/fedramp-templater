@@ -4,6 +4,8 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 	"fmt"
 	"strings"
+	"github.com/opencontrol/fedramp-templater/docx"
+	"github.com/opencontrol/fedramp-templater/docx/helper"
 )
 
 // Origination prefixes.
@@ -21,7 +23,7 @@ const (
 
 type controlOrigination struct {
 	cell xml.Node
-	origins map[string]*checkBox
+	origins map[string]*docx.CheckBox
 }
 
 func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
@@ -30,17 +32,12 @@ func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
 		return nil, err
 	} else if len(checkBoxes) != 1 {
 		return nil, fmt.Errorf("Unable to find the check box for the control origination.")
-	} else if len(checkBoxes[0].Attr(checkBoxAttributeKey)) == 0 {
-		// Have to use Attr.
-		// Using Attribute does not work when checking the value key.
-		// Make sure the length is non zero.
-		return nil, fmt.Errorf("Unable to find the check box value attribute.")
 	}
 	return checkBoxes[0], nil
 }
 
 func detectControlOriginKey(textNodes []xml.Node) string {
-	textField := concatTextNodes(textNodes)
+	textField := helper.ConcatTextNodes(textNodes)
 	if strings.Contains(textField, serviceProviderCorporateOrigination) {
 		return serviceProviderCorporateOrigination
 	} else if strings.Contains(textField, serviceProviderSystemSpecificOrigination) {
@@ -70,7 +67,7 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 		return nil, fmt.Errorf("Unable to find Control Origination cell")
 	}
 	// Each checkbox is contained in a paragraph.
-	origins := make(map[string]*checkBox)
+	origins := make(map[string]*docx.CheckBox)
 	paragraphs, err := rows[0].Search(".//w:p")
 	if err != nil {
 		return nil, err
@@ -101,7 +98,7 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 		}
 
 		// Only construct the checkbox struct if the box and text are found.
-		origins[controlOriginKey] = newCheckBox(checkBox, &textNodes)
+		origins[controlOriginKey] = docx.NewCheckBox(checkBox, &textNodes)
 	}
 	return &controlOrigination{cell: rows[0], origins:origins}, nil
 }

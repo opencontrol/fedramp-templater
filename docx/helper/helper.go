@@ -67,3 +67,12 @@ func FillCell(cell xml.Node, content string) error {
 
 	return AddMultiLineContent(cell, content)
 }
+
+
+func ConcatTextNodes(textNodes []xml.Node) string {
+	result := ""
+	for _, textNode := range textNodes {
+		result += textNode.Content()
+	}
+	return strings.TrimSpace(result)
+}
