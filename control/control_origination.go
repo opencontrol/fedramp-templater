@@ -21,6 +21,18 @@ const (
 
 )
 
+func getAllControlOrigins() []string {
+	return []string{
+		serviceProviderCorporateOrigination,
+		serviceProviderSystemSpecificOrigination,
+		serviceProviderHybridOrigination,
+		configuredByCustomerOrigination,
+		providedByCustomerOrigination,
+		sharedOrigination,
+		inheritedOrigination,
+	}
+}
+
 type controlOrigination struct {
 	cell xml.Node
 	origins map[string]*docx.CheckBox
@@ -38,20 +50,11 @@ func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
 
 func detectControlOriginKey(textNodes []xml.Node) string {
 	textField := helper.ConcatTextNodes(textNodes)
-	if strings.Contains(textField, serviceProviderCorporateOrigination) {
-		return serviceProviderCorporateOrigination
-	} else if strings.Contains(textField, serviceProviderSystemSpecificOrigination) {
-		return serviceProviderSystemSpecificOrigination
-	} else if strings.Contains(textField, serviceProviderHybridOrigination) {
-		return serviceProviderHybridOrigination
-	} else if strings.Contains(textField, configuredByCustomerOrigination) {
-		return configuredByCustomerOrigination
-	} else if strings.Contains(textField, providedByCustomerOrigination) {
-		return providedByCustomerOrigination
-	} else if strings.Contains(textField, sharedOrigination) {
-		return sharedOrigination
-	} else if strings.Contains(textField, inheritedOrigination) {
-		return inheritedOrigination
+	controlOrigins := getAllControlOrigins()
+	for _, controlOrigin := range controlOrigins {
+		if strings.Contains(textField, controlOrigin){
+			return controlOrigin
+		}
 	}
 	return noOrigin
 }
