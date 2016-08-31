@@ -68,7 +68,7 @@ func FillCell(cell xml.Node, content string) error {
 	return AddMultiLineContent(cell, content)
 }
 
-
+// ConcatTextNodes will concatenate the text from an array of text nodes and trim any whitespace from the final result.
 func ConcatTextNodes(textNodes []xml.Node) string {
 	result := ""
 	for _, textNode := range textNodes {
