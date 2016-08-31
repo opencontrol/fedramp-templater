@@ -67,9 +67,16 @@ var _ = Describe("SummaryTable", func() {
 			st := NewSummaryTable(table)
 			openControlData := fixtures.LoadOpenControlFixture()
 
+			By("initially loading the summary table, we should detect that the shared control origination" +
+				" is false")
+			origination, err := newControlOrigination(st)
+			Expect(err).ToNot(HaveOccurred())
+			Expect(origination.origins[sharedOrigination].IsChecked()).To(Equal(false))
+
+			By("running fill, we expect the shared control origination to equal true")
 			st.Fill(openControlData)
 
-			origination, err := newControlOrigination(st)
+			origination, err = newControlOrigination(st)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(origination.origins[sharedOrigination].IsChecked()).To(Equal(true))
 		})
