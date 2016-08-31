@@ -21,10 +21,10 @@ var _ = Describe("controlOrignation", func() {
 			// Check number of control origination.
 			Expect(len(co.origins)).To(Equal(7))
 
-			// Find the checked service provided corporate origination.
+			// Find the unchecked service provided corporate origination.
 			Expect(co.origins[0].getTextValue()).
 				To(ContainSubstring(serviceProviderCorporateOrigination))
-			Expect(co.origins[0].isChecked()).To(Equal(true))
+			Expect(co.origins[0].isChecked()).To(Equal(false))
 
 			// Find the unchecked service provided system specific origination.
 			Expect(co.origins[1].getTextValue()).
