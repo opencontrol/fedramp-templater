@@ -22,39 +22,39 @@ var _ = Describe("controlOrignation", func() {
 			Expect(len(co.origins)).To(Equal(7))
 
 			// Find the unchecked service provided corporate origination.
-			Expect(co.origins[0].getTextValue()).
+			Expect(co.origins[serviceProviderCorporateOrigination].getTextValue()).
 				To(ContainSubstring(serviceProviderCorporateOrigination))
-			Expect(co.origins[0].isChecked()).To(Equal(false))
+			Expect(co.origins[serviceProviderCorporateOrigination].isChecked()).To(Equal(false))
 
 			// Find the unchecked service provided system specific origination.
-			Expect(co.origins[1].getTextValue()).
+			Expect(co.origins[serviceProviderSystemSpecificOrigination].getTextValue()).
 				To(ContainSubstring(serviceProviderSystemSpecificOrigination))
-			Expect(co.origins[1].isChecked()).To(Equal(false))
+			Expect(co.origins[serviceProviderSystemSpecificOrigination].isChecked()).To(Equal(false))
 
 			// Find the unchecked service provided hybrid origination.
-			Expect(co.origins[2].getTextValue()).
+			Expect(co.origins[serviceProviderHybridOrigination].getTextValue()).
 				To(ContainSubstring(serviceProviderHybridOrigination))
-			Expect(co.origins[2].isChecked()).To(Equal(false))
+			Expect(co.origins[serviceProviderHybridOrigination].isChecked()).To(Equal(false))
 
 			// Find the unchecked configured by customer origination.
-			Expect(co.origins[3].getTextValue()).
+			Expect(co.origins[configuredByCustomerOrigination].getTextValue()).
 				To(ContainSubstring(configuredByCustomerOrigination))
-			Expect(co.origins[3].isChecked()).To(Equal(false))
+			Expect(co.origins[configuredByCustomerOrigination].isChecked()).To(Equal(false))
 
 			// Find the unchecked provided by customer origination.
-			Expect(co.origins[4].getTextValue()).
+			Expect(co.origins[providedByCustomerOrigination].getTextValue()).
 				To(ContainSubstring(providedByCustomerOrigination))
-			Expect(co.origins[4].isChecked()).To(Equal(false))
+			Expect(co.origins[providedByCustomerOrigination].isChecked()).To(Equal(false))
 
 			// Find the unchecked shared origination.
-			Expect(co.origins[5].getTextValue()).
+			Expect(co.origins[sharedOrigination].getTextValue()).
 				To(ContainSubstring(sharedOrigination))
-			Expect(co.origins[5].isChecked()).To(Equal(false))
+			Expect(co.origins[sharedOrigination].isChecked()).To(Equal(false))
 
 			// Find the unchecked inherited origination.
-			Expect(co.origins[6].getTextValue()).
+			Expect(co.origins[inheritedOrigination].getTextValue()).
 				To(ContainSubstring(inheritedOrigination))
-			Expect(co.origins[6].isChecked()).To(Equal(false))
+			Expect(co.origins[inheritedOrigination].isChecked()).To(Equal(false))
 		})
 	})
 })

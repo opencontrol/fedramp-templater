@@ -3,10 +3,12 @@ package control
 import (
 	"github.com/jbowtie/gokogiri/xml"
 	"fmt"
+	"strings"
 )
 
 // Origination prefixes.
 const (
+	noOrigin = ""
 	serviceProviderCorporateOrigination = "Service Provider Corporate"
 	serviceProviderSystemSpecificOrigination = "Service Provider System Specific"
 	serviceProviderHybridOrigination = "Service Provider Hybrid"
@@ -19,7 +21,7 @@ const (
 
 type controlOrigination struct {
 	cell xml.Node
-	origins []*checkBox
+	origins map[string]*checkBox
 }
 
 func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
@@ -37,6 +39,26 @@ func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
 	return checkBoxes[0], nil
 }
 
+func detectControlOriginKey(textNodes []xml.Node) string {
+	textField := concatTextNodes(textNodes)
+	if strings.Contains(textField, serviceProviderCorporateOrigination) {
+		return serviceProviderCorporateOrigination
+	} else if strings.Contains(textField, serviceProviderSystemSpecificOrigination) {
+		return serviceProviderSystemSpecificOrigination
+	} else if strings.Contains(textField, serviceProviderHybridOrigination) {
+		return serviceProviderHybridOrigination
+	} else if strings.Contains(textField, configuredByCustomerOrigination) {
+		return configuredByCustomerOrigination
+	} else if strings.Contains(textField, providedByCustomerOrigination) {
+		return providedByCustomerOrigination
+	} else if strings.Contains(textField, sharedOrigination) {
+		return sharedOrigination
+	} else if strings.Contains(textField, inheritedOrigination) {
+		return inheritedOrigination
+	}
+	return noOrigin
+}
+
 func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 	// Find the control origination row.
 	rows, err := st.Root.Search(".//w:tc[starts-with(normalize-space(.), 'Control Origination')]")
@@ -48,7 +70,7 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 		return nil, fmt.Errorf("Unable to find Control Origination cell")
 	}
 	// Each checkbox is contained in a paragraph.
-	var origins []*checkBox
+	origins := make(map[string]*checkBox)
 	paragraphs, err := rows[0].Search(".//w:p")
 	if err != nil {
 		return nil, err
@@ -66,8 +88,20 @@ func newControlOrigination(st SummaryTable) (*controlOrigination, error) {
 			continue
 		}
 
+		// 3. Detect the key for the map.
+		controlOriginKey := detectControlOriginKey(textNodes)
+		// if couldn't detect an origin, skip.
+		if controlOriginKey == noOrigin {
+			continue
+		}
+		// if the origin is already in the map, skip.
+		_, exists := origins[controlOriginKey]
+		if exists {
+			continue
+		}
+
 		// Only construct the checkbox struct if the box and text are found.
-		origins = append(origins, newCheckBox(checkBox, &textNodes))
+		origins[controlOriginKey] = newCheckBox(checkBox, &textNodes)
 	}
 	return &controlOrigination{cell: rows[0], origins:origins}, nil
 }
