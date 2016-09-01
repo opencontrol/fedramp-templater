@@ -120,7 +120,7 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 	if err != nil {
 		return nil, err
 	}
-	for i, paragraph := range paragraphs {
+	for _, paragraph := range paragraphs {
 		// 1. Find the box of the checkbox.
 		checkBox, err := findControlOriginationBox(paragraph)
 		if err != nil {
