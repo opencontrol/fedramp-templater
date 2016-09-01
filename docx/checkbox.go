@@ -5,7 +5,11 @@ import (
 	"github.com/opencontrol/fedramp-templater/docx/helper"
 )
 
-const checkBoxAttributeKey = "val"
+const (
+	checkBoxAttributeKey = "val"
+	checkBoxCheckedValue = "1"
+	checkBoxNotCheckedValue = "0"
+)
 
 // NewCheckBox constructs a new checkbox. Checks if the checkmark value can actually be found.
 // If it cannot be found, will return nil.
@@ -27,16 +31,15 @@ type CheckBox struct {
 
 // IsChecked will return true if the box is checked, false otherwise.
 func (c *CheckBox) IsChecked() bool {
-	return c.checkMark.Attr(checkBoxAttributeKey) == "1"
+	return c.checkMark.Attr(checkBoxAttributeKey) == checkBoxCheckedValue
 }
 
 // SetCheckMarkTo will set the checkbox state according to the input value.
 func (c *CheckBox) SetCheckMarkTo(value bool) {
-	checkBoxValue := "0"
+	checkBoxValue := checkBoxNotCheckedValue
 	if value == true {
-		checkBoxValue = "1"
+		checkBoxValue = checkBoxCheckedValue
 	}
-	panic(c.checkMark.AttributeList()[0])
 	c.checkMark.AttributeList()[0].SetContent(checkBoxValue)
 }
 
