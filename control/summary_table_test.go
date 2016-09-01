@@ -1,14 +1,13 @@
-package control_test
+package control
 
 import (
 	"bytes"
 	"text/template"
 
 	"github.com/jbowtie/gokogiri/xml"
-	. "github.com/opencontrol/fedramp-templater/control"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
-	"github.com/opencontrol/fedramp-templater/ssp"
 	"github.com/opencontrol/fedramp-templater/fixtures"
+	"github.com/opencontrol/fedramp-templater/ssp"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -62,6 +61,24 @@ var _ = Describe("SummaryTable", func() {
 			st.Fill(openControlData)
 
 			Expect(table.Content()).To(ContainSubstring(`Responsible Role: Amazon Elastic Compute Cloud: AWS Staff`))
+		})
+		It("fills in the control origination", func() {
+			table := getTable("AC-2")
+			st := NewSummaryTable(table)
+			openControlData := fixtures.LoadOpenControlFixture()
+
+			By("initially loading the summary table, we should detect that the shared control origination" +
+				" is false")
+			origination, err := newControlOrigination(&st)
+			Expect(err).ToNot(HaveOccurred())
+			Expect(origination.origins[sharedOrigination].IsChecked()).To(Equal(false))
+
+			By("running fill, we expect the shared control origination to equal true")
+			st.Fill(openControlData)
+
+			origination, err = newControlOrigination(&st)
+			Expect(err).ToNot(HaveOccurred())
+			Expect(origination.origins[sharedOrigination].IsChecked()).To(Equal(true))
 		})
 	})
 
