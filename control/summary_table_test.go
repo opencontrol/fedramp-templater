@@ -6,8 +6,8 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
-	"github.com/opencontrol/fedramp-templater/ssp"
 	"github.com/opencontrol/fedramp-templater/fixtures"
+	"github.com/opencontrol/fedramp-templater/ssp"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
