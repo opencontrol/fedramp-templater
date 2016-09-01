@@ -16,9 +16,9 @@ type SummaryTable struct {
 }
 
 // NewSummaryTable creates a SummaryTable instance.
-func NewSummaryTable(root xml.Node) *SummaryTable {
+func NewSummaryTable(root xml.Node) SummaryTable {
 	tbl := table{Root: root}
-	return &SummaryTable{tbl}
+	return SummaryTable{tbl}
 }
 
 func (st *SummaryTable) controlName() (name string, err error) {
@@ -36,8 +36,6 @@ func (st *SummaryTable) fillResponsibleRole(openControlData opencontrols.Data, c
 	return
 }
 
-
-
 func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data, control string) (err error) {
 	controlOrigination, err := newControlOrigination(st)
 	if err != nil {
@@ -52,11 +50,8 @@ func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data
 		}
 		controlOrigination.origins[controlOriginKey].SetCheckMarkTo(true)
 	}
-
-	// TODO. ensure the ones, not specified are set to false.
 	return
 }
-
 
 // Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
 func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {

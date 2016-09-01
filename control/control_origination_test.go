@@ -15,7 +15,7 @@ var _ = Describe("controlOrignation", func() {
 			tables, err := doc.SummaryTables()
 			Expect(err).NotTo(HaveOccurred())
 			st := NewSummaryTable(tables[0])
-			co, err := newControlOrigination(st)
+			co, err := newControlOrigination(&st)
 			// Check error
 			Expect(err).ToNot(HaveOccurred())
 			// Check number of control origination.
