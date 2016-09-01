@@ -44,7 +44,7 @@ func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data
 
 	controlOrigins := openControlData.GetControlOrigins(control)
 	for _, controlOrigin := range controlOrigins {
-		controlOriginKey := detectControlOriginKeyFromData(controlOrigin)
+		controlOriginKey := detectControlOriginKeyFromYAML(controlOrigin)
 		if controlOriginKey == noOrigin {
 			continue
 		}

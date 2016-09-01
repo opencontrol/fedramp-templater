@@ -8,34 +8,69 @@ import (
 	"github.com/opencontrol/fedramp-templater/docx/helper"
 )
 
+type controlOrigin uint8
+
 // Origination prefixes.
 const (
-	noOrigin = ""
-	serviceProviderCorporateOrigination = "Service Provider Corporate"
-	serviceProviderSystemSpecificOrigination = "Service Provider System Specific"
-	serviceProviderHybridOrigination = "Service Provider Hybrid"
-	configuredByCustomerOrigination = "Configured by Customer"
-	providedByCustomerOrigination = "Provided by Customer"
-	sharedOrigination = "Shared"
-	inheritedOrigination = "Inherited"
-
+	noOrigin controlOrigin = iota
+	serviceProviderCorporateOrigination
+	serviceProviderSystemSpecificOrigination
+	serviceProviderHybridOrigination
+	configuredByCustomerOrigination
+	providedByCustomerOrigination
+	sharedOrigination
+	inheritedOrigination
 )
 
-func getAllControlOrigins() []string {
-	return []string{
-		serviceProviderCorporateOrigination,
-		serviceProviderSystemSpecificOrigination,
-		serviceProviderHybridOrigination,
-		configuredByCustomerOrigination,
-		providedByCustomerOrigination,
-		sharedOrigination,
-		inheritedOrigination,
+type originMapping struct {
+	yamlMapping string
+	docMapping string
+}
+
+func (o originMapping) isDocMappingASubstrOf(value string) bool {
+	return strings.Contains(value, o.docMapping)
+}
+
+func (o originMapping) isYAMLMappingEqualTo(value string) bool {
+	return value == o.yamlMapping
+}
+
+func getControlOriginMappings() map[controlOrigin]originMapping {
+	return map[controlOrigin]originMapping {
+		serviceProviderCorporateOrigination: {
+			yamlMapping: "service_provider_corporate",
+			docMapping: "Service Provider Corporate",
+		},
+		serviceProviderSystemSpecificOrigination: {
+			yamlMapping: "service_provided_system_specific",
+			docMapping: "Service Provider System Specific",
+		},
+		serviceProviderHybridOrigination: {
+			yamlMapping: "hybrid",
+			docMapping: "Service Provider Hybrid",
+		},
+		configuredByCustomerOrigination: {
+			yamlMapping: "customer_configured",
+			docMapping: "Configured by Customer",
+		},
+		providedByCustomerOrigination: {
+			yamlMapping: "customer_provided",
+			docMapping: "Provided by Customer",
+		},
+		sharedOrigination: {
+			yamlMapping: "shared",
+			docMapping: "Shared",
+		},
+		inheritedOrigination: {
+			yamlMapping: "inherited",
+			docMapping: "Inherited",
+		},
 	}
 }
 
 type controlOrigination struct {
 	cell xml.Node
-	origins map[string]*docx.CheckBox
+	origins map[controlOrigin]*docx.CheckBox
 }
 
 func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
@@ -48,33 +83,23 @@ func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
 	return checkBoxes[0], nil
 }
 
-func detectControlOriginKeyFromDoc(textNodes []xml.Node) string {
+func detectControlOriginKeyFromDoc(textNodes []xml.Node) controlOrigin {
 	textField := helper.ConcatTextNodes(textNodes)
-	controlOrigins := getAllControlOrigins()
-	for _, controlOrigin := range controlOrigins {
-		if strings.Contains(textField, controlOrigin){
+	controlOriginMappings := getControlOriginMappings()
+	for controlOrigin, controlOriginMapping := range controlOriginMappings {
+		if controlOriginMapping.isDocMappingASubstrOf(textField){
 			return controlOrigin
 		}
 	}
 	return noOrigin
 }
 
-func detectControlOriginKeyFromData(text string) string {
-	switch text {
-	case "service_provider_corporate":
-		return serviceProviderCorporateOrigination
-	case "service_provided_system_specific":
-		return serviceProviderSystemSpecificOrigination
-	case "hybrid":
-		return serviceProviderHybridOrigination
-	case "customer_configured":
-		return configuredByCustomerOrigination
-	case "customer_provided":
-		return providedByCustomerOrigination
-	case "shared":
-		return sharedOrigination
-	case "inherited":
-		return inheritedOrigination
+func detectControlOriginKeyFromYAML(text string) controlOrigin {
+	controlOriginMappings := getControlOriginMappings()
+	for controlOrigin, controlOriginMapping := range controlOriginMappings {
+		if controlOriginMapping.isYAMLMappingEqualTo(text){
+			return controlOrigin
+		}
 	}
 	return noOrigin
 }
@@ -90,12 +115,12 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 		return nil, fmt.Errorf("Unable to find Control Origination cell")
 	}
 	// Each checkbox is contained in a paragraph.
-	origins := make(map[string]*docx.CheckBox)
+	origins := make(map[controlOrigin]*docx.CheckBox)
 	paragraphs, err := rows[0].Search(".//w:p")
 	if err != nil {
 		return nil, err
 	}
-	for _, paragraph := range paragraphs {
+	for i, paragraph := range paragraphs {
 		// 1. Find the box of the checkbox.
 		checkBox, err := findControlOriginationBox(paragraph)
 		if err != nil {
