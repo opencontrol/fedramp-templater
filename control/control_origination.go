@@ -73,16 +73,6 @@ type controlOrigination struct {
 	origins map[controlOrigin]*docx.CheckBox
 }
 
-func findControlOriginationBox(paragraph xml.Node) (xml.Node, error) {
-	checkBoxes, err := paragraph.Search(".//w:checkBox//w:default")
-	if err != nil {
-		return nil, err
-	} else if len(checkBoxes) != 1 {
-		return nil, fmt.Errorf("Unable to find the check box for the control origination.")
-	}
-	return checkBoxes[0], nil
-}
-
 func detectControlOriginKeyFromDoc(textNodes []xml.Node) controlOrigin {
 	textField := helper.ConcatTextNodes(textNodes)
 	controlOriginMappings := getControlOriginMappings()
@@ -122,7 +112,7 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 	}
 	for _, paragraph := range paragraphs {
 		// 1. Find the box of the checkbox.
-		checkBox, err := findControlOriginationBox(paragraph)
+		checkBox, err := docx.FindCheckBoxTag(paragraph)
 		if err != nil {
 			continue
 		}

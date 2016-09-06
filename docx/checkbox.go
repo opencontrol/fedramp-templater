@@ -1,13 +1,14 @@
 package docx
 
 import (
+	"fmt"
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
 )
 
 const (
-	checkBoxAttributeKey = "val"
-	checkBoxCheckedValue = "1"
+	checkBoxAttributeKey    = "val"
+	checkBoxCheckedValue    = "1"
 	checkBoxNotCheckedValue = "0"
 )
 
@@ -46,4 +47,16 @@ func (c *CheckBox) SetCheckMarkTo(value bool) {
 // GetTextValue will return the corresponding text for the checkbox.
 func (c *CheckBox) GetTextValue() string {
 	return helper.ConcatTextNodes(*(c.textNodes))
+}
+
+// FindCheckBoxTag will look for a checkbox and the value tag.
+// We look for the w:default tag embedded in the w:checkBox tag because that is what we need to modify the checkbox.
+func FindCheckBoxTag(paragraph xml.Node) (xml.Node, error) {
+	checkBoxes, err := paragraph.Search(".//w:checkBox//w:default")
+	if err != nil {
+		return nil, err
+	} else if len(checkBoxes) != 1 {
+		return nil, fmt.Errorf("Unable to find the check box value.")
+	}
+	return checkBoxes[0], nil
 }
