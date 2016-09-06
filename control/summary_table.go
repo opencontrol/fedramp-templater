@@ -71,6 +71,23 @@ func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 	return
 }
 
+// diffControlOrigination computes the diff of the control origination.
+func (st *SummaryTable) diffControlOrigination(control string,
+	openControlData opencontrols.Data) ([]reporter.Reporter, error) {
+	// find the control origination section
+	controlOrigination, err := newControlOrigination(st)
+	if err != nil {
+		return nil, err
+	}
+	// find the control origins currently checked in the section
+
+	// find the control origins noted in the YAML.
+
+	// find the symmetric difference of the two sets.
+	_ = controlOrigination
+	return nil, nil
+}
+
 // diffResponsibleRole computes the diff of the responsible role cell.
 func (st *SummaryTable) diffResponsibleRole(control string, openControlData opencontrols.Data) ([]reporter.Reporter, error) {
 	roleCell, err := findResponsibleRole(st)
@@ -89,9 +106,23 @@ func (st *SummaryTable) diffResponsibleRole(control string, openControlData open
 
 // Diff returns the list of diffs in the control table.
 func (st *SummaryTable) Diff(openControlData opencontrols.Data) ([]reporter.Reporter, error) {
+	reports := []reporter.Reporter{}
 	control, err := st.controlName()
 	if err != nil {
-		return []reporter.Reporter{}, err
+		return reports, err
 	}
-	return st.diffResponsibleRole(control, openControlData)
+	// Diff the responsible roles
+	diffReports, err := st.diffResponsibleRole(control, openControlData)
+	if err != nil {
+		return reports, err
+	}
+	reports = append(reports, diffReports...)
+
+	// Diff the control origination
+	diffReports, err = st.diffControlOrigination(control, openControlData)
+	if err != nil {
+		return reports, err
+	}
+	reports = append(reports, diffReports...)
+	return reports, nil
 }
