@@ -1,11 +1,11 @@
 package control_test
 
 import (
+	"bytes"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/opencontrol/fedramp-templater/reporter"
-	"bytes"
 	"github.com/opencontrol/fedramp-templater/control"
+	"github.com/opencontrol/fedramp-templater/reporter"
 )
 
 func createFakeStdOut() *bytes.Buffer {
