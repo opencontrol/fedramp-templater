@@ -4,10 +4,12 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
+	"gopkg.in/fatih/set.v0"
 )
 
 const (
-	responsibleRoleField = "Responsible Role"
+	responsibleRoleField    = "Responsible Role"
+	controlOriginationField = "Control Origination"
 )
 
 // SummaryTable represents the node in the Word docx XML tree that corresponds to the summary information for a security control.
@@ -80,12 +82,51 @@ func (st *SummaryTable) diffControlOrigination(control string,
 		return nil, err
 	}
 	// find the control origins currently checked in the section
+	docControlOrigins := set.New()
+	for origin, checkbox := range controlOrigination.origins {
+		if checkbox.IsChecked() {
+			docControlOrigins.Add(origin)
+		}
+	}
 
 	// find the control origins noted in the YAML.
+	yamlControlOrigins := set.New()
+	controlOrigins := openControlData.GetControlOrigins(control)
+	for _, controlOrigin := range controlOrigins {
+		controlOriginKey := detectControlOriginKeyFromYAML(controlOrigin)
+		if controlOriginKey == noOrigin {
+			continue
+		}
+		yamlControlOrigins.Add(controlOriginKey)
+	}
 
-	// find the symmetric difference of the two sets.
-	_ = controlOrigination
-	return nil, nil
+	// find the difference of the two sets.
+	controlOriginMap := getControlOriginMappings()
+	reports := []reporter.Reporter{}
+
+	// find only the origins in the document.
+	onlyInDocOrigins := set.Difference(docControlOrigins, yamlControlOrigins)
+	for _, originInterface := range onlyInDocOrigins.List() {
+		// cast back from interface{} to controlOrigin so we can use it in the controlOriginMap
+		origin, isType := originInterface.(controlOrigin)
+		if isType {
+			// Get the doc mapping and put it in the doc.
+			reports = append(reports, NewDiff(control, controlOriginationField, controlOriginMap[origin].docMapping, ""))
+		}
+	}
+
+	// find only the origins in the yaml.
+	onlyInYAMLOrigins := set.Difference(yamlControlOrigins, docControlOrigins)
+	for _, originInterface := range onlyInYAMLOrigins.List() {
+		// cast back from interface{} to controlOrigin so we can use it in the controlOriginMap
+		origin, isType := originInterface.(controlOrigin)
+		if isType {
+			// Get the YAML mapping and put it in the diff.
+			reports = append(reports, NewDiff(control, controlOriginationField, "", controlOriginMap[origin].yamlMapping))
+		}
+	}
+
+	return reports, nil
 }
 
 // diffResponsibleRole computes the diff of the responsible role cell.
