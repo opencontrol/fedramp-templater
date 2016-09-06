@@ -81,16 +81,4 @@ var _ = Describe("SummaryTable", func() {
 			Expect(origination.origins[sharedOrigination].IsChecked()).To(Equal(true))
 		})
 	})
-
-	Describe("Diff", func() {
-		It("detects no diff when the value of responsible role is empty", func() {
-			table := getTable("AC-2")
-			st := NewSummaryTable(table)
-			openControlData := fixtures.LoadOpenControlFixture()
-			diff, err := st.Diff(openControlData)
-
-			Expect(diff).To(Equal([]reporter.Reporter{}))
-			Expect(err).To(BeNil())
-		})
-	})
 })
