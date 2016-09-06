@@ -18,15 +18,15 @@ const (
 	fill
 )
 
-func(cmd subCommand) isType(otherCmd subCommand) bool {
+func (cmd subCommand) isType(otherCmd subCommand) bool {
 	return cmd == otherCmd
 }
 
 type options struct {
 	openControlsDir string
-	inputPath string
-	outputPath string
-	cmd subCommand
+	inputPath       string
+	outputPath      string
+	cmd             subCommand
 }
 
 func printUsage() {
@@ -42,7 +42,7 @@ func parseArgs() (opts options) {
 	if len(os.Args) < 4 || len(os.Args) > 5 {
 		printUsage()
 	}
-	switch (os.Args[1]) {
+	switch os.Args[1] {
 	case "diff":
 		opts.cmd = diff
 	case "fill":
@@ -51,11 +51,11 @@ func parseArgs() (opts options) {
 		log.Printf("Unknown command: %s\n", os.Args[1])
 		printUsage()
 	}
-	if (opts.cmd.isType(diff) && len(os.Args) == 4) {
+	if opts.cmd.isType(diff) && len(os.Args) == 4 {
 		// diff command only has four args
 		opts.openControlsDir = os.Args[2]
 		opts.inputPath = os.Args[3]
-	} else if (opts.cmd.isType(fill) && len(os.Args) == 5) {
+	} else if opts.cmd.isType(fill) && len(os.Args) == 5 {
 		// fill command only has five args
 		opts.openControlsDir = os.Args[2]
 		opts.inputPath = os.Args[3]
@@ -88,7 +88,7 @@ func diffCmd(openControlData opencontrols.Data, doc *ssp.Document) {
 		log.Println("No diff detected")
 		return
 	}
-	for _, reporter := range reporters{
+	for _, reporter := range reporters {
 		reporter.WriteTextTo(os.Stdout)
 	}
 	log.Fatalf("%d diffs detected\n", len(reporters))
