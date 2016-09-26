@@ -119,11 +119,11 @@ func createControlOriginsDiffReport(diff set.Interface, controlOriginMap map[con
 			var firstField field
 			switch source {
 			case sspSrc:
-				firstField.text = controlOriginMap[origin].docMapping
+				firstField.text = controlOriginMap[origin][sspSrc]
 				firstField.source = sspSrc
 				secondField.source = yamlSrc
 			case yamlSrc:
-				firstField.text = controlOriginMap[origin].yamlMapping
+				firstField.text = controlOriginMap[origin][yamlSrc]
 				firstField.source = yamlSrc
 				secondField.source = sspSrc
 			}

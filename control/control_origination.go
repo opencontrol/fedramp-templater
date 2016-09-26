@@ -23,48 +23,45 @@ const (
 	inheritedOrigination
 )
 
-type originMapping struct {
-	yamlMapping string
-	docMapping  string
-}
+type originMapping map[fieldSource]string
 
 func (o originMapping) isDocMappingASubstrOf(value string) bool {
-	return strings.Contains(value, o.docMapping)
+	return strings.Contains(value, o[sspSrc])
 }
 
 func (o originMapping) isYAMLMappingEqualTo(value string) bool {
-	return value == o.yamlMapping
+	return value == o[yamlSrc]
 }
 
 func getControlOriginMappings() map[controlOrigin]originMapping {
 	return map[controlOrigin]originMapping{
 		serviceProviderCorporateOrigination: {
-			yamlMapping: "service_provider_corporate",
-			docMapping:  "Service Provider Corporate",
+			yamlSrc: "service_provider_corporate",
+			sspSrc:  "Service Provider Corporate",
 		},
 		serviceProviderSystemSpecificOrigination: {
-			yamlMapping: "service_provided_system_specific",
-			docMapping:  "Service Provider System Specific",
+			yamlSrc: "service_provided_system_specific",
+			sspSrc:  "Service Provider System Specific",
 		},
 		serviceProviderHybridOrigination: {
-			yamlMapping: "hybrid",
-			docMapping:  "Service Provider Hybrid",
+			yamlSrc: "hybrid",
+			sspSrc:  "Service Provider Hybrid",
 		},
 		configuredByCustomerOrigination: {
-			yamlMapping: "customer_configured",
-			docMapping:  "Configured by Customer",
+			yamlSrc: "customer_configured",
+			sspSrc:  "Configured by Customer",
 		},
 		providedByCustomerOrigination: {
-			yamlMapping: "customer_provided",
-			docMapping:  "Provided by Customer",
+			yamlSrc: "customer_provided",
+			sspSrc:  "Provided by Customer",
 		},
 		sharedOrigination: {
-			yamlMapping: "shared",
-			docMapping:  "Shared",
+			yamlSrc: "shared",
+			sspSrc:  "Shared",
 		},
 		inheritedOrigination: {
-			yamlMapping: "inherited",
-			docMapping:  "Inherited",
+			yamlSrc: "inherited",
+			sspSrc:  "Inherited",
 		},
 	}
 }
