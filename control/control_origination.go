@@ -5,6 +5,7 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/docx"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
+	"gopkg.in/fatih/set.v0"
 	"strings"
 )
 
@@ -73,6 +74,17 @@ type controlOrigination struct {
 	origins map[controlOrigin]*docx.CheckBox
 }
 
+func (o *controlOrigination) getCheckedOrigins() *set.Set {
+	// find the control origins currently checked in the section
+	checkedControlOrigins := set.New()
+	for origin, checkbox := range o.origins {
+		if checkbox.IsChecked() {
+			checkedControlOrigins.Add(origin)
+		}
+	}
+	return checkedControlOrigins
+}
+
 func detectControlOriginKeyFromDoc(textNodes []xml.Node) controlOrigin {
 	textField := helper.ConcatTextNodes(textNodes)
 	controlOriginMappings := getControlOriginMappings()
@@ -139,4 +151,18 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 		origins[controlOriginKey] = docx.NewCheckBox(checkBox, &textNodes)
 	}
 	return &controlOrigination{cell: rows[0], origins: origins}, nil
+}
+
+func getCheckedOriginsFromYAML(yamlControlOriginationData []string) *set.Set {
+	// find the control origins currently checked in the section in the YAML.
+	yamlControlOrigins := set.New()
+	for _, controlOrigin := range yamlControlOriginationData {
+		controlOriginKey := detectControlOriginKeyFromYAML(controlOrigin)
+		if controlOriginKey == noOrigin {
+			continue
+		}
+		yamlControlOrigins.Add(controlOriginKey)
+
+	}
+	return yamlControlOrigins
 }

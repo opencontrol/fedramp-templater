@@ -76,29 +76,18 @@ func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 // diffControlOrigination computes the diff of the control origination.
 func (st *SummaryTable) diffControlOrigination(control string,
 	openControlData opencontrols.Data) ([]reporter.Reporter, error) {
-	// find the control origination section
-	controlOrigination, err := newControlOrigination(st)
+	// find the control origination section in the document.
+	docControlOriginationData, err := newControlOrigination(st)
 	if err != nil {
 		return nil, err
 	}
-	// find the control origins currently checked in the section
-	docControlOrigins := set.New()
-	for origin, checkbox := range controlOrigination.origins {
-		if checkbox.IsChecked() {
-			docControlOrigins.Add(origin)
-		}
-	}
+	// find the control origins currently checked in the section in the doc.
+	docControlOrigins := docControlOriginationData.getCheckedOrigins()
 
-	// find the control origins noted in the YAML.
-	yamlControlOrigins := set.New()
-	controlOrigins := openControlData.GetControlOrigins(control)
-	for _, controlOrigin := range controlOrigins {
-		controlOriginKey := detectControlOriginKeyFromYAML(controlOrigin)
-		if controlOriginKey == noOrigin {
-			continue
-		}
-		yamlControlOrigins.Add(controlOriginKey)
-	}
+	// find the control origins noted in the yaml.
+	yamlControlOriginationData := openControlData.GetControlOrigins(control)
+	// find the control origins currently checked in the section in the YAML.
+	yamlControlOrigins := getCheckedOriginsFromYAML(yamlControlOriginationData)
 
 	// find the difference of the two sets.
 	controlOriginMap := getControlOriginMappings()
@@ -106,27 +95,43 @@ func (st *SummaryTable) diffControlOrigination(control string,
 
 	// find only the origins in the document.
 	onlyInDocOrigins := set.Difference(docControlOrigins, yamlControlOrigins)
-	for _, originInterface := range onlyInDocOrigins.List() {
-		// cast back from interface{} to controlOrigin so we can use it in the controlOriginMap
-		origin, isType := originInterface.(controlOrigin)
-		if isType {
-			// Get the doc mapping and put it in the doc.
-			reports = append(reports, NewDiff(control, controlOriginationField, controlOriginMap[origin].docMapping, ""))
-		}
-	}
+	// create the diff report for the origins only in the document.
+	onlyInDocOriginReports := createControlOriginsDiffReport(onlyInDocOrigins, controlOriginMap, control, sspSrc)
+	reports = append(reports, onlyInDocOriginReports...)
 
 	// find only the origins in the yaml.
 	onlyInYAMLOrigins := set.Difference(yamlControlOrigins, docControlOrigins)
-	for _, originInterface := range onlyInYAMLOrigins.List() {
+	// create the diff report for the origins only in the yaml.
+	onlyInYAMLOriginReports := createControlOriginsDiffReport(onlyInYAMLOrigins, controlOriginMap, control, yamlSrc)
+	reports = append(reports, onlyInYAMLOriginReports...)
+
+	return reports, nil
+}
+
+func createControlOriginsDiffReport(diff set.Interface, controlOriginMap map[controlOrigin]originMapping,
+	control string, source fieldSource) []reporter.Reporter {
+	reports := []reporter.Reporter{}
+	secondField := field{text: ""}
+	for _, originInterface := range diff.List() {
 		// cast back from interface{} to controlOrigin so we can use it in the controlOriginMap
 		origin, isType := originInterface.(controlOrigin)
 		if isType {
-			// Get the YAML mapping and put it in the diff.
-			reports = append(reports, NewDiff(control, controlOriginationField, "", controlOriginMap[origin].yamlMapping))
+			var firstField field
+			switch source {
+			case sspSrc:
+				firstField.text = controlOriginMap[origin].docMapping
+				firstField.source = sspSrc
+				secondField.source = yamlSrc
+			case yamlSrc:
+				firstField.text = controlOriginMap[origin].yamlMapping
+				firstField.source = yamlSrc
+				secondField.source = sspSrc
+			}
+			// Get the doc mapping and put it in the doc.
+			reports = append(reports, NewDiff(control, controlOriginationField, firstField, secondField))
 		}
 	}
-
-	return reports, nil
+	return reports
 }
 
 // diffResponsibleRole computes the diff of the responsible role cell.
@@ -135,13 +140,15 @@ func (st *SummaryTable) diffResponsibleRole(control string, openControlData open
 	if err != nil {
 		return []reporter.Reporter{}, err
 	}
-	yamlRoles := openControlData.GetResponsibleRoles(control)
-	sspRoles := roleCell.getValue()
-	if roleCell.isDefaultValue(sspRoles) || yamlRoles == sspRoles {
+	yamlField := field{source: yamlSrc}
+	yamlField.text = openControlData.GetResponsibleRoles(control)
+	sspField := field{source: sspSrc}
+	sspField.text = roleCell.getValue()
+	if roleCell.isDefaultValue(sspField.text) || yamlField.text == sspField.text {
 		return []reporter.Reporter{}, nil
 	}
 	return []reporter.Reporter{
-		NewDiff(control, responsibleRoleField, sspRoles, yamlRoles),
+		NewDiff(control, responsibleRoleField, sspField, yamlField),
 	}, nil
 }
 

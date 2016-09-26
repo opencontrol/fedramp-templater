@@ -71,8 +71,8 @@ var _ = Describe("Templater", func() {
 				"Responsible Role in SSP: \"OpenControl Role Placeholder\". " +
 				"Responsible Role in YAML: \"Amazon Elastic Compute Cloud: AWS Staff\".\n" +
 				"Control: AC-2 (1). " +
-				"Control Origination in SSP: \"\". " +
-				"Control Origination in YAML: \"shared\".\n"))
+				"Control Origination in YAML: \"shared\". " +
+				"Control Origination in SSP: \"\".\n"))
 		})
 	})
 })
