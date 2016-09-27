@@ -1,13 +1,6 @@
 package control
 
 type field struct {
-	source fieldSource
+	source infoSource
 	text   string
 }
-
-type fieldSource string
-
-const (
-	sspSrc  fieldSource = "SSP"
-	yamlSrc fieldSource = "YAML"
-)

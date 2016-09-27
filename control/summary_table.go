@@ -109,7 +109,7 @@ func (st *SummaryTable) diffControlOrigination(control string,
 }
 
 func createControlOriginsDiffReport(diff set.Interface, controlOriginMap map[controlOrigin]originMapping,
-	control string, source fieldSource) []reporter.Reporter {
+	control string, source infoSource) []reporter.Reporter {
 	reports := []reporter.Reporter{}
 	secondField := field{text: ""}
 	for _, originInterface := range diff.List() {

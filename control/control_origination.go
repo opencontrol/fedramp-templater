@@ -23,7 +23,7 @@ const (
 	inheritedOrigination
 )
 
-type originMapping map[fieldSource]string
+type originMapping map[infoSource]string
 
 func (o originMapping) isDocMappingASubstrOf(value string) bool {
 	return strings.Contains(value, o[sspSrc])
