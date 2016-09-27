@@ -1,6 +1,5 @@
 package control
 
-
 // infoSource represents the source of where the information is located.
 type infoSource string
 
