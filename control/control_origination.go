@@ -36,9 +36,9 @@ func detectControlOriginKeyFromDoc(textNodes []xml.Node) origin.Key {
 	return origin.NoOrigin
 }
 
-func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
+func newControlOrigination(tbl *table) (*controlOrigination, error) {
 	// Find the control origination row.
-	rows, err := st.Root.Search(".//w:tc[starts-with(normalize-space(.), 'Control Origination')]")
+	rows, err := tbl.Root.Search(".//w:tc[starts-with(normalize-space(.), 'Control Origination')]")
 	if err != nil {
 		return nil, err
 	}

@@ -5,22 +5,26 @@ import (
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"github.com/opencontrol/fedramp-templater/ssp"
+	"log"
 )
 
-func fillSummaryTables(s *ssp.Document, openControlData opencontrols.Data) (err error) {
+func fillSummaryTables(s *ssp.Document, openControlData opencontrols.Data) error {
 	tables, err := s.SummaryTables()
 	if err != nil {
-		return
+		return err
 	}
 	for _, table := range tables {
-		st := control.NewSummaryTable(table)
+		st, err := control.NewSummaryTable(table)
+		if err != nil {
+			return err
+		}
 		err = st.Fill(openControlData)
 		if err != nil {
-			return
+			return err
 		}
 	}
 
-	return
+	return nil
 }
 
 func fillNarrativeTables(s *ssp.Document, openControlData opencontrols.Data) (err error) {
@@ -56,10 +60,15 @@ func DiffSSP(s *ssp.Document, openControlData opencontrols.Data) ([]reporter.Rep
 		return diffInfo, err
 	}
 	for _, table := range tables {
-		st := control.NewSummaryTable(table)
+		st, err := control.NewSummaryTable(table)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
 		tableDiffInfo, err := st.Diff(openControlData)
 		if err != nil {
-			return diffInfo, err
+			log.Println(err)
+			continue
 		}
 		diffInfo = append(diffInfo, tableDiffInfo...)
 	}

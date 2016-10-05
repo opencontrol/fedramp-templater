@@ -46,7 +46,8 @@ var _ = Describe("SummaryTable", func() {
 	Describe("Fill", func() {
 		It("fills in the Responsible Role for controls", func() {
 			table := getTable("AC-2")
-			st := NewSummaryTable(table)
+			st, err := NewSummaryTable(table)
+			Expect(err).NotTo(HaveOccurred())
 			openControlData := fixtures.LoadOpenControlFixture()
 
 			st.Fill(openControlData)
@@ -56,7 +57,8 @@ var _ = Describe("SummaryTable", func() {
 
 		It("fills in the Responsible Role for control enhancements", func() {
 			table := getTable("AC-2 (1)")
-			st := NewSummaryTable(table)
+			st, err := NewSummaryTable(table)
+			Expect(err).NotTo(HaveOccurred())
 			openControlData := fixtures.LoadOpenControlFixture()
 
 			st.Fill(openControlData)
@@ -65,28 +67,28 @@ var _ = Describe("SummaryTable", func() {
 		})
 		It("fills in the control origination", func() {
 			table := getTable("AC-2")
-			st := NewSummaryTable(table)
+			st, err := NewSummaryTable(table)
+			Expect(err).NotTo(HaveOccurred())
 			openControlData := fixtures.LoadOpenControlFixture()
 
 			By("initially loading the summary table, we should detect that the shared control origination" +
 				" is false")
-			origination, err := newControlOrigination(&st)
 			Expect(err).ToNot(HaveOccurred())
-			Expect(origination.origins[origin.SharedOrigination].IsChecked()).To(Equal(false))
+			Expect(st.originTable.origins[origin.SharedOrigination].IsChecked()).To(Equal(false))
 
 			By("running fill, we expect the shared control origination to equal true")
 			st.Fill(openControlData)
 
-			origination, err = newControlOrigination(&st)
 			Expect(err).ToNot(HaveOccurred())
-			Expect(origination.origins[origin.SharedOrigination].IsChecked()).To(Equal(true))
+			Expect(st.originTable.origins[origin.SharedOrigination].IsChecked()).To(Equal(true))
 		})
 	})
 	Describe("Diff", func() {
 		It("detects no diff when the value of responsible role is empty", func() {
 			Skip("Revisit when we can mock the opencontroldata and really expect no diffs.")
 			table := getTable("AC-2")
-			st := NewSummaryTable(table)
+			st, err := NewSummaryTable(table)
+			Expect(err).NotTo(HaveOccurred())
 			openControlData := fixtures.LoadOpenControlFixture()
 			diff, err := st.Diff(openControlData)
 

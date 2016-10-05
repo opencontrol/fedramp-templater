@@ -17,12 +17,17 @@ const (
 // SummaryTable represents the node in the Word docx XML tree that corresponds to the summary information for a security control.
 type SummaryTable struct {
 	table
+	originTable *controlOrigination
 }
 
 // NewSummaryTable creates a SummaryTable instance.
-func NewSummaryTable(root xml.Node) SummaryTable {
+func NewSummaryTable(root xml.Node) (SummaryTable, error) {
 	tbl := table{Root: root}
-	return SummaryTable{tbl}
+	originTable, err := newControlOrigination(&tbl)
+	if err != nil {
+		return SummaryTable{}, err
+	}
+	return SummaryTable{tbl, originTable}, nil
 }
 
 func (st *SummaryTable) controlName() (name string, err error) {
@@ -41,11 +46,6 @@ func (st *SummaryTable) fillResponsibleRole(openControlData opencontrols.Data, c
 }
 
 func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data, control string) (err error) {
-	controlOrigination, err := newControlOrigination(st)
-	if err != nil {
-		return
-	}
-
 	controlOrigins := openControlData.GetControlOrigins(control)
 	checkedOriginsSet := controlOrigins.GetCheckedOrigins()
 	checkedOrigins := origin.ConvertSetToKeys(checkedOriginsSet)
@@ -54,7 +54,7 @@ func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data
 		if checkedOrigin == origin.NoOrigin {
 			continue
 		}
-		controlOrigination.origins[checkedOrigin].SetCheckMarkTo(true)
+		st.originTable.origins[checkedOrigin].SetCheckMarkTo(true)
 	}
 	return
 }
@@ -80,13 +80,8 @@ func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 // diffControlOrigination computes the diff of the control origination.
 func (st *SummaryTable) diffControlOrigination(control string,
 	openControlData opencontrols.Data) ([]reporter.Reporter, error) {
-	// find the control origination section in the document.
-	docControlOriginationData, err := newControlOrigination(st)
-	if err != nil {
-		return nil, err
-	}
 	// find the control origins currently checked in the section in the doc.
-	docControlOrigins := docControlOriginationData.getCheckedOrigins()
+	docControlOrigins := st.originTable.getCheckedOrigins()
 
 	// find the control origins noted in the yaml.
 	yamlControlOriginationData := openControlData.GetControlOrigins(control)
