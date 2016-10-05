@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/opencontrol/fedramp-templater/common/origin"
+	"github.com/opencontrol/fedramp-templater/reporter"
 )
 
 type tableData struct {
@@ -79,6 +80,18 @@ var _ = Describe("SummaryTable", func() {
 			origination, err = newControlOrigination(&st)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(origination.origins[origin.SharedOrigination].IsChecked()).To(Equal(true))
+		})
+	})
+	Describe("Diff", func() {
+		It("detects no diff when the value of responsible role is empty", func() {
+			Skip("Revisit when we can mock the opencontroldata and really expect no diffs.")
+			table := getTable("AC-2")
+			st := NewSummaryTable(table)
+			openControlData := fixtures.LoadOpenControlFixture()
+			diff, err := st.Diff(openControlData)
+
+			Expect(diff).To(Equal([]reporter.Reporter{}))
+			Expect(err).To(BeNil())
 		})
 	})
 })
