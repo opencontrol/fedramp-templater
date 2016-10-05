@@ -5,6 +5,8 @@ import (
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"gopkg.in/fatih/set.v0"
+	"log"
+	"reflect"
 )
 
 const (
@@ -129,6 +131,9 @@ func createControlOriginsDiffReport(diff set.Interface, controlOriginMap map[con
 			}
 			// Get the doc mapping and put it in the doc.
 			reports = append(reports, NewDiff(control, controlOriginationField, firstField, secondField))
+		} else {
+			log.Printf("Unable to use value as 'controlOrigin' Type: %v. Value: %v.\n",
+				reflect.TypeOf(originInterface), originInterface)
 		}
 	}
 	return reports
