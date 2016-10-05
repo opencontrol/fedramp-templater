@@ -3,6 +3,8 @@ package opencontrols
 import (
 	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/models"
+	"github.com/opencontrol/fedramp-templater/common/origin"
+	"gopkg.in/fatih/set.v0"
 )
 
 const standardKey = "NIST-800-53"
@@ -35,11 +37,41 @@ func (d *Data) GetNarrative(control string, sectionKey string) string {
 }
 
 // GetControlOrigins returns the control origination information for each component matching the specified control.
-func (d *Data) GetControlOrigins(control string) []string {
-	var controlOrigins []string
+func (d *Data) GetControlOrigins(control string) ControlOrigins {
+	controlOrigins := ControlOrigins{}
 	justifications := d.ocd.Justifications.Get(standardKey, control)
 	for _, justification := range justifications {
-		controlOrigins = append(controlOrigins, justification.SatisfiesData.GetControlOrigin())
+		controlOrigins.origins = append(controlOrigins.origins, justification.SatisfiesData.GetControlOrigin())
 	}
 	return controlOrigins
+}
+
+// ControlOrigins is a wrapper for the extracted data from the YAML for a particular control.
+type ControlOrigins struct {
+	origins []string
+}
+
+func detectControlOriginKey(text string) origin.Key {
+	controlOriginMappings := origin.GetSourceMappings()
+	for controlOrigin, controlOriginMapping := range controlOriginMappings {
+		if controlOriginMapping.IsYAMLMappingEqualTo(text) {
+			return controlOrigin
+		}
+	}
+	return origin.NoOrigin
+}
+
+// GetCheckedOrigins will return the list of origin keys.
+func (origins ControlOrigins) GetCheckedOrigins() *set.Set {
+	// find the control origins currently checked in the section in the YAML.
+	yamlControlOrigins := set.New()
+	for _, controlOrigin := range origins.origins {
+		controlOriginKey := detectControlOriginKey(controlOrigin)
+		if controlOriginKey == origin.NoOrigin {
+			continue
+		}
+		yamlControlOrigins.Add(controlOriginKey)
+
+	}
+	return yamlControlOrigins
 }

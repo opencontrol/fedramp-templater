@@ -3,72 +3,15 @@ package control
 import (
 	"fmt"
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/common/origin"
 	"github.com/opencontrol/fedramp-templater/docx"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
 	"gopkg.in/fatih/set.v0"
-	"strings"
 )
-
-type controlOrigin uint8
-
-// Origination prefixes.
-const (
-	noOrigin controlOrigin = iota
-	serviceProviderCorporateOrigination
-	serviceProviderSystemSpecificOrigination
-	serviceProviderHybridOrigination
-	configuredByCustomerOrigination
-	providedByCustomerOrigination
-	sharedOrigination
-	inheritedOrigination
-)
-
-type originMapping map[infoSource]string
-
-func (o originMapping) isDocMappingASubstrOf(value string) bool {
-	return strings.Contains(value, o[sspSrc])
-}
-
-func (o originMapping) isYAMLMappingEqualTo(value string) bool {
-	return value == o[yamlSrc]
-}
-
-func getControlOriginMappings() map[controlOrigin]originMapping {
-	return map[controlOrigin]originMapping{
-		serviceProviderCorporateOrigination: {
-			yamlSrc: "service_provider_corporate",
-			sspSrc:  "Service Provider Corporate",
-		},
-		serviceProviderSystemSpecificOrigination: {
-			yamlSrc: "service_provided_system_specific",
-			sspSrc:  "Service Provider System Specific",
-		},
-		serviceProviderHybridOrigination: {
-			yamlSrc: "hybrid",
-			sspSrc:  "Service Provider Hybrid",
-		},
-		configuredByCustomerOrigination: {
-			yamlSrc: "customer_configured",
-			sspSrc:  "Configured by Customer",
-		},
-		providedByCustomerOrigination: {
-			yamlSrc: "customer_provided",
-			sspSrc:  "Provided by Customer",
-		},
-		sharedOrigination: {
-			yamlSrc: "shared",
-			sspSrc:  "Shared",
-		},
-		inheritedOrigination: {
-			yamlSrc: "inherited",
-			sspSrc:  "Inherited",
-		},
-	}
-}
 
 type controlOrigination struct {
 	cell    xml.Node
-	origins map[controlOrigin]*docx.CheckBox
+	origins map[origin.Key]*docx.CheckBox
 }
 
 func (o *controlOrigination) getCheckedOrigins() *set.Set {
@@ -82,25 +25,15 @@ func (o *controlOrigination) getCheckedOrigins() *set.Set {
 	return checkedControlOrigins
 }
 
-func detectControlOriginKeyFromDoc(textNodes []xml.Node) controlOrigin {
+func detectControlOriginKeyFromDoc(textNodes []xml.Node) origin.Key {
 	textField := helper.ConcatTextNodes(textNodes)
-	controlOriginMappings := getControlOriginMappings()
+	controlOriginMappings := origin.GetSourceMappings()
 	for controlOrigin, controlOriginMapping := range controlOriginMappings {
-		if controlOriginMapping.isDocMappingASubstrOf(textField) {
+		if controlOriginMapping.IsDocMappingASubstrOf(textField) {
 			return controlOrigin
 		}
 	}
-	return noOrigin
-}
-
-func detectControlOriginKeyFromYAML(text string) controlOrigin {
-	controlOriginMappings := getControlOriginMappings()
-	for controlOrigin, controlOriginMapping := range controlOriginMappings {
-		if controlOriginMapping.isYAMLMappingEqualTo(text) {
-			return controlOrigin
-		}
-	}
-	return noOrigin
+	return origin.NoOrigin
 }
 
 func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
@@ -114,7 +47,7 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 		return nil, fmt.Errorf("Unable to find Control Origination cell")
 	}
 	// Each checkbox is contained in a paragraph.
-	origins := make(map[controlOrigin]*docx.CheckBox)
+	origins := make(map[origin.Key]*docx.CheckBox)
 	paragraphs, err := rows[0].Search(".//w:p")
 	if err != nil {
 		return nil, err
@@ -135,7 +68,7 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 		// 3. Detect the key for the map.
 		controlOriginKey := detectControlOriginKeyFromDoc(textNodes)
 		// if couldn't detect an origin, skip.
-		if controlOriginKey == noOrigin {
+		if controlOriginKey == origin.NoOrigin {
 			continue
 		}
 		// if the origin is already in the map, skip.
@@ -148,18 +81,4 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 		origins[controlOriginKey] = docx.NewCheckBox(checkBox, &textNodes)
 	}
 	return &controlOrigination{cell: rows[0], origins: origins}, nil
-}
-
-func getCheckedOriginsFromYAML(yamlControlOriginationData []string) *set.Set {
-	// find the control origins currently checked in the section in the YAML.
-	yamlControlOrigins := set.New()
-	for _, controlOrigin := range yamlControlOriginationData {
-		controlOriginKey := detectControlOriginKeyFromYAML(controlOrigin)
-		if controlOriginKey == noOrigin {
-			continue
-		}
-		yamlControlOrigins.Add(controlOriginKey)
-
-	}
-	return yamlControlOrigins
 }

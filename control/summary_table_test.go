@@ -11,6 +11,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/opencontrol/fedramp-templater/common/origin"
 )
 
 type tableData struct {
@@ -70,14 +71,14 @@ var _ = Describe("SummaryTable", func() {
 				" is false")
 			origination, err := newControlOrigination(&st)
 			Expect(err).ToNot(HaveOccurred())
-			Expect(origination.origins[sharedOrigination].IsChecked()).To(Equal(false))
+			Expect(origination.origins[origin.SharedOrigination].IsChecked()).To(Equal(false))
 
 			By("running fill, we expect the shared control origination to equal true")
 			st.Fill(openControlData)
 
 			origination, err = newControlOrigination(&st)
 			Expect(err).ToNot(HaveOccurred())
-			Expect(origination.origins[sharedOrigination].IsChecked()).To(Equal(true))
+			Expect(origination.origins[origin.SharedOrigination].IsChecked()).To(Equal(true))
 		})
 	})
 })
