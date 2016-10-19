@@ -41,5 +41,5 @@ import:
   - matchers/support/goraph/util
   - types
 - package: github.com/opencontrol/compliance-masonry
-  version: ^1.1.2
+  version: eb0f849c5b3931c743a979a4e1d19344172d2724
 - package: github.com/opencontrol/doc-template
