@@ -57,6 +57,33 @@ Only tested on Mac.
 ./scripts/preview-doc <path/to/word.docx>
 ```
 
+## Creating Binaries
+
+### One Time Setup for Uploading Binaries
+
+1. Install [goxc](go get github.com/laher/goxc)
+
+    ```bash
+    go get github.com/laher/goxc
+    ```
+
+1. [Get a GitHub API token](https://github.com/settings/tokens/new). The token should have write access to repos.
+1. Add a .goxc.local.json file with a github api key
+
+    ```bash
+    goxc -wlc default publish-github -apikey=123456789012
+    ```
+
+### Compiling and Uploading Binaries
+
+1. Set version number in:
+    * [`.goxc.json`](.goxc.json)
+1. Run the release script
+
+    ```bash
+    ./release.sh
+    ```
+
 ## Resources
 
 ### Tools
