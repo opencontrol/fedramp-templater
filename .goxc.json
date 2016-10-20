@@ -1,0 +1,18 @@
+{
+	"Tasks": [
+		"default",
+		"publish-github"
+	],
+	"TasksExclude": [
+		"go-test"
+	],
+	"BuildConstraints": "linux,windows,darwin",
+	"PackageVersion": "1.0.0",
+	"TaskSettings": {
+		"publish-github": {
+			"owner": "opencontrol",
+			"repository": "fedramp-templater"
+		}
+	},
+	"ConfigVersion": "0.9"
+}

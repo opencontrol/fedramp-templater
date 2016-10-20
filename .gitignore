@@ -1,3 +1,4 @@
 tmp/
 fedramp-templater
 ~$*
+.goxc.local.json
