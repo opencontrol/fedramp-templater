@@ -9,24 +9,25 @@ import (
 
 type diffReporter struct {
 	controlName string
-	field       string
-	sspValue    string
-	yamlValue   string
+	fieldType   string
+	firstField  field
+	secondField field
 }
 
 // NewDiff creates a new collection of information that can report diff info for a control.
-func NewDiff(controlName, field, sspValue, yamlValue string) reporter.Reporter {
+func NewDiff(controlName, fieldType string, firstField, secondField field) reporter.Reporter {
 	return diffReporter{
 		controlName: strings.TrimSpace(controlName),
-		field:       strings.TrimSpace(field),
-		sspValue:    strings.TrimSpace(sspValue),
-		yamlValue:   strings.TrimSpace(yamlValue),
+		fieldType:   strings.TrimSpace(fieldType),
+		firstField:  firstField,
+		secondField: secondField,
 	}
 }
 
 // WriteTextTo writes diff information for a control to the writer in plain text format.
 func (r diffReporter) WriteTextTo(writer io.Writer) error {
-	_, err := fmt.Fprintf(writer, "Control: %s. %s in SSP: \"%s\". %s in YAML: \"%s\".\n",
-		r.controlName, r.field, r.sspValue, r.field, r.yamlValue)
+	_, err := fmt.Fprintf(writer, "Control: %s. %s in %s: \"%s\". %s in %s: \"%s\".\n",
+		r.controlName, r.fieldType, r.firstField.source, strings.TrimSpace(r.firstField.text),
+		r.fieldType, r.secondField.source, strings.TrimSpace(r.secondField.text))
 	return err
 }

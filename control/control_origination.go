@@ -3,100 +3,42 @@ package control
 import (
 	"fmt"
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/common/origin"
 	"github.com/opencontrol/fedramp-templater/docx"
 	"github.com/opencontrol/fedramp-templater/docx/helper"
-	"strings"
+	"gopkg.in/fatih/set.v0"
 )
-
-type controlOrigin uint8
-
-// Origination prefixes.
-const (
-	noOrigin controlOrigin = iota
-	serviceProviderCorporateOrigination
-	serviceProviderSystemSpecificOrigination
-	serviceProviderHybridOrigination
-	configuredByCustomerOrigination
-	providedByCustomerOrigination
-	sharedOrigination
-	inheritedOrigination
-)
-
-type originMapping struct {
-	yamlMapping string
-	docMapping  string
-}
-
-func (o originMapping) isDocMappingASubstrOf(value string) bool {
-	return strings.Contains(value, o.docMapping)
-}
-
-func (o originMapping) isYAMLMappingEqualTo(value string) bool {
-	return value == o.yamlMapping
-}
-
-func getControlOriginMappings() map[controlOrigin]originMapping {
-	return map[controlOrigin]originMapping{
-		serviceProviderCorporateOrigination: {
-			yamlMapping: "service_provider_corporate",
-			docMapping:  "Service Provider Corporate",
-		},
-		serviceProviderSystemSpecificOrigination: {
-			yamlMapping: "service_provided_system_specific",
-			docMapping:  "Service Provider System Specific",
-		},
-		serviceProviderHybridOrigination: {
-			yamlMapping: "hybrid",
-			docMapping:  "Service Provider Hybrid",
-		},
-		configuredByCustomerOrigination: {
-			yamlMapping: "customer_configured",
-			docMapping:  "Configured by Customer",
-		},
-		providedByCustomerOrigination: {
-			yamlMapping: "customer_provided",
-			docMapping:  "Provided by Customer",
-		},
-		sharedOrigination: {
-			yamlMapping: "shared",
-			docMapping:  "Shared",
-		},
-		inheritedOrigination: {
-			yamlMapping: "inherited",
-			docMapping:  "Inherited",
-		},
-	}
-}
 
 type controlOrigination struct {
 	cell    xml.Node
-	origins map[controlOrigin]*docx.CheckBox
+	origins map[origin.Key]*docx.CheckBox
 }
 
-func detectControlOriginKeyFromDoc(textNodes []xml.Node) controlOrigin {
+func (o *controlOrigination) getCheckedOrigins() *set.Set {
+	// find the control origins currently checked in the section
+	checkedControlOrigins := set.New()
+	for origin, checkbox := range o.origins {
+		if checkbox.IsChecked() {
+			checkedControlOrigins.Add(origin)
+		}
+	}
+	return checkedControlOrigins
+}
+
+func detectControlOriginKeyFromDoc(textNodes []xml.Node) origin.Key {
 	textField := helper.ConcatTextNodes(textNodes)
-	controlOriginMappings := getControlOriginMappings()
+	controlOriginMappings := origin.GetSourceMappings()
 	for controlOrigin, controlOriginMapping := range controlOriginMappings {
-		if controlOriginMapping.isDocMappingASubstrOf(textField) {
+		if controlOriginMapping.IsDocMappingASubstrOf(textField) {
 			return controlOrigin
 		}
 	}
-	return noOrigin
+	return origin.NoOrigin
 }
 
-func detectControlOriginKeyFromYAML(text string) controlOrigin {
-	controlOriginMappings := getControlOriginMappings()
-	for controlOrigin, controlOriginMapping := range controlOriginMappings {
-		if controlOriginMapping.isYAMLMappingEqualTo(text) {
-			return controlOrigin
-		}
-	}
-	return noOrigin
-}
-
-func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
+func newControlOrigination(tbl *table) (*controlOrigination, error) {
 	// Find the control origination row.
-	rows, err := st.Root.Search(".//w:tc[starts-with(normalize-space(.), 'Control Origination')]")
+	rows, err := tbl.Root.Search(".//w:tc[starts-with(normalize-space(.), 'Control Origination')]")
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +47,7 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 		return nil, fmt.Errorf("Unable to find Control Origination cell")
 	}
 	// Each checkbox is contained in a paragraph.
-	origins := make(map[controlOrigin]*docx.CheckBox)
+	origins := make(map[origin.Key]*docx.CheckBox)
 	paragraphs, err := rows[0].Search(".//w:p")
 	if err != nil {
 		return nil, err
@@ -126,7 +68,7 @@ func newControlOrigination(st *SummaryTable) (*controlOrigination, error) {
 		// 3. Detect the key for the map.
 		controlOriginKey := detectControlOriginKeyFromDoc(textNodes)
 		// if couldn't detect an origin, skip.
-		if controlOriginKey == noOrigin {
+		if controlOriginKey == origin.NoOrigin {
 			continue
 		}
 		// if the origin is already in the map, skip.
