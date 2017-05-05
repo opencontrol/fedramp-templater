@@ -19,9 +19,25 @@ Requires [Go](https://golang.org/) 1.6+.
     For OsX (assuming you have [HomeBrew installed](http://brew.sh/))
     ```
     brew install libxml2
+    brew install pkg-config
+    mkdir -p /usr/local/lib/pkgconfig
+    sudo ln -s /usr/local/Cellar/libxml2/2.9.4_2/lib/pkgconfig/libxml-2.0.pc /usr/local/lib/pkgconfig/libxml-2.0.pc
     go get github.com/moovweb/gokogiri
     ```
-   
+
+    At the time of documenting these steps, the version of libxml2 installed is 2.9.4_2.  
+
+    It may different when you are performing these steps.  If it is you will need to look inside of /usr/local/Cellar/libxml2 and see what version is installed and then modify the symbolic link command based on the version you have installed.
+
+  - Also make sure that your go environment variables are configured to build the FedRAMP package.
+
+    For OsX add the following to your .bash_profile (assuming you are using bash)
+    ```
+    export GOPATH="$HOME/go"
+    export GOBIN=$GOPATH/bin
+    export PATH=$PATH:$GOBIN
+    ```
+    
     Note that installation issues are usually caused by the install of Gokogiri, and if you run into issues you may find some help at [this issue](https://github.com/moovweb/gokogiri/issues/14) and with the [update to the GokoGiri README](https://github.com/moovweb/gokogiri/pull/95)
 
 
