@@ -19,6 +19,7 @@ Requires [Go](https://golang.org/) 1.6+.
     For OsX (assuming you have [HomeBrew installed](http://brew.sh/))
     ```
     brew install libxml2
+    brew install pkg-config
     go get github.com/moovweb/gokogiri
     ```
    
