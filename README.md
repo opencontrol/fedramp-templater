@@ -20,6 +20,8 @@ Requires [Go](https://golang.org/) 1.6+.
     ```
     brew install libxml2
     brew install pkg-config
+    mkdir -p /usr/local/lib/pkgconfig
+    sudo ln -s /usr/local/Cellar/libxml2/2.9.4_2/lib/pkgconfig/libxml-2.0.pc /usr/local/lib/pkgconfig/libxml-2.0.pc
     go get github.com/moovweb/gokogiri
     ```
    
