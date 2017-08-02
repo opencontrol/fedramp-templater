@@ -1,11 +1,12 @@
 package templater
 
 import (
+	"log"
 	"github.com/opencontrol/fedramp-templater/control"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"github.com/opencontrol/fedramp-templater/ssp"
-	"log"
+	"github.com/opencontrol/fedramp-templater/logger"
 )
 
 func fillSummaryTables(s *ssp.Document, openControlData opencontrols.Data) error {
@@ -14,9 +15,17 @@ func fillSummaryTables(s *ssp.Document, openControlData opencontrols.Data) error
 		return err
 	}
 	for _, table := range tables {
+		//logger.Tracef("%v", table)
 		st, err := control.NewSummaryTable(table)
 		if err != nil {
 			return err
+		}
+		controlName, err := st.ControlName()
+		if err != nil {
+			return err
+		}
+		if err != nil {
+			logger.Debugf("%v", controlName)
 		}
 		err = st.Fill(openControlData)
 		if err != nil {

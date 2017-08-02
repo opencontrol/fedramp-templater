@@ -1,4 +1,18 @@
+# elements originally ignored
 tmp/
 fedramp-templater
 ~$*
 .goxc.local.json
+
+# additional items that we want to ignore
+*~
+.git
+*.pyc
+*.pyo
+.idea
+*.swp
+.DS_Store
+.swo
+.swp
+.*#
+

@@ -1,6 +1,8 @@
 package opencontrols
 
 import (
+	"strings"
+
 	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/fedramp-templater/common/origin"
@@ -28,12 +30,38 @@ func LoadFrom(dirPath string) (data Data, errors []error) {
 
 // GetResponsibleRoles returns the responsible role information for each component matching the specified control.
 func (d *Data) GetResponsibleRoles(control string) string {
-	return d.ocd.FormatResponsibleRoles(standardKey, control)
+	var responsibleRoleOrig = d.ocd.FormatResponsibleRoles(standardKey, control)
+	if len(strings.TrimSpace(responsibleRoleOrig)) > 0 { responsibleRoleOrig += "\n" }
+	return responsibleRoleOrig
 }
 
 // GetNarrative returns the justification text for the specified control. Pass an empty string for `sectionKey` if you are looking for the overall narrative.
 func (d *Data) GetNarrative(control string, sectionKey string) string {
-	return d.ocd.FormatNarrative(standardKey, control, sectionKey)
+	var narrativeOrig = d.ocd.FormatNarrative(standardKey, control, sectionKey)
+
+	// ABr, 20170801: split based on line endings
+	var lines = strings.Split(narrativeOrig, "\n")
+	var narrativeFinal = ""
+	var isFirstLine = true
+	var hasPrevLine = false
+	for i := range lines {
+		var line = lines[i]
+		if isFirstLine {
+			narrativeFinal = line + "\n"
+			isFirstLine = false
+		} else {
+			if len(strings.TrimSpace(line)) == 0 {
+				narrativeFinal += "\n"
+				hasPrevLine = false
+			} else {
+				if( hasPrevLine ) { narrativeFinal += " " }
+				narrativeFinal += line
+				hasPrevLine = true
+			}
+		}
+	}
+	if( hasPrevLine ) { narrativeFinal += "\n" }
+	return narrativeFinal
 }
 
 // GetControlOrigins returns the control origination information for each component matching the specified control.

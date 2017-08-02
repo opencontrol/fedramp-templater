@@ -26,6 +26,9 @@ func getWordDoc(path string) (doc *docx.Docx, err error) {
 
 // Load creates a new Document from the provided file path.
 func Load(path string) (ssp *Document, err error) {
+	if ssp != nil || err != nil {
+		return
+	}
 	wordDoc, err := getWordDoc(path)
 	if err != nil {
 		return

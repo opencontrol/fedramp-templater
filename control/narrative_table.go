@@ -1,13 +1,18 @@
 package control
 
 import (
+	"strings"
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
+	"github.com/opencontrol/fedramp-templater/logger"
 )
 
 func fillRows(rows []xml.Node, data opencontrols.Data, control string) error {
 	for _, row := range rows {
 		section := narrativeSection{row}
+		if( strings.Contains(control, "ZZ-AU-2") ) {
+			logger.Debugf("%s: %v", control, section.row)
+		}
 		err := section.Fill(data, control)
 		if err != nil {
 			return err
