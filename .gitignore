@@ -3,6 +3,7 @@ tmp/
 fedramp-templater
 ~$*
 .goxc.local.json
+bin
 
 # additional items that we want to ignore
 *~
