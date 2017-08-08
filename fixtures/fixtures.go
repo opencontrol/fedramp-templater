@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	dbg "github.com/onsi/gomega"
+	"github.com/onsi/gomega"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/ssp"
 )
@@ -45,3 +45,9 @@ func LoadOpenControlFixture() opencontrols.Data {
 
 	return openControlData
 }
+
+// Expect - Declarations for Ginkgo DSL
+var Expect = gomega.Expect
+
+// HaveOccurred - Declarations for Ginkgo DSL
+var HaveOccurred = gomega.HaveOccurred
