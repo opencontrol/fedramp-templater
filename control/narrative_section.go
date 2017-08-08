@@ -7,9 +7,9 @@ import (
 
 	"github.com/jbowtie/gokogiri/xml"
 	docxHelper "github.com/opencontrol/fedramp-templater/docx/helper"
+	"github.com/opencontrol/fedramp-templater/logger"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	xmlHelper "github.com/opencontrol/fedramp-templater/xml/helper"
-	"github.com/opencontrol/fedramp-templater/logger"
 )
 
 type narrativeSection struct {
@@ -21,7 +21,7 @@ func (n narrativeSection) parsePart() (key string, err error) {
 	content := []byte(n.row.Content())
 	subMatches := re.FindSubmatch(content)
 	if len(subMatches) != 2 {
-		err = errors.New("No Parts found.")
+		err = errors.New("no parts found")
 		return
 	}
 	key = string(subMatches[1])
@@ -41,7 +41,7 @@ func (n narrativeSection) GetKey() (key string, err error) {
 			return
 		}
 	} else {
-		err = errors.New("Don't know how to parse row.")
+		err = errors.New("don't know how to parse row")
 	}
 
 	return
@@ -62,7 +62,7 @@ func (n narrativeSection) Fill(data opencontrols.Data, control string) (err erro
 
 	// fixup the narrative
 	narrative := data.GetNarrative(control, key)
-	if( strings.Contains(control, "AU-2") ) {
+	if strings.Contains(control, "AU-2") {
 		logger.Debugf("'%s': '%s': %v", control, key, narrative)
 	}
 	docxHelper.FillCell(cellNode, narrative)

@@ -34,6 +34,7 @@ func (st *SummaryTable) controlName() (name string, err error) {
 	return st.table.controlName()
 }
 
+// ControlName - name of the control
 func (st *SummaryTable) ControlName() (name string, err error) {
 	return st.table.controlName()
 }

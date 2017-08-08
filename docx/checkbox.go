@@ -56,7 +56,7 @@ func FindCheckBoxTag(paragraph xml.Node) (xml.Node, error) {
 	if err != nil {
 		return nil, err
 	} else if len(checkBoxes) != 1 {
-		return nil, fmt.Errorf("Unable to find the check box value.")
+		return nil, fmt.Errorf("unable to find the check box value")
 	}
 	return checkBoxes[0], nil
 }

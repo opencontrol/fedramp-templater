@@ -31,7 +31,9 @@ func LoadFrom(dirPath string) (data Data, errors []error) {
 // GetResponsibleRoles returns the responsible role information for each component matching the specified control.
 func (d *Data) GetResponsibleRoles(control string) string {
 	var responsibleRoleOrig = d.ocd.FormatResponsibleRoles(standardKey, control)
-	if len(strings.TrimSpace(responsibleRoleOrig)) > 0 { responsibleRoleOrig += "\n" }
+	if len(strings.TrimSpace(responsibleRoleOrig)) > 0 {
+		responsibleRoleOrig += "\n"
+	}
 	return responsibleRoleOrig
 }
 
@@ -54,13 +56,17 @@ func (d *Data) GetNarrative(control string, sectionKey string) string {
 				narrativeFinal += "\n"
 				hasPrevLine = false
 			} else {
-				if( hasPrevLine ) { narrativeFinal += " " }
+				if hasPrevLine {
+					narrativeFinal += " "
+				}
 				narrativeFinal += line
 				hasPrevLine = true
 			}
 		}
 	}
-	if( hasPrevLine ) { narrativeFinal += "\n" }
+	if hasPrevLine {
+		narrativeFinal += "\n"
+	}
 	return narrativeFinal
 }
 

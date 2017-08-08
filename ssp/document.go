@@ -67,10 +67,10 @@ func (s *Document) NarrativeTable(control string) (table xml.Node, err error) {
 		return
 	}
 	if len(tables) == 0 {
-		err = errors.New("No narrative tables found.")
+		err = errors.New("no narrative tables found")
 		return
 	} else if len(tables) > 1 {
-		err = errors.New("Too many narrative tables were matched.")
+		err = errors.New("too many narrative tables were matched")
 		return
 	}
 	table = tables[0]

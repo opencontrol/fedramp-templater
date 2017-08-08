@@ -1,12 +1,12 @@
 package templater
 
 import (
-	"log"
 	"github.com/opencontrol/fedramp-templater/control"
+	"github.com/opencontrol/fedramp-templater/logger"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"github.com/opencontrol/fedramp-templater/ssp"
-	"github.com/opencontrol/fedramp-templater/logger"
+	"log"
 )
 
 func fillSummaryTables(s *ssp.Document, openControlData opencontrols.Data) error {
