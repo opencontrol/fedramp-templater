@@ -3,11 +3,9 @@ package control
 import (
 	"errors"
 	"regexp"
-	"strings"
 
 	"github.com/jbowtie/gokogiri/xml"
 	docxHelper "github.com/opencontrol/fedramp-templater/docx/helper"
-	"github.com/opencontrol/fedramp-templater/logger"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	xmlHelper "github.com/opencontrol/fedramp-templater/xml/helper"
 )
@@ -62,9 +60,6 @@ func (n narrativeSection) Fill(data opencontrols.Data, control string) (err erro
 
 	// fixup the narrative
 	narrative := data.GetNarrative(control, key)
-	if strings.Contains(control, "AU-2") {
-		logger.Debugf("'%s': '%s': %v", control, key, narrative)
-	}
 	docxHelper.FillCell(cellNode, narrative)
 
 	return

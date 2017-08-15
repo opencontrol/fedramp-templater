@@ -30,6 +30,24 @@ satisfies:
   narrative:
   - text: "Justification in narrative form for AC-2 (1)"
   standard_key: NIST-800-53
+- control_key: AC-2 (2)
+  covered_by:
+  - verification_key: EC2_Verification_1
+  - component_key: UAA
+    system_key: CloudFoundry
+    verification_key: UAA_Verification_1
+  implementation_status: partial
+  control_origin: shared
+  narrative:
+  - text: |
+      Multi-line justification in narrative form for AC-2 (2).
+
+      NEWLINE Test 1: The preceding text should have a newline.
+      NO_NEWLINE Test 2: The preceding text should have single space in front.
+
+      NEWLINE Test 3: The preceding text should have a newline.
+      NO_NEWLINE Test 4: The preceding text should have single space in front.
+  standard_key: NIST-800-53
 responsible_role: "AWS Staff"
 schema_version: 3.0.0
 verifications:

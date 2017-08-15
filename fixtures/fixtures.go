@@ -9,6 +9,18 @@ import (
 	"github.com/opencontrol/fedramp-templater/ssp"
 )
 
+// ABr: must be vars; 'const initializer gomega.Expect is not a constant'
+var (
+	// Expect - Declarations for Ginkgo DSL
+	Expect = gomega.Expect
+
+	// HaveOccurred - Declarations for Ginkgo DSL
+	HaveOccurred = gomega.HaveOccurred
+
+	// HaveOccurred - Declarations for Ginkgo DSL
+	MatchRegexp = gomega.MatchRegexp
+)
+
 // FixturePath - path of the fixture
 func FixturePath(name string) string {
 	path := filepath.Join("..", "fixtures", name)
@@ -45,9 +57,3 @@ func LoadOpenControlFixture() opencontrols.Data {
 
 	return openControlData
 }
-
-// Expect - Declarations for Ginkgo DSL
-var Expect = gomega.Expect
-
-// HaveOccurred - Declarations for Ginkgo DSL
-var HaveOccurred = gomega.HaveOccurred
