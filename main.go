@@ -42,6 +42,7 @@ func parseArgs() (opts options) {
 	if len(os.Args) < 4 || len(os.Args) > 5 {
 		printUsage()
 	}
+
 	switch os.Args[1] {
 	case "diff":
 		opts.cmd = diff
@@ -116,7 +117,6 @@ func main() {
 	opts := parseArgs()
 
 	openControlData := loadOpenControls(opts.openControlsDir)
-
 	doc, err := ssp.Load(opts.inputPath)
 	if err != nil {
 		log.Fatalln(err)

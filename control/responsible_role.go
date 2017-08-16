@@ -22,7 +22,7 @@ func findResponsibleRole(ct *SummaryTable) (*responsibleRole, error) {
 	parentNode := nodes[0]
 	childNodes, err := helper.SearchSubtree(parentNode, `.//w:t`)
 	if err != nil || len(childNodes) < 1 {
-		return nil, errors.New("Should not happen, cannot find text nodes.")
+		return nil, errors.New("should not happen, cannot find text nodes")
 	}
 	return &responsibleRole{parentNode: parentNode, textNodes: &childNodes}, nil
 }

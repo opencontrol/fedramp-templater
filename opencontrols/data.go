@@ -1,6 +1,8 @@
 package opencontrols
 
 import (
+	"strings"
+
 	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/fedramp-templater/common/origin"
@@ -28,12 +30,62 @@ func LoadFrom(dirPath string) (data Data, errors []error) {
 
 // GetResponsibleRoles returns the responsible role information for each component matching the specified control.
 func (d *Data) GetResponsibleRoles(control string) string {
-	return d.ocd.FormatResponsibleRoles(standardKey, control)
+	var responsibleRoleOrig = d.ocd.FormatResponsibleRoles(standardKey, control)
+	if len(strings.TrimSpace(responsibleRoleOrig)) > 0 {
+		responsibleRoleOrig += "\n"
+	}
+	return responsibleRoleOrig
+}
+
+// mergeNewLines - replace single newlines with space to preserve Word line layout
+func mergeNewLines(text string) string {
+	// initialize result and other vars
+	var (
+		result      = ""
+		isFirstLine = true
+		hasPrevLine = false
+	)
+
+	// split text into lines and process
+	lines := strings.Split(text, "\n")
+	for i := range lines {
+		line := lines[i]
+
+		// case 1: for first line, accept as-is
+		if isFirstLine {
+			result = line + "\n"
+			isFirstLine = false
+			continue
+		}
+
+		// case 2: line is empty (indicates start new pp)
+		if len(strings.TrimSpace(line)) == 0 {
+			result += "\n"
+			hasPrevLine = false
+			continue
+		}
+
+		// case 3: append space if previous line (not newline)
+		if hasPrevLine {
+			result += " "
+		}
+		result += line
+
+		// permit lines to be continued
+		hasPrevLine = true
+	}
+
+	// account for trailing last line; auto-append newline
+	if hasPrevLine {
+		result += "\n"
+	}
+	return result
 }
 
 // GetNarrative returns the justification text for the specified control. Pass an empty string for `sectionKey` if you are looking for the overall narrative.
 func (d *Data) GetNarrative(control string, sectionKey string) string {
-	return d.ocd.FormatNarrative(standardKey, control, sectionKey)
+	var narrative = d.ocd.FormatNarrative(standardKey, control, sectionKey)
+	return mergeNewLines(narrative)
 }
 
 // GetControlOrigins returns the control origination information for each component matching the specified control.
