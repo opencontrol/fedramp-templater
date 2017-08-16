@@ -54,9 +54,9 @@ glide get --strip-vcs --strip-vendor <package>
 
 ```
 
-### Using the supplied Makefile
+### Using the supplied `Makefile`
 
-The Makefile is adapted from [a standard Go Makefile](https://github.com/vincentbernat/hellogopher/tree/feature/glide). Want to use it? Then follow these steps:
+The `Makefile` is adapted from [a standard Go Makefile](https://github.com/vincentbernat/hellogopher/tree/feature/glide). Want to use it? Then follow these steps:
 
 1. _Directory Structure._ The `Makefile` assumes you have a ["standard" structure](https://github.com/golang/go/wiki/GithubCodeLayout) when you pull down the software. For example:
 
