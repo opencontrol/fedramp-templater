@@ -47,10 +47,9 @@ build: env-setup
 		-o $(BIN)/fedramp-templater \
 		./main.go
 
-# example usage:
-#   make debug DEBUG_OPTIONS='x -o ~/proj/git/src/lmgitlab.hlsdev.local/demos/ssa-mde-ato/poc/poc-apps/openshift-dev-int/compliance/opencontrols -d /tmp/foo.json -f json -n -k -x FedRAMP-moderate'
+# see CONTRIBUTING.md for an example on using 'debug' target
 debug: build
-	@$(GODEBUG) exec $(BIN)/compliance-masonry -- $(DEBUG_OPTIONS)
+	@$(GODEBUG) exec $(BIN)/fedramp-templater -- $(DEBUG_OPTIONS)
 
 clean: env-setup
 	@rm -fR $(BIN)
