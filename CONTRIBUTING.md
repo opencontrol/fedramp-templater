@@ -137,12 +137,13 @@ The Makefile is adapted from [a standard Go Makefile](https://github.com/vincent
 
         (Of course, the `Input.docx` document must be a [FedRAMP SSP Template](https://www.fedramp.gov/resources/templates-2016/).)
 
-        Given the above, invoke the debugger by using:
+        Given the above, invoke the debugger by using something like the following (the numerous variables are used simply to keep the text formatted nicely in the browser):
 
         ```bash
         MY_DIR="$HOME/myproj/myapp"
-        MY_DEBUG_OPTIONS="fill '$MY_DIR/opencontrols' '$MY_DIR/input/Input.docx' '$MY_DIR/output/Output.docx'"
-        make debug DEBUG_OPTIONS="$MY_DEBUG_OPTIONS"
+        MY_INPUT="$MY_DIR/input/Input.docx"
+        MY_OUTPUT="$MY_DIR/output/Output.docx"
+        make debug DEBUG_OPTIONS="fill '$MY_DIR/opencontrols' '$MY_INPUT' '$MY_OUTPUT'"
         ```
 
         If all goes well, you should get a debugger prompt and be able to execute debugger commands:
