@@ -77,6 +77,35 @@ func (s *Document) NarrativeTable(control string) (table xml.Node, err error) {
 	return
 }
 
+// to retrieve all parameter tables, pass in an empty string
+func (s *Document) findParameterTables(control string) ([]xml.Node, error) {
+	// find the tables matching the provided headers, ignoring whitespace
+	xpath := fmt.Sprintf("//w:tbl[contains(normalize-space(), 'Control Summary') or contains(normalize-space(.), 'Control Enhancement Summary')]")
+	return s.xmlDoc.Search(xpath)
+}
+
+// ParameterTables returns the parameter tables for all controls and the control enhancements.
+func (s *Document) ParameterTables() ([]xml.Node, error) {
+	return s.findParameterTables("")
+}
+
+// ParameterTable returns the parameter table for the specified control or control enhancement.
+func (s *Document) ParameterTable(control string) (table xml.Node, err error) {
+	tables, err := s.findParameterTables(control)
+	if err != nil {
+		return
+	}
+	if len(tables) == 0 {
+		err = errors.New("no parameter tables found")
+		return
+	} else if len(tables) > 1 {
+		err = errors.New("too many parameter tables were matched")
+		return
+	}
+	table = tables[0]
+	return
+}
+
 // Content retrieves the text from within the Word document.
 func (s *Document) Content() string {
 	return s.wordDoc.GetContent()

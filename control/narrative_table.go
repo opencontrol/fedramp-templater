@@ -5,7 +5,7 @@ import (
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
 
-func fillRows(rows []xml.Node, data opencontrols.Data, control string) error {
+func fillNarrativeRows(rows []xml.Node, data opencontrols.Data, control string) error {
 	for _, row := range rows {
 		section := narrativeSection{row}
 		err := section.Fill(data, control)
@@ -45,6 +45,6 @@ func (t *NarrativeTable) Fill(openControlData opencontrols.Data) (err error) {
 		return
 	}
 
-	fillRows(rows, openControlData, control)
+	fillNarrativeRows(rows, openControlData, control)
 	return
 }

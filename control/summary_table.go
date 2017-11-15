@@ -4,20 +4,23 @@ import (
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/common/origin"
 	"github.com/opencontrol/fedramp-templater/common/source"
+	"github.com/opencontrol/fedramp-templater/common/status"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"gopkg.in/fatih/set.v0"
 )
 
 const (
-	responsibleRoleField    = "Responsible Role"
-	controlOriginationField = "Control Origination"
+	responsibleRoleField      = "Responsible Role"
+	controlOriginationField   = "Control Origination"
+	implementationStatusField = "Implementation Status"
 )
 
 // SummaryTable represents the node in the Word docx XML tree that corresponds to the summary information for a security control.
 type SummaryTable struct {
 	table
 	originTable *controlOrigination
+	statusTable *implementationStatus
 }
 
 // NewSummaryTable creates a SummaryTable instance.
@@ -27,7 +30,11 @@ func NewSummaryTable(root xml.Node) (SummaryTable, error) {
 	if err != nil {
 		return SummaryTable{}, err
 	}
-	return SummaryTable{tbl, originTable}, nil
+	statusTable, err := newImplementationStatus(&tbl)
+	if err != nil {
+		return SummaryTable{}, err
+	}
+	return SummaryTable{tbl, originTable, statusTable}, nil
 }
 
 func (st *SummaryTable) controlName() (name string, err error) {
@@ -64,6 +71,20 @@ func (st *SummaryTable) fillControlOrigination(openControlData opencontrols.Data
 	return
 }
 
+func (st *SummaryTable) fillImplementationStatus(openControlData opencontrols.Data, control string) (err error) {
+	implementationStatuses := openControlData.GetImplementationStatuses(control)
+	checkedStatusesSet := implementationStatuses.GetCheckedStatuses()
+	checkedStatuses := status.ConvertSetToKeys(checkedStatusesSet)
+
+	for _, checkedStatus := range checkedStatuses {
+		if checkedStatus == status.NoStatus {
+			continue
+		}
+		st.statusTable.statuses[checkedStatus].SetCheckMarkTo(true)
+	}
+	return
+}
+
 // Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
 func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 	control, err := st.controlName()
@@ -75,6 +96,10 @@ func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 		return
 	}
 	err = st.fillControlOrigination(openControlData, control)
+	if err != nil {
+		return
+	}
+	err = st.fillImplementationStatus(openControlData, control)
 	if err != nil {
 		return
 	}
@@ -112,6 +137,36 @@ func (st *SummaryTable) diffControlOrigination(control string,
 	return reports, nil
 }
 
+// diffImplementationStatus computes the diff of the implementation status.
+func (st *SummaryTable) diffImplementationStatus(control string,
+	openControlData opencontrols.Data) ([]reporter.Reporter, error) {
+	// find the implementation statues currently checked in the section in the doc.
+	docImplementationStatuses := st.statusTable.getCheckedStatuses()
+
+	// find the implementation statuses noted in the yaml.
+	yamlImplementationStatusData := openControlData.GetImplementationStatuses(control)
+	// find the implementation statuses currently checked in the section in the YAML.
+	yamlImplementationStatuses := yamlImplementationStatusData.GetCheckedStatuses()
+
+	// find the difference of the two sets.
+	implementationStatusMap := status.GetSourceMappings()
+	reports := []reporter.Reporter{}
+
+	// find only the statuses in the document.
+	onlyInDocStatuses := set.Difference(docImplementationStatuses, yamlImplementationStatuses)
+	// create the diff report for the statuses only in the document.
+	onlyInDocStatusReports := st.createImplementationStatusesDiffReport(onlyInDocStatuses, implementationStatusMap, control, source.SSP)
+	reports = append(reports, onlyInDocStatusReports...)
+
+	// find only the origins in the yaml.
+	onlyInYAMLStatuses := set.Difference(yamlImplementationStatuses, docImplementationStatuses)
+	// create the diff report for the origins only in the yaml.
+	onlyInYAMLStatusReports := st.createImplementationStatusesDiffReport(onlyInYAMLStatuses, implementationStatusMap, control, source.YAML)
+	reports = append(reports, onlyInYAMLStatusReports...)
+
+	return reports, nil
+}
+
 func (*SummaryTable) createControlOriginsDiffReport(diff set.Interface,
 	controlOriginSrcMap map[origin.Key]origin.SrcMapping, control string, src source.Source) []reporter.Reporter {
 	reports := []reporter.Reporter{}
@@ -131,6 +186,29 @@ func (*SummaryTable) createControlOriginsDiffReport(diff set.Interface,
 		}
 		// Get the doc mapping and put it in the doc.
 		reports = append(reports, NewDiff(control, controlOriginationField, firstField, secondField))
+	}
+	return reports
+}
+
+func (*SummaryTable) createImplementationStatusesDiffReport(diff set.Interface,
+	implementationStatusSrcMap map[status.Key]status.SrcMapping, control string, src source.Source) []reporter.Reporter {
+	reports := []reporter.Reporter{}
+	secondField := field{text: ""}
+	statusKeys := status.ConvertSetToKeys(diff)
+	for _, statusKey := range statusKeys {
+		var firstField field
+		switch src {
+		case source.SSP:
+			firstField.text = implementationStatusSrcMap[statusKey][source.SSP]
+			firstField.source = source.SSP
+			secondField.source = source.YAML
+		case source.YAML:
+			firstField.text = implementationStatusSrcMap[statusKey][source.YAML]
+			firstField.source = source.YAML
+			secondField.source = source.SSP
+		}
+		// Get the doc mapping and put it in the doc.
+		reports = append(reports, NewDiff(control, implementationStatusField, firstField, secondField))
 	}
 	return reports
 }
@@ -169,6 +247,12 @@ func (st *SummaryTable) Diff(openControlData opencontrols.Data) ([]reporter.Repo
 
 	// Diff the control origination
 	diffReports, err = st.diffControlOrigination(control, openControlData)
+	if err != nil {
+		return reports, err
+	}
+	reports = append(reports, diffReports...)
+	// Diff the implememtation status
+	diffReports, err = st.diffImplementationStatus(control, openControlData)
 	if err != nil {
 		return reports, err
 	}

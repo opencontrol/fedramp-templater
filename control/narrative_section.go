@@ -2,12 +2,11 @@ package control
 
 import (
 	"errors"
-	"regexp"
-
 	"github.com/jbowtie/gokogiri/xml"
 	docxHelper "github.com/opencontrol/fedramp-templater/docx/helper"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	xmlHelper "github.com/opencontrol/fedramp-templater/xml/helper"
+	"regexp"
 )
 
 type narrativeSection struct {

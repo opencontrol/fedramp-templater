@@ -72,7 +72,9 @@ var _ = Describe("Templater", func() {
 				"Responsible Role in YAML: \"Amazon Elastic Compute Cloud: AWS Staff\".\n" +
 				"Control: AC-2 (1). " +
 				"Control Origination in YAML: \"shared\". " +
-				"Control Origination in SSP: \"\".\n"))
+				"Control Origination in SSP: \"\".\n" +
+				"Control: AC-2 (1). Implementation Status in YAML: \"partial\". " +
+				"Implementation Status in SSP: \"\".\n"))
 		})
 	})
 })

@@ -3,7 +3,7 @@ package docx
 import (
 	"fmt"
 	"text/template"
-
+	"strings"
 	"github.com/opencontrol/doc-template"
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/compliance-masonry/models/components/versions/base"
@@ -99,11 +99,46 @@ func getAllNarrativeSections(text string, justification models.Verification, com
 
 }
 
+// getParameterSection will just print the narrative section text. No need to print the section header since it was specified.
+func getParameterSection(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string) {
+	// Add the component name.
+	text = fmt.Sprintf("%s%s\n", text, component.GetName())
+
+	// Use generic []base.Section handler.
+	return getSpecificGenericSections(justification.SatisfiesData.GetParameters(), text, specifiedSections)
+}
+
+// getAllParameterSection will print both the section header and the section text for all narrative sections.
+func getAllParameterSections(text string, justification models.Verification, component base.Component) (string) {
+	// Add the component name.
+	text = fmt.Sprintf("%s%s\n", text, component.GetName())
+	for _, section := range justification.SatisfiesData.GetParameters() {
+		// If we want to print out all the sections...
+
+		// If section header exists, let's print it. Key could be empty, in that case
+		// just print the text for the section.
+		if section.GetKey() != "" {
+			text = fmt.Sprintf("%s%s:\n", text, section.GetKey())
+		}
+		text = fmt.Sprintf("%s%s\n", text, section.GetText())
+
+		fmt.Println("SatisfiesData ", text)
+
+		// Automatically assume foundText is true as long as the length of
+		// justification.SatisfiesData.Narrative is > 0, which is implied if we reach here.
+		// Also, in case the section in the YAML is explicitly "", we accept empty string here too.
+	}
+	return text
+
+}
+
+
 // getSpecificGenericSections can be used by both narrative and parameter since they both implement base.Section
 func getSpecificGenericSections(sections []base.Section, text string, specifiedSections *set.Set) (string) {
 	// In the case that the user does not provide any sections.
 	if specifiedSections.Size() == 0 {
-		return fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
+		fmt.Println("Section Incomplete in DOCX for ", strings.Replace(text,"\n","",-1), specifiedSections, "\n")
+		return ""
 	}
 	for _, section := range sections {
 		// If we only want certain section(s)...
@@ -116,7 +151,8 @@ func getSpecificGenericSections(sections []base.Section, text string, specifiedS
 	}
 	// In the case that we do not have the section, print warning that information was not found.
 	if specifiedSections.Size() != 0 {
-		text = fmt.Sprintf("%s%s\n", text, constants.WarningNoInformationAvailable)
+		fmt.Println("Section Not Found in YAML file for ", strings.Replace(text,"\n","",-1), specifiedSections, "\n")
+		return "No information available"
 	}
 	return text
 }
@@ -125,9 +161,12 @@ func getSpecificGenericSections(sections []base.Section, text string, specifiedS
 func getParameterInfo(text string, justification models.Verification, component base.Component, specifiedSections *set.Set) (string) {
 	// Add the component name.
 	text = fmt.Sprintf("%s%s\n", text, component.GetName())
-
 	// Use generic []base.Section handler.
-	return getSpecificGenericSections(justification.SatisfiesData.GetParameters(), text, specifiedSections)
+	text = getSpecificGenericSections(justification.SatisfiesData.GetParameters(), text, specifiedSections)
+
+	text = strings.Replace(text, component.GetName(), "", -1)
+
+	return text
 }
 
 // getResponsibleRoleInfo will just print the responsible role if it exists.
