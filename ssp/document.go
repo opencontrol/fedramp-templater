@@ -77,7 +77,6 @@ func (s *Document) NarrativeTable(control string) (table xml.Node, err error) {
 	return
 }
 
-
 // to retrieve all parameter tables, pass in an empty string
 func (s *Document) findParameterTables(control string) ([]xml.Node, error) {
 	// find the tables matching the provided headers, ignoring whitespace
@@ -106,7 +105,6 @@ func (s *Document) ParameterTable(control string) (table xml.Node, err error) {
 	table = tables[0]
 	return
 }
-
 
 // Content retrieves the text from within the Word document.
 func (s *Document) Content() string {
