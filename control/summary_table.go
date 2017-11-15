@@ -251,7 +251,6 @@ func (st *SummaryTable) Diff(openControlData opencontrols.Data) ([]reporter.Repo
 		return reports, err
 	}
 	reports = append(reports, diffReports...)
-	return reports, nil
 	// Diff the implememtation status
 	diffReports, err = st.diffImplementationStatus(control, openControlData)
 	if err != nil {
