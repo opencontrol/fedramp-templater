@@ -2,10 +2,10 @@ package opencontrols
 
 import (
 	"strings"
-
 	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/fedramp-templater/common/origin"
+	"github.com/opencontrol/fedramp-templater/common/status"
 	"gopkg.in/fatih/set.v0"
 )
 
@@ -88,13 +88,36 @@ func (d *Data) GetNarrative(control string, sectionKey string) string {
 	return mergeNewLines(narrative)
 }
 
+// GetParameter returns the justification text for the specified control. Pass an empty string for `sectionKey` if you are looking for the overall narrative.
+func (d *Data) GetParameter(control string, sectionKey string) string {
+
+	var parameter = d.ocd.FormatParameter(standardKey, control, sectionKey)
+	return mergeNewLines(parameter)
+}
+
 // GetControlOrigins returns the control origination information for each component matching the specified control.
 func (d *Data) GetControlOrigins(control string) ControlOrigins {
 	controlOrigins := ControlOrigins{}
 	justifications := d.ocd.Justifications.Get(standardKey, control)
 	for _, justification := range justifications {
-		controlOrigins.origins = append(controlOrigins.origins, justification.SatisfiesData.GetControlOrigin())
+		no_of_control_origins := len(justification.SatisfiesData.GetControlOrigins())
+		if  no_of_control_origins> 1 {
+			for _, orgs := range justification.SatisfiesData.GetControlOrigins() {
+					controlOrigins.origins = append(controlOrigins.origins, orgs)
+				}
+			
+		} else {
+			no_of_control_origin := len(justification.SatisfiesData.GetControlOrigin())
+			if no_of_control_origin != 0 {
+				controlOrigins.origins = append(controlOrigins.origins, justification.SatisfiesData.GetControlOrigin())
+			} else {
+				controlOrigins.origins = append(controlOrigins.origins, justification.SatisfiesData.GetControlOrigins()[0])
+			}
+			
+
+		}
 	}
+
 	return controlOrigins
 }
 
@@ -126,4 +149,58 @@ func (origins ControlOrigins) GetCheckedOrigins() *set.Set {
 
 	}
 	return yamlControlOrigins
+}
+// GetImplementationStatuses returns the control origination information for each component matching the specified control.
+func (d *Data) GetImplementationStatuses(control string) ImplementationStatuses {
+	implementationStatuses := ImplementationStatuses{}
+	justifications := d.ocd.Justifications.Get(standardKey, control)
+	for _, justification := range justifications {
+		no_of_implementation_statuses := len(justification.SatisfiesData.GetImplementationStatuses())
+		if  no_of_implementation_statuses> 1 {
+			for _, stats := range justification.SatisfiesData.GetImplementationStatuses() {
+					implementationStatuses.statuses = append(implementationStatuses.statuses, stats)
+				}
+			
+		} else {
+			no_of_implementation_status := len(justification.SatisfiesData.GetImplementationStatus())
+			if no_of_implementation_status != 0 {
+				implementationStatuses.statuses = append(implementationStatuses.statuses, justification.SatisfiesData.GetImplementationStatus())
+			} else {
+				implementationStatuses.statuses = append(implementationStatuses.statuses, justification.SatisfiesData.GetImplementationStatuses()[0])
+			}
+			
+
+		}
+	}
+	return implementationStatuses
+}
+
+// ImplementationStatuses is a wrapper for the extracted data from the YAML for a particular control.
+type ImplementationStatuses struct {
+	statuses []string
+}
+
+func detectImplementationStatusKey(text string) status.Key {
+	implementationStatusMappings := status.GetSourceMappings()
+	for implementationStatus, implementationStatusMapping := range implementationStatusMappings {
+		if implementationStatusMapping.IsYAMLMappingEqualTo(text) {
+			return implementationStatus
+		}
+	}
+	return status.NoStatus
+}
+
+//GetCheckedStatuses will return the list of status keys.
+func (statuses ImplementationStatuses) GetCheckedStatuses() *set.Set {
+	// find the implementation statuses currently checked in the section in the YAML.
+	yamlImplementationStatuses := set.New()
+	for _, implementationStatus := range statuses.statuses {
+		 implementationStatusKey:= detectImplementationStatusKey(implementationStatus)
+		if implementationStatusKey == status.NoStatus {
+			continue
+		}
+		yamlImplementationStatuses.Add(implementationStatusKey)
+
+	}
+	return yamlImplementationStatuses
 }

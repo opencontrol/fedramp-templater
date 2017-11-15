@@ -1,0 +1,38 @@
+schema_version: "1.0.0"
+name: Everbridge
+metadata:
+  description: "A platform for easy integration of standards, certifications and policies via templates"
+  maintainers:
+    - rohit.das@everbridge.com
+components:
+  - ./AC-Controls
+  - ./AT-Controls
+  - ./AU-Controls
+  - ./CA-Controls
+#  - ./CICloudGov
+  - ./CM-Controls
+  - ./CP-Controls
+#  - ./CloudCheckr
+#  - ./ELKStack
+  - ./IA-Controls
+  - ./IR-Controls
+#  - ./JumpBox
+  - ./MA-Controls
+  - ./MP-Controls
+  - ./PE-Controls
+  - ./PL-Controls
+  - ./PS-Controls
+  - ./RA-Controls
+  - ./SA-Controls
+  - ./SC-Controls
+  - ./SI-Controls
+#  - ./SecureProxy
+certification:
+  - ./opencontrols/certifications/FedRAMP-low.yaml
+dependencies:
+  standards:
+    - url: https://github.com/opencontrol/NIST-800-53-Standards
+      revision: master
+  certifications:
+    - url: https://github.com/opencontrol/FedRAMP-Certifications
+      revision: master

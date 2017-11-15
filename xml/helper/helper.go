@@ -26,3 +26,12 @@ func SearchOne(root xml.Node, xpath string) (xml.Node, error) {
 	}
 	return results[0], nil
 }
+
+func SearchLast(root xml.Node, xpath string) (xml.Node, error) {
+	results, err := SearchSubtree(root, xpath)
+	if err != nil {
+		return nil, err
+	}
+	length_of_results := len(results)
+	return results[length_of_results-1], nil
+}

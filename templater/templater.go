@@ -43,10 +43,27 @@ func fillNarrativeTables(s *ssp.Document, openControlData opencontrols.Data) (er
 	return
 }
 
+func fillParameterTables(s *ssp.Document, openControlData opencontrols.Data) (err error) {
+	tables, err := s.ParameterTables()
+	if err != nil {
+		return
+	}
+	for _, table := range tables {
+		ct := control.NewParameterTable(table)
+		err = ct.Fill(openControlData)
+		if err != nil {
+			return
+		}
+	}
+
+	return
+}
+
 // TemplatizeSSP inserts OpenControl data into (i.e. modifies) the provided SSP.
 func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err error) {
 	fillSummaryTables(s, openControlData)
 	fillNarrativeTables(s, openControlData)
+	fillParameterTables(s, openControlData)
 	s.UpdateContent()
 
 	return

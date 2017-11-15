@@ -3,7 +3,6 @@ package control
 import (
 	"errors"
 	"regexp"
-
 	"github.com/jbowtie/gokogiri/xml"
 	docxHelper "github.com/opencontrol/fedramp-templater/docx/helper"
 	"github.com/opencontrol/fedramp-templater/opencontrols"

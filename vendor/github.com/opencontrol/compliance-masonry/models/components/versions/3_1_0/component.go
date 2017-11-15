@@ -71,7 +71,7 @@ type Satisfies struct {
 	StandardKey            string               `yaml:"standard_key" json:"standard_key"`
 	Narrative              []NarrativeSection   `yaml:"narrative" json:"narrative"`
 	CoveredBy              common.CoveredByList `yaml:"covered_by" json:"covered_by"`
-	Parameters             []Section            `yaml:"parameters" json:"parameters"`
+	Parameters             []ParameterSection   `yaml:"parameters" json:"parameters"`
 	ControlOrigin          string               `yaml:"control_origin" json:"control_origin"`
 	ControlOrigins         []string             `yaml:"control_origins" json:"control_origins"`
 	ImplementationStatus   string               `yaml:"implementation_status" json:"implementation_status"`
@@ -96,7 +96,7 @@ func (s Satisfies) GetNarratives() []base.Section {
 }
 
 func (s Satisfies) GetParameters() []base.Section {
-	// Have to do manual conversion to the interface base.Section from Section.
+	// Have to do manual conversion to the interface base.Section from ParmeterSection.
 	baseSection := make([]base.Section, len(s.Parameters))
 	for idx, value := range s.Parameters {
 		baseSection[idx] = value
@@ -156,6 +156,21 @@ func (ns NarrativeSection) GetKey() string {
 func (ns NarrativeSection) GetText() string {
 	return ns.Text
 }
+// ParameterSection contains the key and text for a particular section.
+// ParameterSection can omit the key.
+type ParameterSection struct {
+	Key  string `yaml:"key,omitempty" json:"key,omitempty"`
+	Text string `yaml:"text" json:"text"`
+}
+
+func (ps ParameterSection) GetKey() string {
+	return ps.Key
+}
+
+func (ps ParameterSection) GetText() string {
+	return ps.Text
+}
+
 
 // Section contains the key and text for a particular section. Both are required.
 type Section struct {
