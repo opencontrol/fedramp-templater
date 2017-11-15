@@ -2,14 +2,13 @@ package control
 
 import (
 	"errors"
-	"regexp"
 	"fmt"
-	"strings"
 	"github.com/jbowtie/gokogiri/xml"
+	"regexp"
+	"strings"
 
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	xmlHelper "github.com/opencontrol/fedramp-templater/xml/helper"
-
 )
 
 type parameterSection struct {
@@ -17,17 +16,17 @@ type parameterSection struct {
 }
 
 func (n parameterSection) parsePart() (key string, err error) {
-	re := regexp.MustCompile(`Parameter [A-Z]{2}|\([a-z]\)|\(\d{1,3}\)|(\-\d)|\d:`)																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											
+	re := regexp.MustCompile(`Parameter [A-Z]{2}|\([a-z]\)|\(\d{1,3}\)|(\-\d)|\d:`)
 	content := []byte(n.row.Content())
 	subMatches := re.FindSubmatch(content)
 	if len(subMatches) == 0 {
 		err = errors.New("no parts found")
 		return
 	}
-	content_length := len(content)
-	content_end := content[10:content_length]
-	
-	key = string(content_end)
+	contentLength := len(content)
+	contentEnd := content[10:contentLength]
+
+	key = string(contentEnd)
 	key = strings.Replace(key, ":", "", -1)
 	key = strings.TrimSpace(key)
 	return
@@ -52,7 +51,7 @@ func (n parameterSection) GetKey() (key string, err error) {
 // Fill populates the section/part with the description for this control part from the provided data.
 func (n parameterSection) Fill(data opencontrols.Data, control string) (err error) {
 	// the row should have one or two cells; either way, the last one is what should be filled
-	
+
 	cellNode, err := xmlHelper.SearchLast(n.row, `.//w:t[last()]`)
 	if err != nil {
 		return
@@ -65,19 +64,18 @@ func (n parameterSection) Fill(data opencontrols.Data, control string) (err erro
 
 	// fixup the parameter
 	parameter := data.GetParameter(control, key)
-	
-	if strings.Contains(cellNode.String(),"Parameter") {
+
+	if strings.Contains(cellNode.String(), "Parameter") {
 		cellNode.SetContent(fmt.Sprintf("Parameter %s: %s", key, parameter))
 
 	} else {
-		if strings.Contains(cellNode.String(),">:<"){
+		if strings.Contains(cellNode.String(), ">:<") {
 			cellNode.SetContent(fmt.Sprintf(" : %s", parameter))
-			} else {
-				cellNode.SetContent(fmt.Sprintf(" %s", parameter))
-			}
-		
+		} else {
+			cellNode.SetContent(fmt.Sprintf(" %s", parameter))
+		}
+
 	}
-	
 
 	return
 }

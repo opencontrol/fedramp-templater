@@ -1,0 +1,43 @@
+##Method to implement parameter in component.yaml file. Key must contain everything after Parameter from SSP
+
+Eg:
+  parameters:
+    - key:                 AC-1(a)
+      text:                all staff with access to Production  systems
+    - key:                 AC-1(b)1
+      text:                at least every 3 years
+    - key:                 AC-1(b)2
+      text:                at least annually
+
+##Multiple ways to implement implementation status:
+ Eg:
+ implementation_status: partial
+      
+            or
+ 
+ implementation_statuses:
+   - partial
+ 
+            or         
+ 
+ implementation_statuses:
+   - partial
+   - none
+
+##Multiple ways to implement control origin or origins:
+Eg:
+  control_origin: shared
+  
+          or
+
+  control_origins:
+    - shared
+          
+          or
+  
+  control_origins: 
+    - service_provider_corporate 
+    - hybrid
+  
+
+  The controls mapping the yaml file and the SSP is in common/origin/origin.go and common/status/status.go

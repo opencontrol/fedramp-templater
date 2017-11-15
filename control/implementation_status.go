@@ -10,7 +10,7 @@ import (
 )
 
 type implementationStatus struct {
-	cell    xml.Node
+	cell     xml.Node
 	statuses map[status.Key]*docx.CheckBox
 }
 

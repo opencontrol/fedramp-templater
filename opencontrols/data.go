@@ -1,12 +1,12 @@
 package opencontrols
 
 import (
-	"strings"
 	"github.com/opencontrol/compliance-masonry/commands/docs/docx"
 	"github.com/opencontrol/compliance-masonry/models"
 	"github.com/opencontrol/fedramp-templater/common/origin"
 	"github.com/opencontrol/fedramp-templater/common/status"
 	"gopkg.in/fatih/set.v0"
+	"strings"
 )
 
 const standardKey = "NIST-800-53"
@@ -100,20 +100,19 @@ func (d *Data) GetControlOrigins(control string) ControlOrigins {
 	controlOrigins := ControlOrigins{}
 	justifications := d.ocd.Justifications.Get(standardKey, control)
 	for _, justification := range justifications {
-		no_of_control_origins := len(justification.SatisfiesData.GetControlOrigins())
-		if  no_of_control_origins> 1 {
+		numberOfControlOrigins := len(justification.SatisfiesData.GetControlOrigins())
+		if numberOfControlOrigins > 1 {
 			for _, orgs := range justification.SatisfiesData.GetControlOrigins() {
-					controlOrigins.origins = append(controlOrigins.origins, orgs)
-				}
-			
+				controlOrigins.origins = append(controlOrigins.origins, orgs)
+			}
+
 		} else {
-			no_of_control_origin := len(justification.SatisfiesData.GetControlOrigin())
-			if no_of_control_origin != 0 {
+			numberOfControlOrigin := len(justification.SatisfiesData.GetControlOrigin())
+			if numberOfControlOrigin != 0 {
 				controlOrigins.origins = append(controlOrigins.origins, justification.SatisfiesData.GetControlOrigin())
 			} else {
 				controlOrigins.origins = append(controlOrigins.origins, justification.SatisfiesData.GetControlOrigins()[0])
 			}
-			
 
 		}
 	}
@@ -150,25 +149,25 @@ func (origins ControlOrigins) GetCheckedOrigins() *set.Set {
 	}
 	return yamlControlOrigins
 }
+
 // GetImplementationStatuses returns the control origination information for each component matching the specified control.
 func (d *Data) GetImplementationStatuses(control string) ImplementationStatuses {
 	implementationStatuses := ImplementationStatuses{}
 	justifications := d.ocd.Justifications.Get(standardKey, control)
 	for _, justification := range justifications {
-		no_of_implementation_statuses := len(justification.SatisfiesData.GetImplementationStatuses())
-		if  no_of_implementation_statuses> 1 {
+		numberOfImplementationStatuses := len(justification.SatisfiesData.GetImplementationStatuses())
+		if numberOfImplementationStatuses > 1 {
 			for _, stats := range justification.SatisfiesData.GetImplementationStatuses() {
-					implementationStatuses.statuses = append(implementationStatuses.statuses, stats)
-				}
-			
+				implementationStatuses.statuses = append(implementationStatuses.statuses, stats)
+			}
+
 		} else {
-			no_of_implementation_status := len(justification.SatisfiesData.GetImplementationStatus())
-			if no_of_implementation_status != 0 {
+			numberOfImplementationStatus := len(justification.SatisfiesData.GetImplementationStatus())
+			if numberOfImplementationStatus != 0 {
 				implementationStatuses.statuses = append(implementationStatuses.statuses, justification.SatisfiesData.GetImplementationStatus())
 			} else {
 				implementationStatuses.statuses = append(implementationStatuses.statuses, justification.SatisfiesData.GetImplementationStatuses()[0])
 			}
-			
 
 		}
 	}
@@ -195,7 +194,7 @@ func (statuses ImplementationStatuses) GetCheckedStatuses() *set.Set {
 	// find the implementation statuses currently checked in the section in the YAML.
 	yamlImplementationStatuses := set.New()
 	for _, implementationStatus := range statuses.statuses {
-		 implementationStatusKey:= detectImplementationStatusKey(implementationStatus)
+		implementationStatusKey := detectImplementationStatusKey(implementationStatus)
 		if implementationStatusKey == status.NoStatus {
 			continue
 		}

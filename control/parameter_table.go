@@ -12,7 +12,7 @@ func fillParameterRows(rows []xml.Node, data opencontrols.Data, control string) 
 		if err != nil {
 			return err
 		}
-		
+
 	}
 	return nil
 }

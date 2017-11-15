@@ -3,16 +3,16 @@ package control
 import (
 	"github.com/jbowtie/gokogiri/xml"
 	"github.com/opencontrol/fedramp-templater/common/origin"
-	"github.com/opencontrol/fedramp-templater/common/status"
 	"github.com/opencontrol/fedramp-templater/common/source"
+	"github.com/opencontrol/fedramp-templater/common/status"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"gopkg.in/fatih/set.v0"
 )
 
 const (
-	responsibleRoleField    = "Responsible Role"
-	controlOriginationField = "Control Origination"
+	responsibleRoleField      = "Responsible Role"
+	controlOriginationField   = "Control Origination"
 	implementationStatusField = "Implementation Status"
 )
 
@@ -84,6 +84,7 @@ func (st *SummaryTable) fillImplementationStatus(openControlData opencontrols.Da
 	}
 	return
 }
+
 // Fill inserts the OpenControl justifications into the table. Note this modifies the `table`.
 func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 	control, err := st.controlName()
@@ -135,6 +136,7 @@ func (st *SummaryTable) diffControlOrigination(control string,
 
 	return reports, nil
 }
+
 // diffImplementationStatus computes the diff of the implementation status.
 func (st *SummaryTable) diffImplementationStatus(control string,
 	openControlData opencontrols.Data) ([]reporter.Reporter, error) {
