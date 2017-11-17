@@ -1,13 +1,13 @@
 package main
 
 import (
-	"log"
-	"os"
-	"path/filepath"
-
+	"fmt"
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/ssp"
 	"github.com/opencontrol/fedramp-templater/templater"
+	"log"
+	"os"
+	"path/filepath"
 )
 
 type subCommand uint8
@@ -31,11 +31,11 @@ type options struct {
 
 func printUsage() {
 	log.Fatal(`Usage:
-	fedramp-templater fill <openControlsDir> <inputDoc> <outputDoc>
+	fedramp-templater fill <optional_opencontrols_dir> <inputDoc> <outputDoc>
 
 	or
 
-	fedramp-templater diff <openControlsDir> <inputDoc>`)
+	fedramp-templater diff <optional_opencontrols_dir> <inputDoc>`)
 }
 
 func parseArgs() (opts options) {
@@ -52,15 +52,40 @@ func parseArgs() (opts options) {
 		log.Printf("Unknown command: %s\n", os.Args[1])
 		printUsage()
 	}
-	if opts.cmd.isType(diff) && len(os.Args) == 4 {
-		// diff command only has four args
-		opts.openControlsDir = os.Args[2]
-		opts.inputPath = os.Args[3]
-	} else if opts.cmd.isType(fill) && len(os.Args) == 5 {
-		// fill command only has five args
-		opts.openControlsDir = os.Args[2]
-		opts.inputPath = os.Args[3]
-		opts.outputPath = os.Args[4]
+	if opts.cmd.isType(diff) && len(os.Args) == 4 || len(os.Args) == 3 {
+		// diff command only has three or four args
+		if len(os.Args) == 4 {
+			opts.openControlsDir = os.Args[2]
+			opts.inputPath = os.Args[3]
+		} else {
+			dirname := "opencontrols"
+			if _, err := os.Stat(dirname); os.IsNotExist(err) {
+				fmt.Println("OpenControls directory not found in current directory. Please specify opencontrols directory")
+			} else {
+				opts.openControlsDir = dirname
+				opts.inputPath = os.Args[2]
+			}
+
+		}
+
+	} else if opts.cmd.isType(fill) && len(os.Args) == 5 || len(os.Args) == 4 {
+		// fill command only has four or five args
+		if len(os.Args) == 5 {
+			opts.openControlsDir = os.Args[2]
+			opts.inputPath = os.Args[3]
+			opts.outputPath = os.Args[4]
+		} else {
+			dirname := "opencontrols"
+			if _, err := os.Stat(dirname); os.IsNotExist(err) {
+				fmt.Println("OpenControls directory not found in current directory. Please specify opencontrols directory")
+			} else {
+				opts.openControlsDir = dirname
+				opts.inputPath = os.Args[2]
+				opts.outputPath = os.Args[3]
+			}
+
+		}
+
 	} else {
 		printUsage()
 	}
