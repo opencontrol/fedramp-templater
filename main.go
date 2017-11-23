@@ -1,10 +1,10 @@
 package main
 
 import (
+	"./opencontrols"
+	"./ssp"
+	"./templater"
 	"fmt"
-	"github.com/opencontrol/fedramp-templater/opencontrols"
-	"github.com/opencontrol/fedramp-templater/ssp"
-	"github.com/opencontrol/fedramp-templater/templater"
 	"log"
 	"os"
 	"path/filepath"

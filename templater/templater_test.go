@@ -3,12 +3,12 @@ package templater_test
 import (
 	"bytes"
 
-	"github.com/opencontrol/fedramp-templater/fixtures"
-	. "github.com/opencontrol/fedramp-templater/templater"
+	"../fixtures"
+	. "../templater"
 
+	"../reporter"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/opencontrol/fedramp-templater/reporter"
 )
 
 func extractDiffReport(reporters []reporter.Reporter) string {

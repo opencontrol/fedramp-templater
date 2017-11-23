@@ -1,8 +1,8 @@
 package control
 
 import (
+	"../opencontrols"
 	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/fedramp-templater/opencontrols"
 )
 
 func fillParameterRows(rows []xml.Node, data opencontrols.Data, control string) error {

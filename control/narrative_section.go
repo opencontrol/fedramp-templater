@@ -1,11 +1,11 @@
 package control
 
 import (
+	docxHelper "../docx/helper"
+	"../opencontrols"
+	xmlHelper "../xml/helper"
 	"errors"
 	"github.com/jbowtie/gokogiri/xml"
-	docxHelper "github.com/opencontrol/fedramp-templater/docx/helper"
-	"github.com/opencontrol/fedramp-templater/opencontrols"
-	xmlHelper "github.com/opencontrol/fedramp-templater/xml/helper"
 	"regexp"
 )
 
