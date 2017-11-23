@@ -44,7 +44,7 @@ build: env-setup
 		-tags release \
 		-ldflags '-X $(PACKAGE)/cmd.Version=$(VERSION) -X $(PACKAGE)/cmd.BuildDate=$(DATE)' \
 		$(DEBUGFLAGS) \
-		-o $(BIN) fedramp-templater \
+		-o $(BIN)/fedramp-templater \
 		./main.go
 
 # see CONTRIBUTING.md for an example on using 'debug' target
