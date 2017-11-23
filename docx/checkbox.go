@@ -1,9 +1,9 @@
 package docx
 
 import (
+	"../docx/helper"
 	"fmt"
 	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/fedramp-templater/docx/helper"
 )
 
 const (

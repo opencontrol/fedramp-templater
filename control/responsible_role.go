@@ -6,8 +6,8 @@ import (
 	"regexp"
 	"strings"
 
+	"../xml/helper"
 	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
 // findResponsibleRole looks for the Responsible Role cell in the control table.

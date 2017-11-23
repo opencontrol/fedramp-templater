@@ -1,12 +1,9 @@
 package helper
 
-import (
-	"strings"
-
-	"github.com/jbowtie/gokogiri"
-	"github.com/jbowtie/gokogiri/xml"
-	"github.com/opencontrol/doc-template/docx"
-)
+import "strings"
+import "github.com/jbowtie/gokogiri"
+import "github.com/jbowtie/gokogiri/xml"
+import "github.com/opencontrol/doc-template/docx"
 
 // ParseXML converts the XML text to a structure.
 func ParseXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
