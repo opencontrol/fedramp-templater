@@ -39,7 +39,7 @@ func (o SrcMapping) IsYAMLMappingEqualTo(value string) bool {
 func GetSourceMappings() map[Key]SrcMapping {
 	return map[Key]SrcMapping{
 		ImplementedStatus: {
-			source.YAML: "implemented",
+			source.YAML: "complete",
 			source.SSP:  "Implemented",
 		},
 		PartiallyImplementedStatus: {
