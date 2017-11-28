@@ -1,12 +1,12 @@
 package control
 
 import (
-	"../common/origin"
-	"../common/source"
-	"../common/status"
-	"../opencontrols"
-	"../reporter"
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/common/origin"
+	"github.com/opencontrol/fedramp-templater/common/source"
+	"github.com/opencontrol/fedramp-templater/common/status"
+	"github.com/opencontrol/fedramp-templater/opencontrols"
+	"github.com/opencontrol/fedramp-templater/reporter"
 	"gopkg.in/fatih/set.v0"
 )
 

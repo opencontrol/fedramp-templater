@@ -1,8 +1,8 @@
 package control
 
 import (
-	"../reporter"
 	"fmt"
+	"github.com/opencontrol/fedramp-templater/reporter"
 	"io"
 	"strings"
 )

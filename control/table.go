@@ -4,8 +4,8 @@ import (
 	"errors"
 	"regexp"
 
-	"../xml/helper"
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
 type table struct {

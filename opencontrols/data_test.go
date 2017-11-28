@@ -1,7 +1,7 @@
 package opencontrols_test
 
 import (
-	"../fixtures"
+	"github.com/opencontrol/fedramp-templater/fixtures"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
