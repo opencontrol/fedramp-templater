@@ -1,7 +1,7 @@
 package status
 
 import (
-	"../../common/source"
+	"github.com/opencontrol/fedramp-templater/common/source"
 	"gopkg.in/fatih/set.v0"
 	"log"
 	"reflect"

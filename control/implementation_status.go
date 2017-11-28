@@ -1,11 +1,11 @@
 package control
 
 import (
-	"../common/status"
-	"../docx"
-	"../docx/helper"
 	"fmt"
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/common/status"
+	"github.com/opencontrol/fedramp-templater/docx"
+	"github.com/opencontrol/fedramp-templater/docx/helper"
 	"gopkg.in/fatih/set.v0"
 )
 

@@ -4,15 +4,15 @@ import (
 	"bytes"
 	"text/template"
 
-	"../docx/helper"
-	"../fixtures"
-	"../ssp"
 	"github.com/jbowtie/gokogiri/xml"
+	"github.com/opencontrol/fedramp-templater/docx/helper"
+	"github.com/opencontrol/fedramp-templater/fixtures"
+	"github.com/opencontrol/fedramp-templater/ssp"
 
-	"../common/origin"
-	"../reporter"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/opencontrol/fedramp-templater/common/origin"
+	"github.com/opencontrol/fedramp-templater/reporter"
 )
 
 type tableData struct {

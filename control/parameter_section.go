@@ -7,8 +7,8 @@ import (
 	"regexp"
 	"strings"
 
-	"../opencontrols"
-	xmlHelper "../xml/helper"
+	"github.com/opencontrol/fedramp-templater/opencontrols"
+	xmlHelper "github.com/opencontrol/fedramp-templater/xml/helper"
 )
 
 type parameterSection struct {
