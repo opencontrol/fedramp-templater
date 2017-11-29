@@ -45,7 +45,7 @@ func GetSourceMappings() map[Key]SrcMapping {
 			source.SSP:  "Service Provider Corporate",
 		},
 		ServiceProviderSystemSpecificOrigination: {
-			source.YAML: "service_provided_system_specific",
+			source.YAML: "service_provider_system_specific",
 			source.SSP:  "Service Provider System Specific",
 		},
 		ServiceProviderHybridOrigination: {
