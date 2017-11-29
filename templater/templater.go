@@ -62,24 +62,25 @@ func fillParameterTables(s *ssp.Document, openControlData opencontrols.Data) (er
 
 // TemplatizeSSP inserts OpenControl data into (i.e. modifies) the provided SSP.
 func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err error) {
-	summary_error := fillSummaryTables(s, openControlData)
-	if summary_error != nil {
+	err = fillSummaryTables(s, openControlData)
+	if err != nil {
 		fmt.Println("Problem occured while filling the Summary Table.")
-		fmt.Println(summary_error)
+		fmt.Println(err)
+		return
 	}
-	
-	narrative_error := fillNarrativeTables(s, openControlData)
-	if narrative_error != nil {
+	err = fillNarrativeTables(s, openControlData)
+	if err != nil {
 		fmt.Println("Problem occured while filling the Narrative Table.")
-		fmt.Println(narrative_error)		
+		fmt.Println(err)
+		return
 	}
-	parameter_error := fillParameterTables(s, openControlData)
-	if parameter_error != nil {
+	err = fillParameterTables(s, openControlData)
+	if err != nil {
 		fmt.Println("Problem occured while filling the Parameter Table.")
-		fmt.Println(parameter_error)		
+		fmt.Println(err)
+		return
 	}
 	s.UpdateContent()
-
 	return
 }
 
