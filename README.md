@@ -62,3 +62,6 @@ Requires [Go](https://golang.org/) 1.6+.
     ```
 
 The output document will be the same as the input one, albeit filled in with the data from your OpenControls files.
+
+**NOTE:
+Please use the FFedRAMP-System-Security-Plan-Template-v2.1.docx uploaded here that has the bugs fixed for fedramp-templater to work.
