@@ -6,6 +6,7 @@ import (
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"github.com/opencontrol/fedramp-templater/ssp"
 	"log"
+	"fmt"
 )
 
 func fillSummaryTables(s *ssp.Document, openControlData opencontrols.Data) error {
@@ -61,9 +62,22 @@ func fillParameterTables(s *ssp.Document, openControlData opencontrols.Data) (er
 
 // TemplatizeSSP inserts OpenControl data into (i.e. modifies) the provided SSP.
 func TemplatizeSSP(s *ssp.Document, openControlData opencontrols.Data) (err error) {
-	fillSummaryTables(s, openControlData)
-	fillNarrativeTables(s, openControlData)
-	fillParameterTables(s, openControlData)
+	summary_error := fillSummaryTables(s, openControlData)
+	if summary_error != nil {
+		fmt.Println("Problem occured while filling the Summary Table.")
+		fmt.Println(summary_error)
+	}
+	
+	narrative_error := fillNarrativeTables(s, openControlData)
+	if narrative_error != nil {
+		fmt.Println("Problem occured while filling the Narrative Table.")
+		fmt.Println(narrative_error)		
+	}
+	parameter_error := fillParameterTables(s, openControlData)
+	if parameter_error != nil {
+		fmt.Println("Problem occured while filling the Parameter Table.")
+		fmt.Println(parameter_error)		
+	}
 	s.UpdateContent()
 
 	return
