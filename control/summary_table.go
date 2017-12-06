@@ -8,6 +8,7 @@ import (
 	"github.com/opencontrol/fedramp-templater/opencontrols"
 	"github.com/opencontrol/fedramp-templater/reporter"
 	"gopkg.in/fatih/set.v0"
+	"fmt"
 )
 
 const (
@@ -95,6 +96,7 @@ func (st *SummaryTable) Fill(openControlData opencontrols.Data) (err error) {
 	if err != nil {
 		return
 	}
+	fmt.Println("Filling controls for ", control)
 	err = st.fillControlOrigination(openControlData, control)
 	if err != nil {
 		return
