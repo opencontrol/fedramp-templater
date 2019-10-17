@@ -138,7 +138,7 @@ func NewDocument(p unsafe.Pointer, contentLen int, inEncoding, outEncoding []byt
 // Parse creates an XmlDocument from some pre-existing content where the input encoding is known. Byte arrays created from
 // a Go string are utf-8 encoded (you can pass DefaultEncodingBytes in this scenario).
 //
-// If you want to build up a document programatically, calling CreateEmptyDocument and building it up using the xml.Node
+// If you want to build up a document programmatically, calling CreateEmptyDocument and building it up using the xml.Node
 // interface is a better approach than building a string and calling Parse.
 //
 // If you have an XML file, then ReadFile will automatically determine the encoding according to the XML specification.
@@ -277,7 +277,7 @@ func (document *XmlDocument) BookkeepFragment(fragment *DocumentFragment) {
 // Root returns the root node of the document. Newly created documents do not
 // have a root node until an element node is added a child of the document.
 //
-// Documents that have multiple root nodes are invalid adn the behaviour is
+// Documents that have multiple root nodes are invalid and the behaviour is
 // not well defined.
 func (document *XmlDocument) Root() (element *ElementNode) {
 	nodePtr := C.xmlDocGetRootElement(document.Ptr)
@@ -327,7 +327,7 @@ func (document *XmlDocument) CreateTextNode(data string) (text *TextNode) {
 	dataPtr := unsafe.Pointer(&dataBytes[0])
 	nodePtr := C.xmlNewText((*C.xmlChar)(dataPtr))
 	if nodePtr != nil {
-		nodePtr.doc = (*_Ctype_struct__xmlDoc)(document.DocPtr())
+		nodePtr.doc = (*C.xmlDoc)(document.DocPtr())
 		text = NewNode(unsafe.Pointer(nodePtr), document).(*TextNode)
 	}
 	return
@@ -435,7 +435,7 @@ func (document *XmlDocument) Free() {
 	document.fragments = nil
 	var p *C.xmlNode
 	if document.UnlinkedNodes != nil {
-		for p, _ = range document.UnlinkedNodes {
+		for p = range document.UnlinkedNodes {
 			C.xmlFreeNode(p)
 		}
 	}

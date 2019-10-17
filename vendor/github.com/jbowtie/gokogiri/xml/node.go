@@ -802,7 +802,6 @@ func (xmlNode *XmlNode) serialize(format SerializationOption, encoding, outputBu
 	ret := int(C.xmlSaveNode(nodePtr, encodingPtr, C.int(format)))
 	if ret < 0 {
 		panic("output error in xml node serialization: " + strconv.Itoa(ret))
-		return nil, 0
 	}
 	b, o := wbuffer.Buffer, wbuffer.Offset
 	wbuffer = nil

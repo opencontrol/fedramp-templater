@@ -182,7 +182,7 @@ func BenchmarkDocOutput(b *testing.B) {
 	b.StartTimer()
 
 	for i := 0; i < b.N; i++ {
-		for index, _ := range tests {
+		for index := range tests {
 			_ = docs[index].String()
 		}
 	}
@@ -224,7 +224,7 @@ func BenchmarkDocOutputToBuffer(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 
-		for index, _ := range tests {
+		for index := range tests {
 
 			_ = docs[index].ToBuffer(buffer)
 
