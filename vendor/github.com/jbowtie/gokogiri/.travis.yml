@@ -1,7 +1,6 @@
 language: go
 go:
-  - 1.6
-  - tip
+  - 1.12
 
 script:
   - go test -coverprofile=html_coverage.txt -covermode=atomic ./html
