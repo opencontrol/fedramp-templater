@@ -10,6 +10,8 @@ const (
 	checkBoxAttributeKey    = "val"
 	checkBoxCheckedValue    = "1"
 	checkBoxNotCheckedValue = "0"
+	checkBoxCheckedText     = "☒"
+	checkBoxNotCheckedText  = "☐"
 )
 
 // NewCheckBox constructs a new checkbox. Checks if the checkmark value can actually be found.
@@ -37,9 +39,18 @@ func (c *CheckBox) IsChecked() bool {
 
 // SetCheckMarkTo will set the checkbox state according to the input value.
 func (c *CheckBox) SetCheckMarkTo(value bool) {
-	checkBoxValue := checkBoxNotCheckedValue
+	var checkBoxValue string
 	if value == true {
 		checkBoxValue = checkBoxCheckedValue
+		if len(*c.textNodes) > 0 && (*c.textNodes)[0].Content() == checkBoxNotCheckedText {
+			(*c.textNodes)[0].SetContent(checkBoxCheckedText)
+		}
+	} else {
+		checkBoxValue = checkBoxNotCheckedValue
+		if len(*c.textNodes) > 0 && (*c.textNodes)[0].Content() == checkBoxCheckedText {
+			(*c.textNodes)[0].SetContent(checkBoxNotCheckedText)
+		}
+
 	}
 	c.checkMark.AttributeList()[0].SetContent(checkBoxValue)
 }
@@ -50,9 +61,9 @@ func (c *CheckBox) GetTextValue() string {
 }
 
 // FindCheckBoxTag will look for a checkbox and the value tag.
-// We look for the w:default tag embedded in the w:checkBox tag because that is what we need to modify the checkbox.
+// We look for the w:default or w:checked tag embedded in the w:checkBox tag because that is what we need to modify the checkbox.
 func FindCheckBoxTag(paragraph xml.Node) (xml.Node, error) {
-	checkBoxes, err := paragraph.Search(".//w:checkBox//w:default")
+	checkBoxes, err := paragraph.Search("(.//w:checkBox//w:default)|(.//w14:checkbox//w14:checked)")
 	if err != nil {
 		return nil, err
 	} else if len(checkBoxes) != 1 {
