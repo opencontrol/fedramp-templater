@@ -10,6 +10,8 @@ const (
 	checkBoxAttributeKey    = "val"
 	checkBoxCheckedValue    = "1"
 	checkBoxNotCheckedValue = "0"
+	checkBoxCheckedText     = "☒"
+	checkBoxNotCheckedText  = "☐"
 )
 
 // NewCheckBox constructs a new checkbox. Checks if the checkmark value can actually be found.
@@ -37,9 +39,18 @@ func (c *CheckBox) IsChecked() bool {
 
 // SetCheckMarkTo will set the checkbox state according to the input value.
 func (c *CheckBox) SetCheckMarkTo(value bool) {
-	checkBoxValue := checkBoxNotCheckedValue
+	var checkBoxValue string
 	if value == true {
 		checkBoxValue = checkBoxCheckedValue
+		if len(*c.textNodes) > 0 && (*c.textNodes)[0].Content() == checkBoxNotCheckedText {
+			(*c.textNodes)[0].SetContent(checkBoxCheckedText)
+		}
+	} else {
+		checkBoxValue = checkBoxNotCheckedValue
+		if len(*c.textNodes) > 0 && (*c.textNodes)[0].Content() == checkBoxCheckedText {
+			(*c.textNodes)[0].SetContent(checkBoxNotCheckedText)
+		}
+
 	}
 	c.checkMark.AttributeList()[0].SetContent(checkBoxValue)
 }
