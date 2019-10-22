@@ -41,7 +41,7 @@ func (t *table) controlName() (name string, err error) {
 	regex := regexp.MustCompile(`[A-Z]{2}-\d+( +\(\d+\))?`)
 	name = regex.FindString(content)
 	if name == "" {
-		err = errors.New("control name not found")
+		err = errors.New("control name not found for " + content)
 	}
 	return
 }
