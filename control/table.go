@@ -36,6 +36,10 @@ func (t *table) controlName() (name string, err error) {
 	if err != nil {
 		return
 	}
+	if content == "CM2 (7)Control Summary Information" {
+		// Workaround typo in the 8/28/2018 version of FedRAMP-SSP-High-Baseline-Template.docx
+		content = "CM-2 (7)Control Summary Information"
+	}
 
 	// matches controls and control enhancements, e.g. `AC-2`, `AC-2 (1)`, etc.
 	regex := regexp.MustCompile(`[A-Z]{2}-\d+( +\(\d+\))?`)
