@@ -50,9 +50,9 @@ func (c *CheckBox) GetTextValue() string {
 }
 
 // FindCheckBoxTag will look for a checkbox and the value tag.
-// We look for the w:default tag embedded in the w:checkBox tag because that is what we need to modify the checkbox.
+// We look for the w:default or w:checked tag embedded in the w:checkBox tag because that is what we need to modify the checkbox.
 func FindCheckBoxTag(paragraph xml.Node) (xml.Node, error) {
-	checkBoxes, err := paragraph.Search(".//w:checkBox//w:default")
+	checkBoxes, err := paragraph.Search("(.//w:checkBox//w:default)|(.//w14:checkbox//w14:checked)")
 	if err != nil {
 		return nil, err
 	} else if len(checkBoxes) != 1 {

@@ -17,6 +17,7 @@ func ParseXML(content []byte) (xmlDoc *xml.XmlDocument, err error) {
 	// http://stackoverflow.com/a/27475227/358804
 	xp := xmlDoc.DocXPathCtx()
 	xp.RegisterNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
+	xp.RegisterNamespace("w14", "http://schemas.microsoft.com/office/word/2010/wordml")
 	return
 }
 
